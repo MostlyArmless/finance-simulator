@@ -1,34 +1,32 @@
 import { IForecastResult, IncomeEndCondition, IncomeStartCondition, IForecastInput, IIncome, IDebt, DebtContributionStrategy } from "./interfaces";
 import { addNMonthsToDate } from "./helpers";
 
-export function forecast( args: IForecastInput ): IForecastResult
+export function forecast( input: IForecastInput ): IForecastResult
 {
     let isRetired: boolean = false; // This flag should be set to true as soon as savings hits the 
-    let remainingTotalDebt: number[] = Array( args.numMonthsToProject );
+    let remainingTotalDebt: number[] = Array( input.numMonthsToProject );
     let savingsOverTime = [];
-    savingsOverTime.push( args.initialSavings === undefined ? 0 : args.initialSavings );
+    savingsOverTime.push( input.initialSavings === undefined ? 0 : input.initialSavings );
     let iMonth = 0;
     let iRetirementMonth = -1; // Initialize to nonsense value
-    let currentDate: Date;
 
-    const requiredSavingsToRetire = getRequiredSavingsToRetire( args.incomes, args.desiredMonthlyBudgetPostRetirement );
+    const requiredSavingsToRetire = getRequiredSavingsToRetire( input.incomes, input.desiredMonthlyBudgetPostRetirement );
 
-    for ( iMonth = 0; iMonth < args.numMonthsToProject; iMonth++ )
+    for ( iMonth = 0; iMonth < input.numMonthsToProject; iMonth++ )
     {
-        currentDate = addNMonthsToDate( args.startDate, iMonth );
+        const currentDate: Date = addNMonthsToDate( input.startDate, iMonth );
 
-        if ( currentDate >= args.deathDate )
+        if ( currentDate >= input.deathDate )
             break; // Stop forecasting, you're dead.
 
-        const allDebtsArePaid: boolean = AllDebtsArePaid( args.debts );
+        const allDebtsArePaid: boolean = AllDebtsArePaid( input.debts );
 
         if ( !isRetired && allDebtsArePaid && savingsOverTime[iMonth] >= requiredSavingsToRetire )
         {
             // We JUST reached retirement
             isRetired = true;
             iRetirementMonth = iMonth;
-            // eslint-disable-next-line no-loop-func
-            args.incomes.forEach( ( income ) =>
+            input.incomes.forEach( ( income ) =>
             {
                 if ( income.GetStartCondition() === IncomeStartCondition.Retirement )
                     income.SetIncomeStartDate( currentDate );
@@ -38,29 +36,29 @@ export function forecast( args: IForecastInput ): IForecastResult
             } );
         }
 
-        const totalMonthlyIncome = calculateTotalMonthlyIncome( args.incomes, iMonth );
+        const totalMonthlyIncome = calculateTotalMonthlyIncome( input.incomes, iMonth );
 
-        let monthlySpendingPool = totalMonthlyIncome - args.essentialNonDebtSpendingPreRetirement;
+        let monthlySpendingPool = totalMonthlyIncome - input.essentialNonDebtSpendingPreRetirement;
 
         if ( !allDebtsArePaid )
         {
-            let { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, args.debts, iMonth, args.debtContributionStrategy );
+            let { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, input.debts, iMonth, input.debtContributionStrategy );
             updatedDebts = ApplyInterestToDebts( updatedDebts, iMonth ); // Determines the next month's balance of each debt
             monthlySpendingPool = updatedMonthlySpendingPool;
-            args.debts = updatedDebts;
+            input.debts = updatedDebts;
         }
 
         // Any leftover money once debts are paid goes into savings
         savingsOverTime = contributeToSavings( savingsOverTime, iMonth, monthlySpendingPool );
 
-        remainingTotalDebt[iMonth + 1] = args.debts.map( debt => debt.GetCurrentBalance() ).reduce( ( a, b ) => a + b );
+        remainingTotalDebt[iMonth + 1] = input.debts.map( debt => debt.GetCurrentBalance() ).reduce( ( a, b ) => a + b );
     }
 
     const result: IForecastResult = {
         numMonthsToReachRetirementGoal: iRetirementMonth,
         savingsOverTime: savingsOverTime,
-        incomesOverTime: args.incomes,
-        debts: args.debts,
+        incomesOverTime: input.incomes,
+        debts: input.debts,
         totalDebtVsTime: remainingTotalDebt,
         requiredSavingsToRetire: requiredSavingsToRetire
     };

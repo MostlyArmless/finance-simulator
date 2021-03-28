@@ -16,17 +16,10 @@ export class ForecastScenarioRunner
     {
         let output: IScenarioIoPair[] = [];
 
-        // Run all forecast scenarios
-        let iScenario = 0;
-        const numScenarios = this.forecastScenarios.length;
-
         throwIfInvalidScenarioNames( this.forecastScenarios );
 
         this.forecastScenarios.forEach( scenario =>
         {
-            iScenario++;
-            console.log( `Running scenario ${iScenario} of ${numScenarios}: ${scenario.forecastName}` );
-
             const forecastResult: IForecastResult = forecast( scenario );
 
             if ( forecastResult.numMonthsToReachRetirementGoal === null )
