@@ -104,38 +104,6 @@ export function BuildForecastScenarios(): IForecastInput[]
             debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
         },
         {
-            forecastName: '40 hours overtime - Reduce to 4k spending - No pensions',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 4000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 4000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
-        },
-        {
-            forecastName: '40 hours overtime - Reduce to 3k spending - No pensions',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 3000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 3000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
-        },
-        {
             forecastName: '40 hours overtime - Reduce to 2k spending - No pensions',
             initialSavings: initialSavings,
             startDate: new Date( startDate ),
@@ -167,44 +135,6 @@ export function BuildForecastScenarios(): IForecastInput[]
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
-        },
-        {
-            forecastName: '40 hours overtime- Reduce to 4k spending - get all pensions',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 4000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 4000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
-        },
-        {
-            forecastName: '40 hours overtime - Reduce to 3k spending - get all pensions',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 3000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 3000,
             deathDate: new Date( deathDate ),
             debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
         },
@@ -278,44 +208,6 @@ export function BuildForecastScenarios(): IForecastInput[]
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
-        },
-        {
-            forecastName: '40 hours overtime- Reduce to 4k spending - get all pensions - lowestDebtFirst',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 4000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 4000,
-            deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
-        },
-        {
-            forecastName: '40 hours overtime - Reduce to 3k spending - get all pensions - lowestDebtFirst',
-            initialSavings: initialSavings,
-            startDate: new Date( startDate ),
-            numMonthsToProject: numMonthsToProject,
-            overtimeHoursPerMonth: 40,
-            incomes:
-                [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
-                ],
-            essentialNonDebtSpendingPreRetirement: 3000,
-            debts: GetAllDebts(),
-            desiredMonthlyBudgetPostRetirement: 3000,
             deathDate: new Date( deathDate ),
             debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
         },
