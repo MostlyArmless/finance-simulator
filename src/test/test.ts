@@ -1,17 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import * as chai from 'chai';
 import { Debt } from '../Debt';
 import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from '../interfacesAndEnums';
 import { Income } from '../Income';
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from '../forecast';
 import { addNMonthsToDate } from '../helpers';
-// Test framework dependencies
-// const should = require('chai').should();
-const expect = require( 'chai' ).expect;
-// const assert = require( 'chai' ).assert;
-
-chai.use( require( 'chai-as-promised' ) ); // Extension that defines the "eventually" keyword
-chai.use( require( 'chai-string' ) ); // Extension that provides the "string should contain" functionality
+import { expect } from 'chai';
 
 describe( 'Debt', () =>
 {
