@@ -25,13 +25,13 @@ function GetAllDebts(): Debt[]
     return [
         new Debt( "Primary Residence Mortgage", 295542.46, 0.0345, 1441.16, true ),
         new Debt( "Vacation Home Mortgage", 428061.64, 0.0371, 2481.77, true ),
-        new Debt( "Bob's Credit Card A", 7593.70, 0.1999, 300 ),
-        new Debt( "Bob's Credit Card B", 7720.48, 0.1299, 300 ),
-        new Debt( "Bob's Credit Card C", 45813.79, 0.04, 300 ),
-        new Debt( "Bob's Credit Card D", 10593.56, 0.0745, 325 ),
-        new Debt( "Bob's Personal Loan", 20342.06, 0.0549, 325 ),
-        new Debt( "Bob's Renovation Loan", 31746.1, 0.0495, 200 ),
-        new Debt( "Bob's Car Loan", 21599.79, 0.0699, 207.85 )
+        new Debt( "Credit Card A", 7593.70, 0.1999, 300 ),
+        new Debt( "Credit Card B", 7720.48, 0.1299, 300 ),
+        new Debt( "Credit Card C", 45813.79, 0.04, 300 ),
+        new Debt( "Credit Card D", 10593.56, 0.0745, 325 ),
+        new Debt( "Personal Loan", 20342.06, 0.0549, 325 ),
+        new Debt( "Renovation Loan", 31746.1, 0.0495, 200 ),
+        new Debt( "Car Loan", 21599.79, 0.0699, 207.85 )
     ];
 }
 
