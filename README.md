@@ -1,4 +1,4 @@
-# financial-calculator
+# finance-simulator
 
 Can be used to calculate the optimal payment strategy for paying off debts as quickly as possible.
 
