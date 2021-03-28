@@ -14,7 +14,7 @@ const startDate = new Date( 2020, 0 ); // January 1st 2020
 const deathDate = addNYearsToDate( bobsBirthday, 95 );
 let dummyRetirementDate = new Date( startDate.getFullYear() + 200 ); // Initialize this to be later than the death date, it will get modified during the simulation.
 
-function GetOvertimePay( numOvertimeHoursPerMonth: number ): number
+function CalcOvertimePayFromHours( numOvertimeHoursPerMonth: number ): number
 {
     return mcDonaldsBaseMonthlySalary + overTimeHourlyPay * numOvertimeHoursPerMonth;
 }
@@ -37,7 +37,6 @@ function GetAllDebts(): Debt[]
 
 export function BuildForecastScenarios(): IForecastInput[]
 {
-
     const forecastScenarios: IForecastInput[] = [
         {
             forecastName: 'Base case - no overtime or pensions and spend 6k',
@@ -95,7 +94,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
@@ -111,7 +110,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
@@ -127,7 +126,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
@@ -146,7 +145,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
@@ -165,7 +164,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
@@ -181,7 +180,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
@@ -200,7 +199,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
@@ -219,7 +218,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', GetOvertimePay( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
