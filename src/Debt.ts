@@ -1,4 +1,4 @@
-import { IDebt, IPlottable } from "./interfaces";
+import { IDebt, IPlottable } from "./interfacesAndEnums";
 import { MatlabArray } from "./tools";
 
 export class Debt implements IDebt

@@ -1,4 +1,4 @@
-import { IForecastInput, IncomeStartCondition, IncomeEndCondition, DebtContributionStrategy } from "./interfaces";
+import { IForecastInput, IncomeStartCondition, IncomeEndCondition, DebtContributionStrategy } from "./interfacesAndEnums";
 import { Income } from "./Income";
 import { Debt } from "./Debt";
 import { addNYearsToDate } from "./helpers";
@@ -218,7 +218,7 @@ export function BuildForecastScenarios(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
                     new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
                     new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
                     new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )

@@ -1,4 +1,4 @@
-import { IncomeEndCondition, IncomeStartCondition, IIncome } from "./interfaces";
+import { IncomeEndCondition, IncomeStartCondition, IIncome } from "./interfacesAndEnums";
 import { addNMonthsToDate } from "./helpers";
 
 export class Income implements IIncome

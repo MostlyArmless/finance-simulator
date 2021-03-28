@@ -1,4 +1,4 @@
-import { IForecastInput } from "./interfaces";
+import { IForecastInput } from "./interfacesAndEnums";
 
 export function throwIfInvalidScenarioNames( forecastScenarios: IForecastInput[] ): void
 {

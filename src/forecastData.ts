@@ -1,4 +1,4 @@
-import { IForecastInput, DebtContributionStrategy, IIncome, IDebt, IForecastResult, IScenarioSummary } from "./interfaces";
+import { IForecastInput, DebtContributionStrategy, IIncome, IDebt, IForecastResult, IScenarioSummary } from "./interfacesAndEnums";
 
 export class ForecastInput implements IForecastInput
 {

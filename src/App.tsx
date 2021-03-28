@@ -4,7 +4,7 @@ import createPlotlyComponent from "react-plotly.js/factory";
 import { ForecastScenarioRunner } from './forecastScenarioRunner';
 import { BuildForecastScenarios } from './forecastScenarioFactory';
 import { PlotData } from 'plotly.js';
-import { IScenarioIoPair } from './interfaces';
+import { IScenarioIoPair } from './interfacesAndEnums';
 import { ForecastOutput, ScenarioSummary } from './forecastData';
 const Plotly = window.Plotly;
 const Plot = createPlotlyComponent( Plotly );

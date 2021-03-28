@@ -1,4 +1,4 @@
-import { IForecastResult, IScenarioSummary, IScenarioIoPair, IForecastInput } from "./interfaces";
+import { IForecastResult, IScenarioSummary, IScenarioIoPair, IForecastInput } from "./interfacesAndEnums";
 import { throwIfInvalidScenarioNames } from "./scenarioValidator";
 import { forecast } from "./forecast";
 import { findLastDefinedValueInArray, addNMonthsToDate } from "./helpers";
