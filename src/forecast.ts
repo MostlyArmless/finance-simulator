@@ -1,6 +1,11 @@
 import { IForecastResult, IncomeEndCondition, IncomeStartCondition, IForecastInput, IIncome, IDebt, DebtContributionStrategy } from "./interfaces";
 import { addNMonthsToDate } from "./helpers";
 
+function justSatisfiedRetirementConditions( isRetired: boolean, allDebtsArePaid: boolean, savingsOverTime: number[], iMonth: number, requiredSavingsToRetire: number )
+{
+    return !isRetired && allDebtsArePaid && savingsOverTime[iMonth] >= requiredSavingsToRetire;
+}
+
 export function forecast( input: IForecastInput ): IForecastResult
 {
     let isRetired: boolean = false; // This flag should be set to true as soon as savings hits the 
@@ -21,9 +26,8 @@ export function forecast( input: IForecastInput ): IForecastResult
 
         const allDebtsArePaid: boolean = AllDebtsArePaid( input.debts );
 
-        if ( !isRetired && allDebtsArePaid && savingsOverTime[iMonth] >= requiredSavingsToRetire )
+        if ( justSatisfiedRetirementConditions( isRetired, allDebtsArePaid, savingsOverTime, iMonth, requiredSavingsToRetire ) )
         {
-            // We JUST reached retirement
             isRetired = true;
             iRetirementMonth = iMonth;
             input.incomes.forEach( ( income ) =>
