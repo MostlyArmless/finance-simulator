@@ -25,6 +25,8 @@
     "react-scripts": "^4.0.3"
   },
   "devDependencies": {
+    "@types/chai": "^4.2.15",
+    "@types/mocha": "^8.2.2",
     "@types/react": "^17.0.3",
     "@types/react-plotly.js": "^2.2.4",
     "chai": "^4.3.4",
