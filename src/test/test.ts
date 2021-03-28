@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { Debt } from '../Debt';
 import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from '../interfacesAndEnums';
 import { Income } from '../Income';
