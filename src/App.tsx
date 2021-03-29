@@ -90,10 +90,10 @@ class App extends React.Component<AppProps, AppState>
     let data = [];
     for ( let i = 0; i < this.state.monthsToRetirements.length; i++ )
     {
-      data.push( { x: this.state.monthsToRetirements[i], y: this.state.scenarioNames[i] } );
+      data.push( { months: this.state.monthsToRetirements[i], name: this.state.scenarioNames[i] } );
     }
     // Sort from best to worst (smallest to largest monthsToRetirement)
-    data.sort( ( a, b ) => { return b.x - a.x; } );
+    data.sort( ( a, b ) => { return b.months - a.months; } );
     return data;
   }
 
@@ -128,10 +128,12 @@ class App extends React.Component<AppProps, AppState>
             <Plot
               data={ [
                 {
-                  x: sortedData.map( elem => elem.x ),
-                  y: sortedData.map( elem => elem.y ),
+                  x: sortedData.map( elem => { return elem.months === Number.POSITIVE_INFINITY ? 1 : elem.months } ),
+                  y: sortedData.map( elem => elem.name ),
                   type: 'bar',
-                  orientation: 'h'
+                  orientation: 'h',
+                  text: sortedData.map( elem => { return elem.months === Number.POSITIVE_INFINITY ? "Retirement Unreachable" : String( elem.months ) } ),
+                  textposition: 'auto'
                 }] }
               layout={ { width: 1000, height: 480, title: 'Months until Retirement', margin: { l: 500 } } }
             />
