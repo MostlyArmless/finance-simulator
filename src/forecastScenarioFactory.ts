@@ -3,8 +3,8 @@ import { Income } from "./Income";
 import { Debt } from "./Debt";
 import { addNYearsToDate } from "./helpers";
 
-export const initialSavings = 500;
-export const numMonthsToProject = 12 * 40; // 40 years
+const initialSavings = 500;
+const numMonthsToProject = 12 * 40; // 40 years
 const mcDonaldsBaseMonthlySalary = 10200;
 const overTimeHourlyPay = 130;
 const bobsBirthday = new Date( 1959, 8, 7 );
