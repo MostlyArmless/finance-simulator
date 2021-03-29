@@ -56,15 +56,32 @@ class App extends React.Component<AppProps, AppState>
     this.RunAndPlot();
   }
 
+  getBestScenario( scenarios: IScenarioIoPair[] ): IScenarioIoPair
+  {
+    let bestScenario = scenarios[0];
+    let minNumMonthsToRetirement = Number.MAX_SAFE_INTEGER;
+    scenarios.forEach( scenario =>
+    {
+      if ( scenario.forecastResult.numMonthsToReachRetirementGoal < minNumMonthsToRetirement )
+      {
+        bestScenario = scenario;
+        minNumMonthsToRetirement = scenario.forecastResult.numMonthsToReachRetirementGoal;
+      }
+    } );
+    return bestScenario;
+  }
+
   RunAndPlot = () =>
   {
     const runner = new ForecastScenarioRunner( BuildForecastScenarios() );
-    const output = runner.runForecasts();
+    const output: IScenarioIoPair[] = runner.runForecasts();
 
     const plottableDebts = output[0].forecastResult.debts.map( debt => debt.GetPlottableDebt() );
     const debtTimeAxes = plottableDebts.map( plottable => plottable.x );
     const debtBalancesOverTime = plottableDebts.map( plottable => plottable.y );
     const debtNames = plottableDebts.map( plottable => plottable.name );
+
+    const bestScenario = this.getBestScenario( output );
 
     this.setState( {
       x: debtTimeAxes,
@@ -73,8 +90,8 @@ class App extends React.Component<AppProps, AppState>
       scenarioNames: output.map( scenarioIoPair => scenarioIoPair.scenarioSummary.scenarioName ),
       monthsToRetirements: output.map( scenarioIoPair => scenarioIoPair.forecastResult.numMonthsToReachRetirementGoal ),
       allScenarioResults: output,
-      selectedScenario: output[0],
-      traces: this.getTraces( output[0] )
+      selectedScenario: bestScenario,
+      traces: this.getTraces( bestScenario )
     } );
   }
 
