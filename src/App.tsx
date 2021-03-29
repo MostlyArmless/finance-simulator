@@ -51,6 +51,11 @@ class App extends React.Component<AppProps, AppState>
     this.state = initialState;
   }
 
+  componentDidMount()
+  {
+    this.RunAndPlot();
+  }
+
   RunAndPlot = () =>
   {
     const runner = new ForecastScenarioRunner( BuildForecastScenarios() );
