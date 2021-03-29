@@ -121,10 +121,11 @@ class App extends React.Component<AppProps, AppState>
 
   render()
   {
-    const menuOptions = this.state.scenarioNames.map( name =>
-      <option key={ name } value={ name }>{ name }</option>
-    )
     const sortedData = this.getSortedMonthsToRetirementData();
+    const menuOptions = sortedData.slice().reverse().map( elem => elem.name )
+      .map( name =>
+        <option key={ name } value={ name }>{ name }</option>
+      );
 
     return (
       <div className="App" >
@@ -137,13 +138,14 @@ class App extends React.Component<AppProps, AppState>
 
         <br />
 
+        <h2>{ `Scenario: "${this.state.selectedScenario.scenarioSummary.scenarioName}"` }</h2>
         <h2>{ `Retirement date = ${this.state.selectedScenario.scenarioSummary.retirementDate}` }</h2>
 
         <div className="grid-container">
           <div className="grid-item item1">
             <Plot
               data={ this.state.traces }
-              layout={ { width: 1024, height: 800, title: `Debts over time` } }
+              layout={ { width: 1024, height: 800, title: `Debts over Time` } }
             />
           </div>
           <div className="grid-item item2">
