@@ -54,3 +54,10 @@
   grid-row-start: 1;
   grid-row-end: 1;
 }
+
+.scenario-summary {
+  text-align: left;
+  margin-left: 10%;
+  font-size: larger;
+  font-weight: bold;
+}

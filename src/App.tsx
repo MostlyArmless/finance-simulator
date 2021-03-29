@@ -6,6 +6,7 @@ import { BuildForecastScenarios } from './forecastScenarioFactory';
 import { PlotData } from 'plotly.js';
 import { IScenarioIoPair } from './interfacesAndEnums';
 import { ForecastOutput, ScenarioSummary } from './forecastData';
+import { ScenarioSummaryComponent } from './components/ScenarioSummaryComponent';
 const Plotly = window.Plotly;
 const Plot = createPlotlyComponent( Plotly );
 
@@ -138,9 +139,9 @@ class App extends React.Component<AppProps, AppState>
 
         <br />
 
-        <h2>{ `Scenario: "${this.state.selectedScenario.scenarioSummary.scenarioName}"` }</h2>
-        <h2>{ `Retirement date = ${this.state.selectedScenario.scenarioSummary.retirementDate}` }</h2>
-
+        <ScenarioSummaryComponent
+          summary={ this.state.selectedScenario.scenarioSummary }
+        />
         <div className="grid-container">
           <div className="grid-item item1">
             <Plot
