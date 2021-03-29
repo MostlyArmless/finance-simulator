@@ -85,11 +85,24 @@ class App extends React.Component<AppProps, AppState>
     this.setState( { selectedScenario: selectedResult[0], traces: this.getTraces( selectedResult[0] ) } );
   }
 
+  getSortedMonthsToRetirementData = () =>
+  {
+    let data = [];
+    for ( let i = 0; i < this.state.monthsToRetirements.length; i++ )
+    {
+      data.push( { x: this.state.monthsToRetirements[i], y: this.state.scenarioNames[i] } );
+    }
+    // Sort from best to worst (smallest to largest monthsToRetirement)
+    data.sort( ( a, b ) => { return b.x - a.x; } );
+    return data;
+  }
+
   render()
   {
     const menuOptions = this.state.scenarioNames.map( name =>
       <option key={ name } value={ name }>{ name }</option>
     )
+    const sortedData = this.getSortedMonthsToRetirementData();
 
     return (
       <div className="App" >
@@ -115,12 +128,12 @@ class App extends React.Component<AppProps, AppState>
             <Plot
               data={ [
                 {
-                  x: this.state.monthsToRetirements,
-                  y: this.state.scenarioNames,
+                  x: sortedData.map( elem => elem.x ),
+                  y: sortedData.map( elem => elem.y ),
                   type: 'bar',
                   orientation: 'h'
                 }] }
-              layout={ { width: 1000, height: 480, title: 'Months until retirement', margin: { l: 500 } } }
+              layout={ { width: 1000, height: 480, title: 'Months until Retirement', margin: { l: 500 } } }
             />
           </div>
         </div>

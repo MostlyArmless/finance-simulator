@@ -59,7 +59,7 @@ export function forecast( input: IForecastInput ): IForecastResult
     }
 
     const result: IForecastResult = {
-        numMonthsToReachRetirementGoal: iRetirementMonth,
+        numMonthsToReachRetirementGoal: iRetirementMonth === -1 ? Number.POSITIVE_INFINITY : iRetirementMonth,
         savingsOverTime: savingsOverTime,
         incomesOverTime: input.incomes,
         debts: input.debts,
