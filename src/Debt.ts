@@ -1,5 +1,5 @@
 import { IDebt, IPlottable } from "./interfacesAndEnums";
-import { MatlabArray } from "./tools";
+import { LinSpace } from "./tools";
 
 export class Debt implements IDebt
 {
@@ -83,7 +83,7 @@ export class Debt implements IDebt
     {
         return {
             "name": this.name,
-            "x": MatlabArray( 0, 1, this.balances.length ),
+            "x": LinSpace( 0, 1, this.balances.length ),
             "y": this.balances
         }
     }
