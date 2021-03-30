@@ -4,15 +4,29 @@ import { formatNumberAsDollars } from "../tools";
 export function ScenarioSummaryComponent( props: { summary: IScenarioSummary } )
 {
     return (
-        <>
-            <div className="scenario-summary">
-                <p>Scenario Name: { props.summary.scenarioName }</p>
-                <p>Pre-retirement budget: { formatNumberAsDollars( props.summary.preRetirementSpending ) }</p>
-                <p>Post-retirement budget: { formatNumberAsDollars( props.summary.postRetirementSpending ) }</p>
-                <p>Required Savings to Retire: { formatNumberAsDollars( props.summary.requiredSavingsToRetire ) }</p>
-                <p>Retirement Date: { props.summary.retirementDate }</p>
-                <p>Months until retirement: { props.summary.numMonthsToReachRetirementGoal }</p>
-            </div>
-        </>
+        <div className="scenario-summary">
+            <h2>Scenario Summary</h2>
+            <table>
+                <th className="bold-text">Attribute</th><th>Value</th>
+                <tr>
+                    <td>Scenario Name</td><td className="td-reflow-text">{ props.summary.scenarioName }</td>
+                </tr>
+                <tr>
+                    <td>Pre-retirement budget</td><td>{ formatNumberAsDollars( props.summary.preRetirementSpending ) }</td>
+                </tr>
+                <tr>
+                    <td>Post-retirement budget</td><td>{ formatNumberAsDollars( props.summary.postRetirementSpending ) }</td>
+                </tr>
+                <tr>
+                    <td>Required Savings to Retire</td><td>{ formatNumberAsDollars( props.summary.requiredSavingsToRetire ) }</td>
+                </tr>
+                <tr>
+                    <td>Retirement Date</td><td>{ props.summary.retirementDate }</td>
+                </tr>
+                <tr>
+                    <td>Months until retirement</td><td>{ props.summary.numMonthsToReachRetirementGoal }</td>
+                </tr>
+            </table>
+        </div>
     );
 }
