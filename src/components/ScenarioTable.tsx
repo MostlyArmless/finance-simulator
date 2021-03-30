@@ -1,8 +1,7 @@
 import { IScenarioSummary } from "../interfacesAndEnums";
 import { formatNumberAsDollars } from "../tools";
 
-// TODO - this component probably shouldn't have "Component" in the name, but I've already got a non-React class named ScenarioSummary, so what's the best practice in this situation?
-export function ScenarioSummaryComponent( props: { summary: IScenarioSummary } )
+export function ScenarioTable( props: { summary: IScenarioSummary } )
 {
     return (
         <div className="scenario-summary">

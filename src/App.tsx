@@ -6,7 +6,7 @@ import { BuildForecastScenarios } from './forecastScenarioFactory';
 import { PlotData } from 'plotly.js';
 import { IScenarioIoPair } from './interfacesAndEnums';
 import { ForecastOutput, ScenarioSummary } from './forecastData';
-import { ScenarioSummaryComponent } from './components/ScenarioSummaryComponent';
+import { ScenarioTable } from './components/ScenarioTable';
 const Plotly = window.Plotly;
 const Plot = createPlotlyComponent( Plotly );
 
@@ -139,7 +139,7 @@ class App extends React.Component<AppProps, AppState>
 
         <br />
 
-        <ScenarioSummaryComponent
+        <ScenarioTable
           summary={ this.state.selectedScenario.scenarioSummary }
         />
         <div className="grid-container">
