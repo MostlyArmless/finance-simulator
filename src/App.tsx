@@ -146,7 +146,7 @@ class App extends React.Component<AppProps, AppState>
           <div className="grid-item item1">
             <Plot
               data={ this.state.traces }
-              layout={ { width: 1024, height: 800, title: `Debts over Time` } }
+              layout={ { width: 800, height: 600 } }
             />
           </div>
           <div className="grid-item item2">
