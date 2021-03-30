@@ -9,3 +9,15 @@ export function LinSpace( startValue: number, increment: number, endValue: numbe
 
     return result;
 }
+
+const currencyFormatter = new Intl.NumberFormat( undefined, {
+    style: 'currency',
+    currency: 'CAD',
+    currencyDisplay: 'narrowSymbol'
+
+} );
+
+export function formatNumberAsDollars( val: number ): string
+{
+    return currencyFormatter.format( val );
+}
