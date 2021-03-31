@@ -1,4 +1,4 @@
-import { IMonthsToRetirement, IScenarioIoPair } from '../../interfacesAndEnums';
+import { IScenarioIoPair } from '../../interfacesAndEnums';
 import { ScenarioTable } from '../ScenarioTable/ScenarioTable';
 import styles from './ScenarioView.module.css';
 import { PlotData } from 'plotly.js';
@@ -47,35 +47,6 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
     {
         super( props );
         this.state = initialState;
-    }
-
-    getSortedMonthsToRetirementData = ( output: IScenarioIoPair[] ): IMonthsToRetirement[] =>
-    {
-        const scenarioNames = output.map( scenarioIoPair => scenarioIoPair.scenarioSummary.scenarioName );
-        const monthsToRetirements = output.map( scenarioIoPair => scenarioIoPair.forecastResult.numMonthsToReachRetirementGoal );
-
-        let data = [];
-        for ( let i = 0; i < monthsToRetirements.length; i++ )
-        {
-            data.push( {
-                monthsRequiredToRetire: monthsToRetirements[i],
-                scenarioName: scenarioNames[i]
-            } );
-        }
-        // Sort from best to worst (smallest to largest monthsToRetirement)
-        data.sort( ( a, b ) => { return a.monthsRequiredToRetire - b.monthsRequiredToRetire; } );
-        return data;
-    }
-
-    componentWillReceiveProps()
-    {
-        if ( this.props.scenarios.length === 0 )
-            return;
-
-        const sortedResults = this.getSortedMonthsToRetirementData( this.props.scenarios );
-        const bestScenarioName = sortedResults[0].scenarioName;
-        const bestScenarioIndex = this.props.scenarios.findIndex( ( scenario ) => { return scenario.scenarioSummary.scenarioName === bestScenarioName; } );
-        this.setState( { selectedScenarioIndex: bestScenarioIndex } );
     }
 
     HandleDropdownChange = ( event: React.ChangeEvent<HTMLSelectElement> ) =>
@@ -131,7 +102,6 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
             {
                 const name = scenario.scenarioSummary.scenarioName;
                 return <option key={ name } value={ name }>{ name }</option>;
-            }
-            );
+            } );
     }
 }
