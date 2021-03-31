@@ -36,11 +36,6 @@ class App extends React.Component<AppProps, AppState>
     this.state = initialState;
   }
 
-  componentDidMount()
-  {
-    this.RunAndPlot();
-  }
-
   RunAndPlot = () =>
   {
     const runner = new ForecastScenarioRunner( GetDummyScenarioData() );
@@ -55,27 +50,38 @@ class App extends React.Component<AppProps, AppState>
     this.setState( initialState );
   }
 
+  SwitchToResultsPage = () =>
+  {
+    this.setState( { pageToDisplay: eAppPage.ResultsView } );
+  }
+
+  SwitchToDataEntryPage = () =>
+  {
+    this.setState( { pageToDisplay: eAppPage.DataEntry } );
+  }
+
   render()
   {
-    let page;
+    let page = null;
     switch ( this.state.pageToDisplay )
     {
       case eAppPage.DataEntry:
-        page = <DataEntryPage />;
+        page = <DataEntryPage onClickDone={ this.SwitchToResultsPage } />;
         break;
       case eAppPage.ResultsView:
-        page = <ResultsPage reset={ this.Reset } runAndPlot={ this.RunAndPlot } />;
+        page = <ResultsPage
+          runAndPlot={ this.RunAndPlot }
+          onClickReturnToDataEntry={ this.SwitchToDataEntryPage }
+          scenarios={ this.state.allScenarios } />;
         break;
-      default:
-        return null;
     }
 
     return (
-      <div className="App" >
-        {page }
-      </div >
-    );
+      <div className="App">
+        <button onClick={ this.Reset }>Reset</button>
+        { page }
+      </div>
+    )
   }
 }
-
 export default App;

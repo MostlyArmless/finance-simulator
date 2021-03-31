@@ -3,7 +3,7 @@ import styles from './DataEntryPage.module.css';
 
 interface DataEntryPageProps
 {
-
+    onClickDone(): void;
 }
 
 interface DataEntryPageState
@@ -27,7 +27,8 @@ export class DataEntryPage extends React.Component<DataEntryPageProps, DataEntry
     {
         return (
             <div className={ styles.DataEntryPage } >
-                <p> Data Entry component! </p>
+                <h1>Data Entry</h1>
+                <button onClick={ this.props.onClickDone }>Finished</button>
             </div>
         );
     }

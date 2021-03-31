@@ -6,8 +6,9 @@ import styles from './ResultsPage.module.css';
 
 interface ResultsPageProps
 {
-    reset(): void;
     runAndPlot(): void;
+    onClickReturnToDataEntry(): void;
+    scenarios: IScenarioIoPair[];
 }
 
 interface ResultsPageState
@@ -31,16 +32,16 @@ export class ResultsPage extends React.Component<ResultsPageProps, ResultsPageSt
     {
         return (
             <div className={ styles.ResultsPage } >
-                <button onClick={ this.props.reset }>Reset</button>
                 <button onClick={ this.props.runAndPlot }>Run Simulation</button>
+                <button onClick={ this.props.onClickReturnToDataEntry }>Return to Data Entry</button>
 
-                { this.state.allScenarios.length > 0 &&
+                { this.props.scenarios.length > 0 &&
                     <>
-                        <SimulationAllResultsComparison scenarios={ this.state.allScenarios } />
+                        <SimulationAllResultsComparison scenarios={ this.props.scenarios } />
                         <table>
                             <tr>
-                                <td><ScenarioView scenarios={ this.state.allScenarios } /></td>
-                                <td><ScenarioView scenarios={ this.state.allScenarios } /></td>
+                                <td><ScenarioView scenarios={ this.props.scenarios } /></td>
+                                <td><ScenarioView scenarios={ this.props.scenarios } /></td>
                             </tr>
                         </table>
                     </> }

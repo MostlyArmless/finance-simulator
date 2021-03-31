@@ -29,9 +29,9 @@ export class SimulationAllResultsComparison extends React.Component<SimulationAl
 
     render()
     {
-        const xData = this.props.scenarios.map( elem => { return elem.scenarioSummary.numMonthsToReachRetirementGoal === Number.POSITIVE_INFINITY ? null : elem.scenarioSummary.numMonthsToReachRetirementGoal } );
-        const yData = this.props.scenarios.map( elem => elem.scenarioSummary.scenarioName );
-        const labelText = this.props.scenarios.map( elem => { return elem.scenarioSummary.numMonthsToReachRetirementGoal === Number.POSITIVE_INFINITY ? "Retirement Unreachable" : String( elem.scenarioSummary.numMonthsToReachRetirementGoal ) } );
+        const xData = this.props.scenarios.map( elem => { return elem.scenarioSummary.numMonthsToReachRetirementGoal === Number.POSITIVE_INFINITY ? null : elem.scenarioSummary.numMonthsToReachRetirementGoal } ).reverse();
+        const yData = this.props.scenarios.map( elem => elem.scenarioSummary.scenarioName ).reverse();
+        const labelText = xData.map( x => { return x === null ? "Retirement Unreachable" : String( x ) } );
 
         return (
             <div className={ styles.SimulationAllResultsComparison } >
