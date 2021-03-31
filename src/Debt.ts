@@ -5,6 +5,7 @@ export class Debt implements IDebt
     name: string;
     interestRate: number;
     minPayment: number;
+    initialBalance: number;
 
     private balances: number[];
     private mostRecentlyCompoundedMonth: number;
@@ -16,6 +17,7 @@ export class Debt implements IDebt
         this.interestRate = interestRate;
         this.minPayment = minPayment;
 
+        this.initialBalance = initialBalance;
         this.balances = [initialBalance];
         this.mostRecentlyCompoundedMonth = -1;
         this.isMortgage = isMortgage === undefined ? false : isMortgage;
@@ -88,6 +90,8 @@ export class Debt implements IDebt
 
     GetBalances(): number[]
     {
-        return this.balances.slice();
+        let balancesCopy = this.balances.slice();
+        balancesCopy.unshift( this.initialBalance );
+        return balancesCopy;
     }
 }
