@@ -1,10 +1,10 @@
 import React from 'react';
 import './App.css';
 import { ForecastScenarioRunner } from './forecastScenarioRunner';
-import { BuildForecastScenarios } from './forecastScenarioFactory';
 import { IScenarioIoPair } from './interfacesAndEnums';
 import { ScenarioView } from './components/ScenarioView/ScenarioView';
 import { SimulationAllResultsComparison } from './components/SimulationAllResultsComparison/SimulationAllResultsComparison';
+import { GetDummyScenarioData } from './dummyScenariosData';
 
 interface AppState
 {
@@ -34,7 +34,7 @@ class App extends React.Component<AppProps, AppState>
 
   RunAndPlot = () =>
   {
-    const runner = new ForecastScenarioRunner( BuildForecastScenarios() );
+    const runner = new ForecastScenarioRunner( GetDummyScenarioData() );
     const result = runner.runForecasts();
     this.setState( {
       allScenarios: result
@@ -66,8 +66,6 @@ class App extends React.Component<AppProps, AppState>
       </div>
     );
   }
-
-
 }
 
 export default App;

@@ -35,7 +35,7 @@ function GetAllDebts(): Debt[]
     ];
 }
 
-export function BuildForecastScenarios(): IForecastInput[]
+export function GetDummyScenarioData(): IForecastInput[]
 {
     const forecastScenarios: IForecastInput[] = [
         {
