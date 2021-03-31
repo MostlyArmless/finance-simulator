@@ -2,14 +2,21 @@ import React from 'react';
 import './App.css';
 import { ForecastScenarioRunner } from './forecastScenarioRunner';
 import { IScenarioIoPair } from './interfacesAndEnums';
-import { ScenarioView } from './components/ScenarioView/ScenarioView';
-import { SimulationAllResultsComparison } from './components/SimulationAllResultsComparison/SimulationAllResultsComparison';
 import { GetDummyScenarioData } from './dummyScenariosData';
 import { sortScenariosBestToWorst } from './ScenarioSorter';
+import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
+import { ResultsPage } from './components/ResultsPage/ResultsPage';
+
+enum eAppPage
+{
+  DataEntry,
+  ResultsView
+}
 
 interface AppState
 {
   allScenarios: IScenarioIoPair[];
+  pageToDisplay: eAppPage
 }
 
 interface AppProps
@@ -17,7 +24,8 @@ interface AppProps
 }
 
 const initialState: AppState = {
-  allScenarios: []
+  allScenarios: [],
+  pageToDisplay: eAppPage.DataEntry
 }
 
 class App extends React.Component<AppProps, AppState>
@@ -49,22 +57,23 @@ class App extends React.Component<AppProps, AppState>
 
   render()
   {
+    let page;
+    switch ( this.state.pageToDisplay )
+    {
+      case eAppPage.DataEntry:
+        page = <DataEntryPage />;
+        break;
+      case eAppPage.ResultsView:
+        page = <ResultsPage reset={ this.Reset } runAndPlot={ this.RunAndPlot } />;
+        break;
+      default:
+        return null;
+    }
+
     return (
       <div className="App" >
-        <button onClick={ this.Reset }>Reset</button>
-        <button onClick={ this.RunAndPlot }>Run Simulation</button>
-
-        {this.state.allScenarios.length > 0 &&
-          <>
-            <SimulationAllResultsComparison scenarios={ this.state.allScenarios } />
-            <table>
-              <tr>
-                <td><ScenarioView scenarios={ this.state.allScenarios } /></td>
-                <td><ScenarioView scenarios={ this.state.allScenarios } /></td>
-              </tr>
-            </table>
-          </> }
-      </div>
+        {page }
+      </div >
     );
   }
 }
