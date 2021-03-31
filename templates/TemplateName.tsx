@@ -27,7 +27,7 @@ export class TemplateName extends React.Component<TemplateNameProps, TemplateNam
     {
         return (
             <div className={ styles.TemplateName } >
-                <p> Hot new component! </p>
+                <p> "TemplateName" component! </p>
             </div>
         );
     }
