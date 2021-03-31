@@ -53,3 +53,12 @@ To debug the code, run `npm start` which will launch a browser window with the a
 
 ### Generating new components
 `npx generate-react-cli component MyComponentName` will generate the css, test, and tsx file for a new component, based off of the custom template stored at `./templates/TemplateName.ts`. The settings for `generate-react-cli` tool are stored in `./generate-react-cli.json`
+
+### react-plotly.js
+This is a cool package that gives you a `Plot` component, but you CANNOT use `import Plot from 'react-plotly.js';`, that will crash node when you try to `npm start`.
+Instead, you have to use this boilerplate code in every component file where you want to insert a `Plot` component:
+```TypeScript
+import createPlotlyComponent from "react-plotly.js/factory";
+const Plotly = window.Plotly;
+const Plot = createPlotlyComponent( Plotly );
+```

@@ -1,5 +1,4 @@
-import { IDebt, IPlottable } from "./interfacesAndEnums";
-import { LinSpace } from "./tools";
+import { IDebt } from "./interfacesAndEnums";
 
 export class Debt implements IDebt
 {
@@ -79,20 +78,16 @@ export class Debt implements IDebt
         this.balances[iMonth + 1] = newBalance;
     }
 
-    GetPlottableDebt(): IPlottable
-    {
-        return {
-            "name": this.name,
-            "x": LinSpace( 0, 1, this.balances.length ),
-            "y": this.balances
-        }
-    }
-
     private subtractPaymentFromMonthlyBalance( iMonth: number, paymentAmount: number ): number
     {
         const currentBalance = this.GetCurrentBalance();
         const actualPayment = Math.min( currentBalance, paymentAmount );
         this.balances[iMonth] = currentBalance - actualPayment;
         return actualPayment;
+    }
+
+    GetBalances(): number[]
+    {
+        return this.balances.slice();
     }
 }

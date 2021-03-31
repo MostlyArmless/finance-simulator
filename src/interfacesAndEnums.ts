@@ -10,7 +10,7 @@ export interface IDebt
     GetBalanceAtMonth( iMonth: number ): number;
     GetCurrentBalance(): number;
     ApplyInterest( iMonth: number ): void;
-    GetPlottableDebt(): IPlottable;
+    GetBalances(): number[];
 }
 
 export interface IIncome
@@ -86,9 +86,8 @@ export interface IScenarioIoPair
     scenarioSummary: IScenarioSummary;
 }
 
-export interface IPlottable
+export interface IMonthsToRetirement
 {
-    name: string;
-    x: number[];
-    y: number[];
+    scenarioName: string;
+    monthsRequiredToRetire: number;
 }
