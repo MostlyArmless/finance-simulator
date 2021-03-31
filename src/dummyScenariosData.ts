@@ -157,23 +157,26 @@ export function GetDummyScenarioData(): IForecastInput[]
             debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
         },
         {
-            forecastName: 'Aggressive Conservative - 72 hours overtime - 1k spending - no pensions - retire on 5k per month - ZERO pensions',
+            forecastName: 'Aggressive Conservative - Lowest Debt First',
             initialSavings: initialSavings,
             startDate: new Date( startDate ),
             numMonthsToProject: numMonthsToProject,
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
+                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
+                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
+                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
         },
         {
-            forecastName: 'Aggressive Conservative - 72 hours overtime - 1k spending - all pensions - retire on 5k per month - ALL pensions',
+            forecastName: 'Aggressive Conservative - Highest Interest First',
             initialSavings: initialSavings,
             startDate: new Date( startDate ),
             numMonthsToProject: numMonthsToProject,
