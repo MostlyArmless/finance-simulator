@@ -127,7 +127,6 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
     private getDropdownItems()
     {
         return this.props.scenarios
-            .slice()
             .map( scenario =>
             {
                 const name = scenario.scenarioSummary.scenarioName;
