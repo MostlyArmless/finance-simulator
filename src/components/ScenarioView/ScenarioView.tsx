@@ -69,6 +69,10 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
             .map( scenario => scenario.forecastResult.totalDebtVsTime.length )
             .reduce( ( a, b ) => Math.max( a, b ) );
 
+        const maxInitialDebt = this.props.scenarios[0].forecastResult.debts
+            .map( debt => debt.GetBalanceAtMonth( 0 ) )
+            .reduce( ( a, b ) => Math.max( a, b ) );
+
         return (
             <div className={ styles.ScenarioView } >
                 <select name='forecastSelect' onChange={ this.HandleDropdownChange }>
@@ -86,7 +90,8 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
                             layout={ {
                                 width: 800,
                                 height: 600,
-                                xaxis: { range: [0, maxMonths] }
+                                xaxis: { range: [0, maxMonths] },
+                                yaxis: { range: [0, maxInitialDebt] }
                             } }
                         />
                     </div>
