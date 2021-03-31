@@ -94,6 +94,10 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
 
         const menuOptions = this.getDropdownItems();
 
+        const maxMonths = this.props.scenarios
+            .map( scenario => scenario.forecastResult.totalDebtVsTime.length )
+            .reduce( ( a, b ) => Math.max( a, b ) );
+
         return (
             <div className={ styles.ScenarioView } >
                 <select name='forecastSelect' onChange={ this.HandleDropdownChange }>
@@ -108,7 +112,11 @@ export class ScenarioView extends React.Component<ScenarioViewProps, ScenarioVie
                     <div className={ styles.item2 }>
                         <Plot
                             data={ getTraces( selectedScenario ) }
-                            layout={ { width: 800, height: 600 } }
+                            layout={ {
+                                width: 800,
+                                height: 600,
+                                xaxis: { range: [0, maxMonths] }
+                            } }
                         />
                     </div>
                 </div>

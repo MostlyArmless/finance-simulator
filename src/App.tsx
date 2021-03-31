@@ -29,7 +29,7 @@ class App extends React.Component<AppProps, AppState>
 
   componentDidMount()
   {
-    // this.RunAndPlot();
+    this.RunAndPlot();
   }
 
   RunAndPlot = () =>
