@@ -1,34 +1,35 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TemplateName.module.css';
 
-interface TemplateNameProps
+export function TemplateName()
 {
+    const [count, setCount] = useState( 0 ); // Initial value
 
-}
-
-interface TemplateNameState
-{
-
-}
-
-const initialState: TemplateNameState = {
-
-}
-
-export class TemplateName extends React.Component<TemplateNameProps, TemplateNameState>
-{
-    constructor( props: TemplateNameProps )
+    useEffect( () =>
     {
-        super( props );
-        this.state = initialState;
+        console.log( `empty array means this runs only on first component mount` );
+    }, [] );
+
+    useEffect( () =>
+    {
+        console.log( `This side effect will happen every time the count variable changes` );
+    }, [count] )
+
+    const increment = () =>
+    {
+        setCount( prevCount => prevCount + 1 );
     }
 
-    render()
+    const decrement = () =>
     {
-        return (
-            <div className={ styles.TemplateName } >
-                <p> "TemplateName" component! </p>
-            </div>
-        );
+        setCount( prevCount => prevCount - 1 );
     }
+
+    return (
+        <div className={ styles.TemplateName } >
+            <button onClick={ () => decrement() }>-</button>
+            { count }
+            <button onClick={ () => increment() }>+</button>
+        </div>
+    );
 }
