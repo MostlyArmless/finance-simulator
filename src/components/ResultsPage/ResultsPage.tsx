@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
 import { IScenarioIoPair } from '../../interfacesAndEnums';
 import { ScenarioView } from '../ScenarioView/ScenarioView';
@@ -32,8 +33,8 @@ export class ResultsPage extends React.Component<ResultsPageProps, ResultsPageSt
     {
         return (
             <div className={ styles.ResultsPage } >
-                <button onClick={ this.props.runAndPlot }>Run Simulation</button>
-                <button onClick={ this.props.onClickReturnToDataEntry }>Return to Data Entry</button>
+                <Button variant="contained" onClick={ this.props.onClickReturnToDataEntry }>Return to Data Entry</Button>
+                <Button variant="contained" color="primary" onClick={ this.props.runAndPlot }>Re-run Simulation</Button>
 
                 { this.props.scenarios.length > 0 &&
                     <>
