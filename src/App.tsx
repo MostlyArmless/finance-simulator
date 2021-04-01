@@ -6,6 +6,7 @@ import { GetDummyScenarioData } from './dummyScenariosData';
 import { sortScenariosBestToWorst } from './ScenarioSorter';
 import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
+import { Button } from '@material-ui/core';
 
 enum eAppPage
 {
@@ -78,7 +79,7 @@ class App extends React.Component<AppProps, AppState>
 
     return (
       <div className="App">
-        <button onClick={ this.Reset }>Reset</button>
+        <Button onClick={ this.Reset }>Reset</Button>
         { page }
       </div>
     )

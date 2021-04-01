@@ -1,13 +1,4 @@
-table, th, tr, td {
-  border: 1px solid black;
-  text-align: left;
-}
 
-.TableReflowText {
-  word-wrap: break-word;
-  max-width: 300px;
-}
+.ScenarioTable {
 
-.BoldText {
-  font-weight: bold;
 }

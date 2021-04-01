@@ -1,3 +1,4 @@
+import { Button } from '@material-ui/core';
 import React from 'react';
 import styles from './DataEntryPage.module.css';
 
@@ -28,7 +29,7 @@ export class DataEntryPage extends React.Component<DataEntryPageProps, DataEntry
         return (
             <div className={ styles.DataEntryPage } >
                 <h1>Data Entry</h1>
-                <button onClick={ this.props.onClickDone }>Finished</button>
+                <Button variant="contained" color="primary" onClick={ this.props.onClickDone }>View Results</Button>
             </div>
         );
     }

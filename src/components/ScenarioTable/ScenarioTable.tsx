@@ -1,33 +1,61 @@
 import { IScenarioSummary } from "../../interfacesAndEnums";
 import { formatNumberAsDollars } from "../../tools";
+import { makeStyles } from '@material-ui/core/styles';
 import styles from "./ScenarioTable.module.css"
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles( {
+    table: {
+        minWidth: 200,
+    },
+} );
 
 export function ScenarioTable( props: { summary: IScenarioSummary } )
 {
+    const classes = useStyles();
+
     return (
         <div className={ styles.ScenarioTable }>
             <h2>Scenario Summary</h2>
-            <table>
-                <th className={ styles.BoldText }>Attribute</th><th>Value</th>
-                <tr>
-                    <td>Scenario Name</td><td className={ styles.TableReflowText }>{ props.summary.scenarioName }</td>
-                </tr>
-                <tr>
-                    <td>Pre-retirement budget</td><td>{ formatNumberAsDollars( props.summary.preRetirementSpending ) }</td>
-                </tr>
-                <tr>
-                    <td>Post-retirement budget</td><td>{ formatNumberAsDollars( props.summary.postRetirementSpending ) }</td>
-                </tr>
-                <tr>
-                    <td>Required Savings to Retire</td><td>{ formatNumberAsDollars( props.summary.requiredSavingsToRetire ) }</td>
-                </tr>
-                <tr>
-                    <td>Retirement Date</td><td>{ props.summary.retirementDate }</td>
-                </tr>
-                <tr>
-                    <td>Months until retirement</td><td>{ props.summary.numMonthsToReachRetirementGoal }</td>
-                </tr>
-            </table>
-        </div>
+            <h3>{ props.summary.scenarioName }</h3>
+            <TableContainer component={ Paper }>
+                <Table className={ classes.table } aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Attribute</TableCell>
+                            <TableCell align="right">Value</TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        <TableRow>
+                            <TableCell>Pre-Retirement Budget</TableCell>
+                            <TableCell align="right">{ formatNumberAsDollars( props.summary.preRetirementSpending ) }</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Post-Retirement Budget</TableCell>
+                            <TableCell align="right">{ formatNumberAsDollars( props.summary.postRetirementSpending ) }</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Required Savings to Retire</TableCell>
+                            <TableCell align="right">{ formatNumberAsDollars( props.summary.requiredSavingsToRetire ) }</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Retirement Date</TableCell>
+                            <TableCell align="right">{ props.summary.retirementDate }</TableCell>
+                        </TableRow>
+                        <TableRow>
+                            <TableCell>Months to Reach Retirement</TableCell>
+                            <TableCell align="right">{ props.summary.numMonthsToReachRetirementGoal }</TableCell>
+                        </TableRow>
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div >
     );
 }
