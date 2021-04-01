@@ -21,7 +21,7 @@ There are a lot of assumptions being made in this calculation.
 1. There's no limit to how much you can pay towards your mortgages. This is probably not true in real life.
 
 ## Analyzing the model results
-
+(You have to use a mermaid-enabled markdown renderer to view this graph, GitHub doesn't support mermaid)
 ```mermaid
 graph LR;
 	subgraph Inputs;
