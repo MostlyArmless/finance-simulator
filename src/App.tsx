@@ -18,7 +18,7 @@ function App()
 {
   const [allScenarios, setAllScenarios] = useState<IScenarioIoPair[]>( [] );
   const [currentPage, setCurrentPage] = useState<eAppPage>( eAppPage.DataEntry );
-  const [incomes, setIncomes] = useState<IncomeModel[]>( [] );
+  const [incomes, setIncomes] = useState<IncomeModel[]>( [new IncomeModel( new NullIncomeModelInput() )] );
 
   const setName = ( index: number, val: string ) =>
   {
