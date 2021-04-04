@@ -1,12 +1,12 @@
-import React from 'react';
+import { useState } from 'react';
 import './App.css';
 import { ForecastScenarioRunner } from './forecastScenarioRunner';
-import { IScenarioIoPair } from './interfacesAndEnums';
+import { IncomeEndCondition, IncomeStartCondition, IScenarioIoPair } from './interfacesAndEnums';
 import { GetDummyScenarioData } from './dummyScenariosData';
 import { sortScenariosBestToWorst } from './ScenarioSorter';
 import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
-import { Button } from '@material-ui/core';
+import { IncomeModel, NullIncomeModelInput } from './IncomeModel';
 
 enum eAppPage
 {
@@ -14,75 +14,93 @@ enum eAppPage
   ResultsView
 }
 
-interface AppState
+function App()
 {
-  allScenarios: IScenarioIoPair[];
-  pageToDisplay: eAppPage
-}
+  const [allScenarios, setAllScenarios] = useState<IScenarioIoPair[]>( [] );
+  const [currentPage, setCurrentPage] = useState<eAppPage>( eAppPage.DataEntry );
+  const [incomes, setIncomes] = useState<IncomeModel[]>( [] );
 
-interface AppProps
-{
-}
-
-const initialState: AppState = {
-  allScenarios: [],
-  pageToDisplay: eAppPage.DataEntry
-}
-
-class App extends React.Component<AppProps, AppState>
-{
-  constructor( props: AppProps )
+  const setName = ( index: number, val: string ) =>
   {
-    super( props );
-    this.state = initialState;
+    setIncomes( ( prev ) =>
+    {
+      const newState = [...prev];
+      newState[index].name = val;
+      return newState;
+    } );
   }
-
-  RunAndPlot = () =>
+  const setMonthlyValue = ( index: number, val: number ) =>
   {
-    const runner = new ForecastScenarioRunner( GetDummyScenarioData() );
-    const result = sortScenariosBestToWorst( runner.runForecasts() );
-    this.setState( {
-      allScenarios: result
+    setIncomes( ( prev ) =>
+    {
+      const newState = [...prev];
+      newState[index].monthlyValue = val;
+      return newState;
+    } );
+  }
+  const setStartCondition = ( index: number, val: IncomeStartCondition ) =>
+  {
+    setIncomes( ( prev ) =>
+    {
+      const newState = [...prev];
+      newState[index].startCondition = val;
+      return newState;
+    } );
+  }
+  const setEndCondition = ( index: number, val: IncomeEndCondition ) =>
+  {
+    setIncomes( ( prev ) =>
+    {
+      const newState = [...prev];
+      newState[index].endCondition = val;
+      return newState;
+    } );
+  }
+  const setIncomeEndDate = ( index: number, val: Date ) =>
+  {
+    setIncomes( ( prev ) =>
+    {
+      const newState = [...prev];
+      newState[index].endDate = val;
+      return newState;
     } );
   }
 
-  Reset = () =>
+  const runAndPlot = () =>
   {
-    this.setState( initialState );
+    const runner = new ForecastScenarioRunner( GetDummyScenarioData() );
+    const result = sortScenariosBestToWorst( runner.runForecasts() );
+    setAllScenarios( result );
   }
 
-  SwitchToResultsPage = () =>
+  let page = null;
+  switch ( currentPage )
   {
-    this.setState( { pageToDisplay: eAppPage.ResultsView } );
+    case eAppPage.DataEntry:
+      page = <DataEntryPage
+        onClickDone={ () => setCurrentPage( eAppPage.ResultsView ) }
+        incomeModels={ incomes }
+        addNewIncome={ () => { setIncomes( prev => [...prev, new IncomeModel( new NullIncomeModelInput() )] ) } }
+        setName={ setName }
+        setMonthlyValue={ setMonthlyValue }
+        setStartCondition={ setStartCondition }
+        setEndCondition={ setEndCondition }
+        setIncomeEndDate={ setIncomeEndDate }
+      />;
+      break;
+    case eAppPage.ResultsView:
+      page = <ResultsPage
+        runAndPlot={ runAndPlot }
+        onClickReturnToDataEntry={ () => setCurrentPage( eAppPage.DataEntry ) }
+        scenarios={ allScenarios } />;
+      break;
   }
 
-  SwitchToDataEntryPage = () =>
-  {
-    this.setState( { pageToDisplay: eAppPage.DataEntry } );
-  }
-
-  render()
-  {
-    let page = null;
-    switch ( this.state.pageToDisplay )
-    {
-      case eAppPage.DataEntry:
-        page = <DataEntryPage onClickDone={ this.SwitchToResultsPage } />;
-        break;
-      case eAppPage.ResultsView:
-        page = <ResultsPage
-          runAndPlot={ this.RunAndPlot }
-          onClickReturnToDataEntry={ this.SwitchToDataEntryPage }
-          scenarios={ this.state.allScenarios } />;
-        break;
-    }
-
-    return (
-      <div className="App">
-        <Button onClick={ this.Reset }>Reset</Button>
-        { page }
-      </div>
-    )
-  }
+  return (
+    <div className="App">
+      { page }
+    </div>
+  )
 }
+
 export default App;
