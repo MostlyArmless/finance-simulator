@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { addNMonthsToDate } from "../helpers";
-import { Income } from "../Income";
+import { IncomeModel } from "../IncomeModel";
 import { IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
 
 describe( 'Income', () =>
@@ -18,7 +18,7 @@ describe( 'Income', () =>
     it( 'Getting income value at month 0 returns the income value when start condition is Immediate', () =>
     {
         simulationStartDate = new Date( 2020, 0 );
-        testSubject = new Income( 'Salary', 5000, IncomeStartCondition.Immediate, IncomeEndCondition.Date, simulationStartDate, endDate );
+        testSubject = new IncomeModel( 'Salary', 5000, IncomeStartCondition.Immediate, IncomeEndCondition.Date, simulationStartDate, endDate );
         expect( testSubject.GetValueAtMonth( 0 ) ).to.equal( 5000 );
     } );
 
@@ -26,7 +26,7 @@ describe( 'Income', () =>
     {
         simulationStartDate = new Date( 2020, 0 );
         endDate = new Date( 2020, 1 );
-        testSubject = new Income( 'Salary', 5000, IncomeStartCondition.Immediate, IncomeEndCondition.Date, simulationStartDate, endDate );
+        testSubject = new IncomeModel( 'Salary', 5000, IncomeStartCondition.Immediate, IncomeEndCondition.Date, simulationStartDate, endDate );
         expect( testSubject.GetValueAtMonth( 0 ) ).to.equal( 5000 );
         expect( testSubject.GetValueAtMonth( 1 ) ).to.equal( 5000 );
         expect( testSubject.GetValueAtMonth( 2 ) ).to.equal( 0 );
@@ -36,7 +36,7 @@ describe( 'Income', () =>
     {
         simulationStartDate = new Date( 2020, 0 );
         endDate = new Date( 2020, 1 );
-        testSubject = new Income( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate, endDate );
+        testSubject = new IncomeModel( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate, endDate );
 
         expect( () => testSubject.SetIncomeStartDate( new Date( 2019, 11 ) ) ).to.throw();
     } );
@@ -45,7 +45,7 @@ describe( 'Income', () =>
     {
         simulationStartDate = new Date( 2020, 0 );
         endDate = new Date( 2020, 1 );
-        testSubject = new Income( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate, endDate );
+        testSubject = new IncomeModel( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate, endDate );
 
         expect( () => testSubject.SetIncomeStartDate( new Date( 2020, 2 ) ) ).to.throw();
     } );
@@ -53,7 +53,7 @@ describe( 'Income', () =>
     it( 'Can get value in a month later than the start date even if end date is not yet defined', () =>
     {
         simulationStartDate = new Date( 2020, 0 );
-        testSubject = new Income( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate );
+        testSubject = new IncomeModel( 'Pension', 5000, IncomeStartCondition.Retirement, IncomeEndCondition.Date, simulationStartDate );
 
         testSubject.SetIncomeStartDate( addNMonthsToDate( simulationStartDate, 2 ) );
 
