@@ -9,6 +9,24 @@ export interface IDebtModelInput
     isMortgage?: boolean;
 }
 
+export class NullDebtModelInput implements IDebtModelInput
+{
+    name: string;
+    initialBalance: number;
+    interestRate: number;
+    minPayment: number;
+    isMortgage?: boolean;
+
+    constructor()
+    {
+        this.name = "";
+        this.initialBalance = 0;
+        this.interestRate = 0;
+        this.minPayment = 0;
+        this.isMortgage = false;
+    }
+}
+
 export class DebtModel implements IDebt
 {
     name: string;
