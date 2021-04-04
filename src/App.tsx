@@ -74,6 +74,11 @@ function App()
     setAllScenarios( result );
   }
 
+  const removeIncome = ( indexToRemove: number ): void =>
+  {
+    setIncomes( prev => prev.filter( ( income, index ) => index !== indexToRemove ) );
+  }
+
   let page = null;
   switch ( currentPage )
   {
@@ -82,6 +87,7 @@ function App()
         onClickDone={ () => setCurrentPage( eAppPage.ResultsView ) }
         incomeModels={ incomes }
         addNewIncome={ () => { setIncomes( prev => [...prev, new IncomeModel( new NullIncomeModelInput() )] ) } }
+        removeIncome={ removeIncome }
         setName={ setName }
         setMonthlyValue={ setMonthlyValue }
         setStartCondition={ setStartCondition }

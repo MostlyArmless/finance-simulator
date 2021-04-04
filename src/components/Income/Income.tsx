@@ -3,9 +3,12 @@ import styles from './Income.module.css';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
-// import { formatNumberAsDollars } from '../../tools';
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
+import IconButton from '@material-ui/core/IconButton';
+import DeleteIcon from '@material-ui/icons/Delete';
+import React from 'react';
+import Grid from '@material-ui/core/Grid';
 
 const incomeNameCharacterLimit = 25;
 const useStyles = makeStyles( ( theme: Theme ) =>
@@ -29,11 +32,15 @@ interface IIncomeProps
   endCondition: IncomeEndCondition;
   endDate: Date;
 
+  removeIncome( index: number ): void;
+
   setName( index: number, val: string ): void;
   setMonthlyValue( index: number, val: number ): void;
   setStartCondition( index: number, val: IncomeStartCondition ): void;
   setEndCondition( index: number, val: IncomeEndCondition ): void;
   setEndDate( index: number, val: Date ): void;
+
+  shouldDisplayDeleteButton: boolean;
 }
 
 const startConditionOptions: { value: IncomeStartCondition, label: string }[] = [
@@ -93,89 +100,94 @@ export function Income( props: IIncomeProps )
   const nameValidationResult = validateName();
 
   return (
-    <div id={ `income-${props.index}` } className={ styles.Income } >
+    <Grid id={ `income-${props.index}` } className={ styles.Income } container direction="row">
       <h2>Income</h2>
+
+      {props.shouldDisplayDeleteButton &&
+        <IconButton color="secondary" onClick={ () => { props.removeIncome( props.index ) } }>
+          <DeleteIcon />
+        </IconButton>
+      }
+
       <form className={ classes.root } noValidate autoComplete="off">
-        <div>
-          <TextField
-            required
-            id="income-name"
-            label="Income Name"
-            variant="outlined"
-            helperText={ nameValidationResult.errorMessage }
-            value={ props.name }
-            onChange={ event => props.setName( props.index, event.target.value ) }
-            error={ !nameValidationResult.isValid }
-          />
-          <br />
+        <TextField
+          required
+          id="income-name"
+          label="Income Name"
+          variant="outlined"
+          helperText={ nameValidationResult.errorMessage }
+          value={ props.name }
+          onChange={ event => props.setName( props.index, event.target.value ) }
+          error={ !nameValidationResult.isValid }
+        />
+        <br />
 
-          <TextField
-            id="monthly-value"
-            label="Monthly Value"
-            type="number"
-            InputLabelProps={ {
-              shrink: true,
-            } }
-            variant="outlined"
-            value={ props.monthlyValue }
-            onChange={ ( event ) => props.setMonthlyValue( props.index, parseFloat( event.target.value ) ) }
-          />
-          <br />
+        <TextField
+          id="monthly-value"
+          label="Monthly Value"
+          type="number"
+          InputLabelProps={ {
+            shrink: true,
+          } }
+          variant="outlined"
+          value={ props.monthlyValue }
+          onChange={ ( event ) => props.setMonthlyValue( props.index, parseFloat( event.target.value ) ) }
+        />
+        <br />
 
-          <TextField
-            id="start-condition"
-            label="Start Condition"
-            type="text"
-            InputLabelProps={ {
-              shrink: true,
-            } }
-            variant="outlined"
-            select
-            SelectProps={ {
-              native: true,
-            } }
-            value={ props.startCondition }
-            onChange={ updateStartCondition }
-          >
-            { startConditionOptions.map( ( option ) => (
-              <option key={ option.value } value={ option.value }>
-                { option.label }
-              </option>
-            ) ) }
-          </TextField>
-          <br />
+        <TextField
+          id="start-condition"
+          label="Start Condition"
+          type="text"
+          InputLabelProps={ {
+            shrink: true,
+          } }
+          variant="outlined"
+          select
+          SelectProps={ {
+            native: true,
+          } }
+          value={ props.startCondition }
+          onChange={ updateStartCondition }
+        >
+          { startConditionOptions.map( ( option ) => (
+            <option key={ option.value } value={ option.value }>
+              { option.label }
+            </option>
+          ) ) }
+        </TextField>
+        <br />
 
-          <TextField
-            id="end-condition"
-            label="End Condition"
-            type="text"
-            InputLabelProps={ {
-              shrink: true,
-            } }
-            variant="outlined"
-            select
-            SelectProps={ {
-              native: true,
-            } }
-            value={ props.endCondition }
-            onChange={ updateEndCondition }
-          >
-            { endConditionOptions.map( ( option ) => (
-              <option key={ option.value } value={ option.value }>
-                { option.label }
-              </option>
-            ) ) }
-          </TextField>
-          <br />
+        <TextField
+          id="end-condition"
+          label="End Condition"
+          type="text"
+          InputLabelProps={ {
+            shrink: true,
+          } }
+          variant="outlined"
+          select
+          SelectProps={ {
+            native: true,
+          } }
+          value={ props.endCondition }
+          onChange={ updateEndCondition }
+        >
+          { endConditionOptions.map( ( option ) => (
+            <option key={ option.value } value={ option.value }>
+              { option.label }
+            </option>
+          ) ) }
+        </TextField>
+        <br />
 
-          { props.endCondition === IncomeEndCondition.Date &&
-            <>
-              <h3>End Date:</h3>
-              <DayPickerInput onDayChange={ updateEndDate } />
-            </>
-          }
-        </div>
+        { props.endCondition === IncomeEndCondition.Date &&
+          <>
+            <h3>End Date:</h3>
+            <DayPickerInput onDayChange={ updateEndDate } />
+          </>
+        }
       </form>
-    </div >
+    </Grid>
   );
 }

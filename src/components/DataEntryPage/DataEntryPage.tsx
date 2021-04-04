@@ -24,6 +24,8 @@ interface DataEntryPageProps
     onClickDone(): void;
     incomeModels: IncomeModel[];
     addNewIncome(): void;
+    removeIncome( index: number ): void;
+
     setName( index: number, val: string ): void;
     setMonthlyValue( index: number, val: number ): void;
     setStartCondition( index: number, val: IncomeStartCondition ): void;
@@ -40,30 +42,32 @@ export function DataEntryPage( props: DataEntryPageProps )
             <h1>Data Entry</h1>
             <Button variant="contained" color="primary" onClick={ props.onClickDone }>View Results</Button>
             <Grid container className={ classes.root } justify="center" spacing={ 2 } direction="row">
-            { props.incomeModels.map( ( incomeModel, index ) =>
-            {
+                { props.incomeModels.map( ( incomeModel, index ) =>
+                {
                     return (
                         <Grid key={ `grid-${index}` } item>
                             <Paper key={ `paper-${index}` } className={ classes.paper }>
                                 <Income
                                     key={ `{income-${index}` }
-                    index={ index }
-                    name={ incomeModel.name }
-                    monthlyValue={ incomeModel.monthlyValue }
-                    startCondition={ incomeModel.startCondition }
-                    endCondition={ incomeModel.endCondition }
-                    endDate={ incomeModel.endDate }
-                    setName={ props.setName }
-                    setMonthlyValue={ props.setMonthlyValue }
-                    setStartCondition={ props.setStartCondition }
-                    setEndCondition={ props.setEndCondition }
-                    setEndDate={ props.setIncomeEndDate }
-                />
+                                    index={ index }
+                                    name={ incomeModel.name }
+                                    monthlyValue={ incomeModel.monthlyValue }
+                                    startCondition={ incomeModel.startCondition }
+                                    endCondition={ incomeModel.endCondition }
+                                    endDate={ incomeModel.endDate }
+                                    setName={ props.setName }
+                                    setMonthlyValue={ props.setMonthlyValue }
+                                    setStartCondition={ props.setStartCondition }
+                                    setEndCondition={ props.setEndCondition }
+                                    setEndDate={ props.setIncomeEndDate }
+                                    removeIncome={ props.removeIncome }
+                                    shouldDisplayDeleteButton={ props.incomeModels.length > 1 }
+                                />
                             </Paper>
                         </Grid>
                     )
-            } ) }
-            <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
+                } ) }
+                <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
             </Grid>
 
         </div>
