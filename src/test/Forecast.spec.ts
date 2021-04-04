@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Debt } from "../Debt";
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from "../forecast";
-import { Income } from "../Income";
+import { IncomeModel } from "../IncomeModel";
 import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
 
 describe( 'Forecast', () =>
@@ -18,8 +18,8 @@ describe( 'Forecast', () =>
         ];
 
         incomes = [
-            new Income( "Job", 100, IncomeStartCondition.Immediate, IncomeEndCondition.Date, new Date( 2020, 1, 1 ), new Date( 2025, 1, 1 ) ),
-            new Income( "Pension", 100, IncomeStartCondition.Retirement, IncomeEndCondition.Date, new Date( 2025, 1, 1 ), new Date( 2030, 1, 1 ) )
+            new IncomeModel( "Job", 100, IncomeStartCondition.Immediate, IncomeEndCondition.Date, new Date( 2020, 1, 1 ), new Date( 2025, 1, 1 ) ),
+            new IncomeModel( "Pension", 100, IncomeStartCondition.Retirement, IncomeEndCondition.Date, new Date( 2025, 1, 1 ), new Date( 2030, 1, 1 ) )
         ];
     } );
 

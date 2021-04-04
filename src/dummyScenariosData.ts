@@ -1,10 +1,10 @@
 import { IForecastInput, IncomeStartCondition, IncomeEndCondition, DebtContributionStrategy } from "./interfacesAndEnums";
-import { Income } from "./Income";
+import { IncomeModel } from "./IncomeModel";
 import { Debt } from "./Debt";
 import { addNYearsToDate } from "./helpers";
 
 const initialSavings = 500;
-const numMonthsToProject = 12 * 40; // 40 years
+const numMonthsToProject = 12 * 10;
 const mcDonaldsBaseMonthlySalary = 10200;
 const overTimeHourlyPay = 130;
 const bobsBirthday = new Date( 1959, 8, 7 );
@@ -46,7 +46,13 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new Income( 'McDonalds Salary', mcDonaldsBaseMonthlySalary, IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary',
+                        monthlyValue: mcDonaldsBaseMonthlySalary,
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 6000,
             debts: GetAllDebts(),
@@ -62,7 +68,13 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new Income( 'McDonalds Salary', mcDonaldsBaseMonthlySalary, IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary',
+                        monthlyValue: mcDonaldsBaseMonthlySalary,
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
@@ -78,7 +90,13 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new Income( 'McDonalds Salary', mcDonaldsBaseMonthlySalary, IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary',
+                        monthlyValue: mcDonaldsBaseMonthlySalary,
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
@@ -94,7 +112,13 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 40 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
@@ -110,7 +134,13 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 40 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
@@ -126,10 +156,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 40 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
@@ -145,10 +202,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 72 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
@@ -164,10 +248,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 72 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 72 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
@@ -183,10 +294,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 72 hours overtime', CalcOvertimePayFromHours( 72 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 72 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 72 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
@@ -202,10 +340,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 40 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
@@ -221,10 +386,37 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new Income( 'McDonalds Salary with 40 hours overtime', CalcOvertimePayFromHours( 40 ), IncomeStartCondition.Immediate, IncomeEndCondition.Retirement, startDate ),
-                    new Income( 'McDonalds Pension', 1600, IncomeStartCondition.Retirement, IncomeEndCondition.Date, dummyRetirementDate, deathDate ),
-                    new Income( 'US Pension', 1648.4, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate ),
-                    new Income( 'Canada old age pension (guesstimated value)', 700, IncomeStartCondition.Retirement, IncomeEndCondition.Date, bobs62ndBirthday, deathDate )
+                    new IncomeModel( {
+                        name: 'McDonalds Salary with 40 hours overtime',
+                        monthlyValue: CalcOvertimePayFromHours( 40 ),
+                        startCondition: IncomeStartCondition.Immediate,
+                        endCondition: IncomeEndCondition.Retirement,
+                        simulationStartDate: startDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'McDonalds Pension',
+                        monthlyValue: 1600,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: dummyRetirementDate,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'US Pension',
+                        monthlyValue: 1648.4,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } ),
+                    new IncomeModel( {
+                        name: 'Canada old age pension (guesstimated value)',
+                        monthlyValue: 700,
+                        startCondition: IncomeStartCondition.Retirement,
+                        endCondition: IncomeEndCondition.Date,
+                        simulationStartDate: bobs62ndBirthday,
+                        incomeEndDate: deathDate
+                    } )
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
