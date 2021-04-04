@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import styles from './Income.module.css';
 import TextField from '@material-ui/core/TextField';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
