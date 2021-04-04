@@ -7,6 +7,7 @@ import { sortScenariosBestToWorst } from './ScenarioSorter';
 import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
 import { IncomeModel, NullIncomeModelInput } from './IncomeModel';
+import Container from '@material-ui/core/Container';
 
 enum eAppPage
 {
@@ -97,9 +98,9 @@ function App()
   }
 
   return (
-    <div className="App">
+    <Container className="App">
       { page }
-    </div>
+    </Container>
   )
 }
 
