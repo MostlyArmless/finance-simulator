@@ -67,7 +67,10 @@ export function DataEntryPage( props: DataEntryPageProps )
                         </Grid>
                     )
                 } ) }
-                <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
+
+                { props.incomeModels.length < 4 &&
+                    <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
+                }
             </Grid>
 
         </div>
