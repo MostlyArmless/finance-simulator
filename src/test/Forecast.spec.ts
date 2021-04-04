@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Debt } from "../Debt";
+import { DebtModel } from "../DebtModel";
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from "../forecast";
 import { IncomeModel } from "../IncomeModel";
 import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
@@ -12,9 +12,9 @@ describe( 'Forecast', () =>
     beforeEach( () =>
     {
         debts = [
-            new Debt( "A", 600, 0.14, 10, false ),
-            new Debt( "B", 400, 0.15, 9, false ),
-            new Debt( "C", 500, 0.16, 8, false ),
+            new DebtModel( "A", 600, 0.14, 10, false ),
+            new DebtModel( "B", 400, 0.15, 9, false ),
+            new DebtModel( "C", 500, 0.16, 8, false ),
         ];
 
         incomes = [

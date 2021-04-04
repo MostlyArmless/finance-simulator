@@ -1,6 +1,6 @@
 import { IForecastInput, IncomeStartCondition, IncomeEndCondition, DebtContributionStrategy } from "./interfacesAndEnums";
 import { IncomeModel } from "./IncomeModel";
-import { Debt } from "./Debt";
+import { DebtModel } from "./DebtModel";
 import { addNYearsToDate } from "./helpers";
 
 const initialSavings = 500;
@@ -20,18 +20,18 @@ function CalcOvertimePayFromHours( numOvertimeHoursPerMonth: number ): number
 }
 
 // Since the debts are the same in every scenario
-function GetAllDebts(): Debt[]
+function GetAllDebts(): DebtModel[]
 {
     return [
-        new Debt( "Primary Residence Mortgage", 295542.46, 0.0345, 1441.16, true ),
-        new Debt( "Vacation Home Mortgage", 428061.64, 0.0371, 2481.77, true ),
-        new Debt( "Credit Card A", 7593.70, 0.1999, 300 ),
-        new Debt( "Credit Card B", 7720.48, 0.1299, 300 ),
-        new Debt( "Credit Card C", 45813.79, 0.04, 300 ),
-        new Debt( "Credit Card D", 10593.56, 0.0745, 325 ),
-        new Debt( "Personal Loan", 20342.06, 0.0549, 325 ),
-        new Debt( "Renovation Loan", 31746.1, 0.0495, 200 ),
-        new Debt( "Car Loan", 21599.79, 0.0699, 207.85 )
+        new DebtModel( "Primary Residence Mortgage", 295542.46, 0.0345, 1441.16, true ),
+        new DebtModel( "Vacation Home Mortgage", 428061.64, 0.0371, 2481.77, true ),
+        new DebtModel( "Credit Card A", 7593.70, 0.1999, 300 ),
+        new DebtModel( "Credit Card B", 7720.48, 0.1299, 300 ),
+        new DebtModel( "Credit Card C", 45813.79, 0.04, 300 ),
+        new DebtModel( "Credit Card D", 10593.56, 0.0745, 325 ),
+        new DebtModel( "Personal Loan", 20342.06, 0.0549, 325 ),
+        new DebtModel( "Renovation Loan", 31746.1, 0.0495, 200 ),
+        new DebtModel( "Car Loan", 21599.79, 0.0699, 207.85 )
     ];
 }
 

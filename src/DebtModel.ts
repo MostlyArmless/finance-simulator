@@ -1,6 +1,6 @@
 import { IDebt } from "./interfacesAndEnums";
 
-export class Debt implements IDebt
+export class DebtModel implements IDebt
 {
     name: string;
     interestRate: number;
