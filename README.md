@@ -1,6 +1,6 @@
 # finance-simulator
 
-Can be used to calculate the optimal payment strategy for paying off debts as quickly as possible.
+A tool for visually comparing various debt repayment strategies. Simply enter all your incomes and debts, create a few alternate repayment scenarios, and run the simulator to get a visualization of the various scenarios and evaluate which one will allow you to retire soonest.
 
 ## How the forecast works
 
@@ -48,7 +48,7 @@ graph LR;
 ## Dev notes
 ### How to develop
 Run `npm start` from the console, then `F5` in VS Code to debug which will launch a new browser window.
-> Note: If you `npm install any-new-package` while you're debugging, you'll have to `ctrl-C` to kill the development server, then re-run `npm start` and restart the debugging session.
+> Note: If you `npm install` any new package while you're debugging, you'll have to `ctrl-C` to kill the development server, then re-run `npm start` and restart the debugging session.
 
 ### Running Mocha tests
 I found it's impossible to use the Mocha Test Explorer extension for vscode and React simultaneously. React requires that the tsconfig file have `compilerOptions.module` set to `esnext`, whereas the Moch Test Explorer extension requires that it be set to `commonjs`. If you want to run tests via the explorer, you'll have to manually set it back to `commonjs`. When you next run `npm start`, React will automatically set it back to `esnext`.
@@ -59,7 +59,7 @@ To debug the code, run `npm start` which will launch a browser window with the a
 `npx generate-react-cli component MyComponentName` will generate the css, test, and tsx file for a new component, based off of the custom template stored at `./templates/TemplateName.ts`. The settings for `generate-react-cli` tool are stored in `./generate-react-cli.json`
 
 ### react-plotly.js
-This is a cool package that gives you a `Plot` component, but you CANNOT use `import Plot from 'react-plotly.js';`, that will crash node when you try to `npm start`.
+This is a cool package that gives you a `<Plot/>` component, but you CANNOT use `import Plot from 'react-plotly.js';`, that will crash node when you try to `npm start`.
 Instead, you have to use this boilerplate code in every component file where you want to insert a `Plot` component:
 ```TypeScript
 import createPlotlyComponent from "react-plotly.js/factory";
