@@ -34,7 +34,6 @@ interface IIncomeProps
   setStartCondition( index: number, val: IncomeStartCondition ): void;
   setEndCondition( index: number, val: IncomeEndCondition ): void;
   setEndDate( index: number, val: Date ): void;
-  // setParentState(): void;
 }
 
 const startConditionOptions: { value: IncomeStartCondition, label: string }[] = [
