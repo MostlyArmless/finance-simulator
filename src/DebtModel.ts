@@ -1,6 +1,6 @@
 import { IDebt } from "./interfacesAndEnums";
 
-export interface DebtModelInput
+export interface IDebtModelInput
 {
     name: string;
     initialBalance: number;
@@ -20,7 +20,7 @@ export class DebtModel implements IDebt
     private mostRecentlyCompoundedMonth: number;
     private isMortgage: boolean;
 
-    constructor( input: DebtModelInput )
+    constructor( input: IDebtModelInput )
     {
         this.name = input.name;
         this.interestRate = input.interestRate;
