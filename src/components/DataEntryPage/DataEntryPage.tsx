@@ -41,7 +41,7 @@ export function DataEntryPage( props: DataEntryPageProps )
                 />
             } ) }
 
-            <Button variant="contained" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
+            <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
         </div>
     );
 }
