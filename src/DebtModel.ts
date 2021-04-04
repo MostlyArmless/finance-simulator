@@ -1,5 +1,14 @@
 import { IDebt } from "./interfacesAndEnums";
 
+export interface DebtModelInput
+{
+    name: string;
+    initialBalance: number;
+    interestRate: number;
+    minPayment: number;
+    isMortgage?: boolean;
+}
+
 export class DebtModel implements IDebt
 {
     name: string;
@@ -11,16 +20,16 @@ export class DebtModel implements IDebt
     private mostRecentlyCompoundedMonth: number;
     private isMortgage: boolean;
 
-    constructor( name: string, initialBalance: number, interestRate: number, minPayment: number, isMortgage?: boolean )
+    constructor( input: DebtModelInput )
     {
-        this.name = name;
-        this.interestRate = interestRate;
-        this.minPayment = minPayment;
+        this.name = input.name;
+        this.interestRate = input.interestRate;
+        this.minPayment = input.minPayment;
 
-        this.initialBalance = initialBalance;
-        this.balances = [initialBalance];
+        this.initialBalance = input.initialBalance;
+        this.balances = [input.initialBalance];
         this.mostRecentlyCompoundedMonth = -1;
-        this.isMortgage = isMortgage === undefined ? false : isMortgage;
+        this.isMortgage = input.isMortgage === undefined ? false : input.isMortgage;
     }
 
     Print(): void

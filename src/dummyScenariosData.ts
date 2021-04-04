@@ -23,15 +23,62 @@ function CalcOvertimePayFromHours( numOvertimeHoursPerMonth: number ): number
 function GetAllDebts(): DebtModel[]
 {
     return [
-        new DebtModel( "Primary Residence Mortgage", 295542.46, 0.0345, 1441.16, true ),
-        new DebtModel( "Vacation Home Mortgage", 428061.64, 0.0371, 2481.77, true ),
-        new DebtModel( "Credit Card A", 7593.70, 0.1999, 300 ),
-        new DebtModel( "Credit Card B", 7720.48, 0.1299, 300 ),
-        new DebtModel( "Credit Card C", 45813.79, 0.04, 300 ),
-        new DebtModel( "Credit Card D", 10593.56, 0.0745, 325 ),
-        new DebtModel( "Personal Loan", 20342.06, 0.0549, 325 ),
-        new DebtModel( "Renovation Loan", 31746.1, 0.0495, 200 ),
-        new DebtModel( "Car Loan", 21599.79, 0.0699, 207.85 )
+        new DebtModel( {
+            name: "Primary Residence Mortgage",
+            initialBalance: 295542.46,
+            interestRate: 0.0345,
+            minPayment: 1441.16,
+            isMortgage: true
+        } ),
+        new DebtModel( {
+            name: "Vacation Home Mortgage",
+            initialBalance: 428061.64,
+            interestRate: 0.0371,
+            minPayment: 2481.77,
+            isMortgage: true
+        } ),
+        new DebtModel( {
+            name: "Credit Card A",
+            initialBalance: 7593.70,
+            interestRate: 0.1999,
+            minPayment: 300
+        } ),
+        new DebtModel( {
+            name: "Credit Card B",
+            initialBalance: 7720.48,
+            interestRate: 0.1299,
+            minPayment: 300
+        } ),
+        new DebtModel( {
+            name: "Credit Card C",
+            initialBalance: 45813.79,
+            interestRate: 0.04,
+            minPayment: 300
+        } ),
+        new DebtModel( {
+            name: "Credit Card D",
+            initialBalance: 10593.56,
+            interestRate: 0.0745,
+            minPayment: 325
+        } ),
+        new DebtModel( {
+            name: "Personal Loan",
+            initialBalance: 20342.06,
+            interestRate: 0.0549,
+            minPayment: 325
+        } ),
+        new DebtModel( {
+            name: "Renovation Loan",
+            initialBalance: 31746.1,
+            interestRate: 0.0495,
+            minPayment: 200
+        } ),
+        new DebtModel( {
+            name: "Car Loan",
+            initialBalance: 21599.79,
+            interestRate: 0.0699,
+            minPayment: 207.85
+        } )
     ];
 }
 
