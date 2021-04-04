@@ -3,6 +3,21 @@ import { IncomeModel } from '../../IncomeModel';
 import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import { Income } from '../Income/Income';
 import styles from './DataEntryPage.module.css';
+import Grid from '@material-ui/core/Grid';
+import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles( ( theme: Theme ) =>
+    createStyles( {
+        root: {
+            flexGrow: 1,
+        },
+        paper: {
+            height: 350,
+            width: 240,
+        },
+    } ),
+);
 
 interface DataEntryPageProps
 {
@@ -18,15 +33,20 @@ interface DataEntryPageProps
 
 export function DataEntryPage( props: DataEntryPageProps )
 {
+    const classes = useStyles();
+
     return (
         <div className={ styles.DataEntryPage } >
             <h1>Data Entry</h1>
             <Button variant="contained" color="primary" onClick={ props.onClickDone }>View Results</Button>
-
+            <Grid container className={ classes.root } justify="center" spacing={ 2 } direction="row">
             { props.incomeModels.map( ( incomeModel, index ) =>
             {
-                return <Income
-                    key={ index }
+                    return (
+                        <Grid key={ `grid-${index}` } item>
+                            <Paper key={ `paper-${index}` } className={ classes.paper }>
+                                <Income
+                                    key={ `{income-${index}` }
                     index={ index }
                     name={ incomeModel.name }
                     monthlyValue={ incomeModel.monthlyValue }
@@ -39,9 +59,13 @@ export function DataEntryPage( props: DataEntryPageProps )
                     setEndCondition={ props.setEndCondition }
                     setEndDate={ props.setIncomeEndDate }
                 />
+                            </Paper>
+                        </Grid>
+                    )
             } ) }
-
             <Button variant="outlined" color="secondary" onClick={ props.addNewIncome }>Add Income</Button>
+            </Grid>
+
         </div>
     );
 }
