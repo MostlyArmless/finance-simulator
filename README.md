@@ -46,7 +46,11 @@ graph LR;
 ```
 
 ## Dev notes
+### How to develop
+Run `npm start` from the console, then `F5` in VS Code to debug which will launch a new browser window.
+> Note: If you `npm install any-new-package` while you're debugging, you'll have to `ctrl-C` to kill the development server, then re-run `npm start` and restart the debugging session.
 
+### Running Mocha tests
 I found it's impossible to use the Mocha Test Explorer extension for vscode and React simultaneously. React requires that the tsconfig file have `compilerOptions.module` set to `esnext`, whereas the Moch Test Explorer extension requires that it be set to `commonjs`. If you want to run tests via the explorer, you'll have to manually set it back to `commonjs`. When you next run `npm start`, React will automatically set it back to `esnext`.
 
 To debug the code, run `npm start` which will launch a browser window with the app in it, which you can immediately close. Then hit F5 in VS Code to start the debugger which will open another browser window which will be the one you actually use during debugging.
