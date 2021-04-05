@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
-import { Debt } from "../Debt";
+import { DebtModel } from "../DebtModel";
 import { IDebt } from "../interfacesAndEnums";
 
 
@@ -10,7 +10,12 @@ describe( 'Debt', () =>
 
     beforeEach( () =>
     {
-        testSubject = new Debt( 'Credit Card', 100, 0.05, 20 );
+        testSubject = new DebtModel( {
+            name: 'Credit Card',
+            initialBalance: 100,
+            interestRate: 0.05,
+            minPayment: 20
+        } );
     } );
 
     it( 'Initializes correctly', () =>
@@ -45,8 +50,20 @@ describe( 'Debt', () =>
 
     it( 'Making a payment larger than the remaining balance reduces balance to zero and returns the actual payment amount', () =>
     {
-        const creditCardDebt = new Debt( 'Almost paid-off card', 20, 0.05, 50, false );
-        const mortgage = new Debt( 'Almost paid-off mortgage', 20, 0.05, 50, true );
+        const creditCardDebt = new DebtModel( {
+            name: 'Almost paid-off card',
+            initialBalance: 20,
+            interestRate: 0.05,
+            minPayment: 50,
+            isMortgage: false
+        } );
+        const mortgage = new DebtModel( {
+            name: 'Almost paid-off mortgage',
+            initialBalance: 20,
+            interestRate: 0.05,
+            minPayment: 50,
+            isMortgage: true
+        } );
 
         let actualPayment = creditCardDebt.MakeMinPayment( 0 )
         expect( actualPayment ).to.equal( 20 );
@@ -113,7 +130,13 @@ describe( 'Debt', () =>
 
     it( 'Calling ApplyInterest on a mortgage just copies the current balance to next month', () =>
     {
-        testSubject = new Debt( 'Mortgage', 250000, 0.05, 2000, true );
+        testSubject = new DebtModel( {
+            name: 'Mortgage',
+            initialBalance: 250000,
+            interestRate: 0.05,
+            minPayment: 2000,
+            isMortgage: true
+        } );
         expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 250000 );
 
         testSubject.MakeMinPayment( 0 );

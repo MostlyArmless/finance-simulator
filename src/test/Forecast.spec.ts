@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
-import { Debt } from "../Debt";
+import { DebtModel } from "../DebtModel";
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from "../forecast";
 import { IncomeModel } from "../IncomeModel";
 import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
@@ -12,14 +13,46 @@ describe( 'Forecast', () =>
     beforeEach( () =>
     {
         debts = [
-            new Debt( "A", 600, 0.14, 10, false ),
-            new Debt( "B", 400, 0.15, 9, false ),
-            new Debt( "C", 500, 0.16, 8, false ),
+            new DebtModel( {
+                name: "A",
+                initialBalance: 600,
+                interestRate: 0.14,
+                minPayment: 10,
+                isMortgage: false
+            } ),
+            new DebtModel( {
+                name: "B",
+                initialBalance: 400,
+                interestRate: 0.15,
+                minPayment: 9,
+                isMortgage: false
+            } ),
+            new DebtModel( {
+                name: "C",
+                initialBalance: 500,
+                interestRate: 0.16,
+                minPayment: 8,
+                isMortgage: false
+            } ),
         ];
 
         incomes = [
-            new IncomeModel( "Job", 100, IncomeStartCondition.Immediate, IncomeEndCondition.Date, new Date( 2020, 1, 1 ), new Date( 2025, 1, 1 ) ),
-            new IncomeModel( "Pension", 100, IncomeStartCondition.Retirement, IncomeEndCondition.Date, new Date( 2025, 1, 1 ), new Date( 2030, 1, 1 ) )
+            new IncomeModel( {
+                name: "Job",
+                monthlyValue: 100,
+                startCondition: IncomeStartCondition.Immediate,
+                endCondition: IncomeEndCondition.Date,
+                simulationStartDate: new Date( 2020, 1, 1 ),
+                incomeEndDate: new Date( 2025, 1, 1 )
+            } ),
+            new IncomeModel( {
+                name: "Pension",
+                monthlyValue: 100,
+                startCondition: IncomeStartCondition.Retirement,
+                endCondition: IncomeEndCondition.Date,
+                simulationStartDate: new Date( 2025, 1, 1 ),
+                incomeEndDate: new Date( 2030, 1, 1 )
+            } )
         ];
     } );
 
