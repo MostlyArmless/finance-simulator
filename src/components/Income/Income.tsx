@@ -8,14 +8,15 @@ import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
+import { nameCharacterLimit } from '../../constants';
+import { validateName } from '../../tools';
 
-const incomeNameCharacterLimit = 25;
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     root: {
       '& .MuiTextField-root': {
         margin: theme.spacing( 1 ),
-        width: `${incomeNameCharacterLimit}ch`,
+        width: `${nameCharacterLimit}ch`,
       },
     },
   } ),
@@ -68,15 +69,6 @@ export function Income( props: IIncomeProps )
 {
   const classes = useStyles();
 
-  const validateName = () =>
-  {
-    const isValid = props.name.length <= incomeNameCharacterLimit;
-    return {
-      isValid: isValid,
-      errorMessage: isValid ? "" : "Character limit exceeded"
-    }
-  }
-
   const updateStartCondition = ( event: React.ChangeEvent<HTMLInputElement> ) =>
   {
     const selectedCondition = startConditionOptions.filter( elem => String( elem.value ) === event.target.value )[0];
@@ -96,7 +88,7 @@ export function Income( props: IIncomeProps )
     props.setEndDate( props.index, date === null ? new Date() : date );
   }
 
-  const nameValidationResult = validateName();
+  const nameValidationResult = validateName( props.name );
 
   return (
     <Grid id={ `income-${props.index}` } className={ styles.Income } container direction="row">

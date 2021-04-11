@@ -91,3 +91,9 @@ export interface IMonthsToRetirement
     scenarioName: string;
     monthsRequiredToRetire: number;
 }
+
+export interface IValidationResult
+{
+    isValid: boolean;
+    errorMessage: string;
+}

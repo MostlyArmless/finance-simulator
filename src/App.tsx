@@ -8,6 +8,7 @@ import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
 import { IncomeModel, NullIncomeModelInput } from './IncomeModel';
 import Container from '@material-ui/core/Container';
+import { DebtModel, NullDebtModelInput } from './DebtModel';
 
 enum eAppPage
 {
@@ -20,8 +21,28 @@ function App()
   const [allScenarios, setAllScenarios] = useState<IScenarioIoPair[]>( [] );
   const [currentPage, setCurrentPage] = useState<eAppPage>( eAppPage.DataEntry );
   const [incomes, setIncomes] = useState<IncomeModel[]>( [new IncomeModel( new NullIncomeModelInput() )] );
+  const [debts, setDebts] = useState<DebtModel[]>( [new DebtModel( new NullDebtModelInput() )] );
 
-  const setName = ( index: number, val: string ) =>
+  // TODO - Trying to figure out how to write a SINGLE updater function which can take the income prop key as an arg, but typescript makes this very difficult. come back to this later.
+  // type IncomeModelKeyTypes = keyof IncomeModel;
+  // type IncomeModelValueTypes = IncomeModel[IncomeModelKeyTypes];
+  // const setIncomeState = ( index: number, key: IncomeModelKeyTypes, val: IncomeModelValueTypes ): void =>
+  // {
+  //   setIncomes( prev =>
+  //   {
+  //     const newState = [...prev];
+
+  //     // const x = newState[index];
+  //     // let y = x[key as keyof IncomeModel];
+  //     // y = val as unknown as Pick<IncomeModel, keyof IncomeModel>;
+  //     // console.log( y );
+
+  //     newState[index][key] = val;
+  //     return newState;
+  //   } )
+  // }
+
+  const setIncomeName = ( index: number, val: string ) =>
   {
     setIncomes( ( prev ) =>
     {
@@ -66,6 +87,10 @@ function App()
       return newState;
     } );
   }
+  const removeIncome = ( indexToRemove: number ): void =>
+  {
+    setIncomes( prev => prev.filter( ( income, index ) => index !== indexToRemove ) );
+  }
 
   const runAndPlot = () =>
   {
@@ -74,10 +99,56 @@ function App()
     setAllScenarios( result );
   }
 
-  const removeIncome = ( indexToRemove: number ): void =>
+  const removeDebt = ( indexToRemove: number ): void =>
   {
-    setIncomes( prev => prev.filter( ( income, index ) => index !== indexToRemove ) );
+    setDebts( prev => prev.filter( ( debt, index ) => index !== indexToRemove ) );
   }
+  const setDebtName = ( index: number, val: string ) =>
+  {
+    setDebts( prev =>
+    {
+      const next = [...prev];
+      next[index].name = val;
+      return next;
+    } );
+  }
+  const setDebtInitialBalance = ( index: number, val: number ) =>
+  {
+    setDebts( prev =>
+    {
+      const next = [...prev];
+      next[index].initialBalance = val;
+      return next;
+    } );
+  }
+  const setDebtInterestRate = ( index: number, val: number ) =>
+  {
+    setDebts( prev =>
+    {
+      const next = [...prev];
+      next[index].interestRate = val;
+      return next;
+    } );
+  }
+  const setDebtMinPayment = ( index: number, val: number ) =>
+  {
+    setDebts( prev =>
+    {
+      const next = [...prev];
+      next[index].minPayment = val;
+      return next;
+    } );
+  }
+  const setDebtIsMortgage = ( index: number, val: boolean ) =>
+  {
+    setDebts( prev =>
+    {
+      const next = [...prev];
+      next[index].isMortgage = val;
+      return next;
+    } );
+  }
+
 
   let page = null;
   switch ( currentPage )
@@ -88,11 +159,19 @@ function App()
         incomeModels={ incomes }
         addNewIncome={ () => { setIncomes( prev => [...prev, new IncomeModel( new NullIncomeModelInput() )] ) } }
         removeIncome={ removeIncome }
-        setName={ setName }
-        setMonthlyValue={ setMonthlyValue }
-        setStartCondition={ setStartCondition }
-        setEndCondition={ setEndCondition }
-        setIncomeEndDate={ setIncomeEndDate }
+        setIncomeName={ setIncomeName }
+        setIncomeMonthlyValue={ setMonthlyValue }
+        setIncomeStartCondition={ setStartCondition }
+        setIncomeEndCondition={ setEndCondition }
+        setIncomeIncomeEndDate={ setIncomeEndDate }
+        debtModels={ debts }
+        addNewDebt={ () => { setDebts( prev => [...prev, new DebtModel( new NullDebtModelInput() )] ) } }
+        removeDebt={ removeDebt }
+        setDebtName={ setDebtName }
+        setDebtInitialBalance={ setDebtInitialBalance }
+        setDebtInterestRate={ setDebtInterestRate }
+        setDebtMinPayment={ setDebtMinPayment }
+        setDebtIsMortgage={ setDebtIsMortgage }
       />;
       break;
     case eAppPage.ResultsView:
