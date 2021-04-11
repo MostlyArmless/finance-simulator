@@ -33,10 +33,10 @@ export class DebtModel implements IDebt
     interestRate: number;
     minPayment: number;
     initialBalance: number;
+    isMortgage: boolean;
 
     private balances: number[];
     private mostRecentlyCompoundedMonth: number;
-    private isMortgage: boolean;
 
     constructor( input: IDebtModelInput )
     {
@@ -120,5 +120,10 @@ export class DebtModel implements IDebt
         let balancesCopy = this.balances.slice();
         balancesCopy.unshift( this.initialBalance );
         return balancesCopy;
+    }
+
+    getIsMortgage(): boolean
+    {
+        return this.isMortgage;
     }
 }

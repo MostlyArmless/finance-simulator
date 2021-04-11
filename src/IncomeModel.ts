@@ -11,6 +11,14 @@ export interface IncomeModelInput
     incomeEndDate?: Date;
 }
 
+// TODO this is part of my attempt to convince TypeScript to let me create a single updater function. Not used right now.
+export type PropTypes<Type> = {
+    [Property in keyof Type]: Type[Property]
+};
+
+export type IncomeModelKeyTypes = keyof IncomeModel;
+export type IncomeModelValTypes = IncomeModel[keyof IncomeModel];
+
 export class NullIncomeModelInput implements IncomeModelInput
 {
     name: string;
@@ -39,7 +47,7 @@ export class IncomeModel implements IIncome
     endCondition: IncomeEndCondition;
     private incomeStartDate: Date;
     endDate: Date;
-    private simulationStartDate: Date; // This is when TIME starts (iMonth === 0), not when the income starts
+    simulationStartDate: Date; // This is when TIME starts (iMonth === 0), not when the income starts
 
     constructor( input: IncomeModelInput )
     {
