@@ -1,3 +1,5 @@
+import { addNMonthsToDate } from "./helpers";
+
 export interface IDebt
 {
     name: string;
@@ -59,6 +61,37 @@ export interface IForecastInput
     debtContributionStrategy: DebtContributionStrategy;
 }
 
+export class NullForecastInput implements IForecastInput
+{
+    forecastName: string;
+    initialSavings: number;
+    startDate: Date;
+    numMonthsToProject: number;
+    overtimeHoursPerMonth: number;
+    incomes: IIncome[];
+    essentialNonDebtSpendingPreRetirement: number;
+    debts: IDebt[];
+    desiredMonthlyBudgetPostRetirement: number;
+    deathDate: Date;
+    debtContributionStrategy: DebtContributionStrategy;
+
+    constructor()
+    {
+        const now = new Date();
+        this.forecastName = '';
+        this.initialSavings = 0;
+        this.startDate = now;
+        this.numMonthsToProject = 0;
+        this.overtimeHoursPerMonth = 0;
+        this.incomes = [];
+        this.essentialNonDebtSpendingPreRetirement = 0;
+        this.debts = [];
+        this.desiredMonthlyBudgetPostRetirement = 0;
+        this.deathDate = addNMonthsToDate( now, 60 * 12 );
+        this.debtContributionStrategy = DebtContributionStrategy.HighestInterestFirst
+    }
+}
+
 export interface IForecastResult
 {
     numMonthsToReachRetirementGoal: number;
@@ -80,7 +113,7 @@ export interface IScenarioSummary
     retirementDate: string;
 }
 
-export interface IScenarioIoPair
+export interface IScenarioDescription
 {
     forecastResult: IForecastResult;
     scenarioSummary: IScenarioSummary;
@@ -96,4 +129,10 @@ export interface IValidationResult
 {
     isValid: boolean;
     errorMessage: string;
+}
+
+export interface ForecastInputOutputPair
+{
+    input: IForecastInput;
+    output: IForecastResult;
 }

@@ -1,6 +1,6 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
-import { IScenarioIoPair } from '../../interfacesAndEnums';
+import { IScenarioDescription } from '../../interfacesAndEnums';
 import { ScenarioView } from '../ScenarioView/ScenarioView';
 import { SimulationAllResultsComparison } from '../SimulationAllResultsComparison/SimulationAllResultsComparison';
 import styles from './ResultsPage.module.css';
@@ -9,12 +9,12 @@ interface ResultsPageProps
 {
     runAndPlot(): void;
     onClickReturnToDataEntry(): void;
-    scenarios: IScenarioIoPair[];
+    scenarios: IScenarioDescription[];
 }
 
 interface ResultsPageState
 {
-    allScenarios: IScenarioIoPair[];
+    allScenarios: IScenarioDescription[];
 }
 
 const initialState: ResultsPageState = {

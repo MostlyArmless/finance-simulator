@@ -92,9 +92,9 @@ export function Income( props: IIncomeProps )
 
   return (
     <Grid id={ `income-${props.index}` } className={ styles.Income } container direction="row">
-      <h2>Income</h2>
+      <h2>Income #{ props.index + 1 }</h2>
 
-      {props.shouldDisplayDeleteButton &&
+      { props.shouldDisplayDeleteButton &&
         <IconButton color="secondary" onClick={ () => { props.removeIncome( props.index ) } }>
           <DeleteIcon />
         </IconButton>

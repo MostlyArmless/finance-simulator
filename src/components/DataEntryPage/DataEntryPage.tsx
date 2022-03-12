@@ -1,6 +1,6 @@
-import { Button } from '@material-ui/core';
+import { Button, TextField } from '@material-ui/core';
 import { IncomeModel } from '../../IncomeModel';
-import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
+import { IForecastInput, IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import { Income } from '../Income/Income';
 import styles from './DataEntryPage.module.css';
 import Grid from '@material-ui/core/Grid';
@@ -8,12 +8,17 @@ import { makeStyles, createStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
 import { DebtModel } from '../../DebtModel';
 import { Debt } from '../Debt/Debt';
+import { validateName } from '../../tools';
 
 const cardWidth = 240;
 const useStyles = makeStyles( ( theme: Theme ) =>
     createStyles( {
         root: {
             flexGrow: 1,
+        },
+        scenarioPaper: {
+            height: 360,
+            width: cardWidth,
         },
         incomePaper: {
             height: 360,
@@ -28,7 +33,9 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 
 interface DataEntryPageProps
 {
-    onClickDone(): void;
+    // Scenario Description
+    scenarioInfo: IForecastInput;
+    setScenarioInfo( propName: keyof IForecastInput, newVal: string | number | Date ): void;
 
     // Income
     incomeModels: IncomeModel[];
@@ -57,10 +64,40 @@ export function DataEntryPage( props: DataEntryPageProps )
 {
     const classes = useStyles();
 
+    const nameValidationResult = validateName( props.scenarioInfo.forecastName );
+
     return (
         <div className={ styles.DataEntryPage } >
             <h1>Data Entry</h1>
-            <Button variant="contained" color="primary" onClick={ props.onClickDone }>View Results</Button>
+            <Paper key={ `paper-scenario` } className={ classes.scenarioPaper }>
+                <h2>Scenario Info</h2>
+                <form noValidate autoComplete="off">
+                    <TextField
+                        required
+                        id="scenario-name"
+                        label="Scenario Name"
+                        variant="outlined"
+                        helperText={ nameValidationResult.errorMessage }
+                        value={ props.scenarioInfo.forecastName }
+                        onChange={ event => props.setScenarioInfo( "forecastName", event.target.value ) }
+                        error={ !nameValidationResult.isValid }
+                    />
+                    <br />
+
+                    <TextField
+                        id="initial-savings"
+                        label="Initial Savings"
+                        type="number"
+                        InputLabelProps={ {
+                            shrink: true,
+                        } }
+                        variant="outlined"
+                        value={ props.scenarioInfo.initialSavings }
+                        onChange={ ( event ) => props.setScenarioInfo( "initialSavings", parseFloat( event.target.value ) ) }
+                    />
+                    <br />
+                </form>
+            </Paper>
 
             <Grid key="incomes" container className={ classes.root } justify="center" spacing={ 2 } direction="row">
                 { props.incomeModels.map( ( incomeModel, index ) =>

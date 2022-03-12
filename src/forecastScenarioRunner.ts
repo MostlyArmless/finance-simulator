@@ -1,4 +1,4 @@
-import { IForecastResult, IScenarioSummary, IScenarioIoPair, IForecastInput } from "./interfacesAndEnums";
+import { IForecastResult, IScenarioSummary, IScenarioDescription, IForecastInput } from "./interfacesAndEnums";
 import { throwIfInvalidScenarioNames } from "./scenarioValidator";
 import { forecast } from "./forecast";
 import { findLastDefinedValueInArray, addNMonthsToDate } from "./helpers";
@@ -12,9 +12,9 @@ export class ForecastScenarioRunner
         this.forecastScenarios = forecastScenarios;
     }
 
-    runForecasts(): IScenarioIoPair[]
+    runForecasts(): IScenarioDescription[]
     {
-        let output: IScenarioIoPair[] = [];
+        let output: IScenarioDescription[] = [];
 
         throwIfInvalidScenarioNames( this.forecastScenarios );
 

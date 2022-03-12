@@ -48,7 +48,7 @@ export function Debt( props: IDebtProps )
 
     return (
         <Grid id={ `debt-${props.index}` } className={ styles.Debt } container direction="row">
-            <h2>Debt</h2>
+            <h2>Debt #{ props.index + 1 }</h2>
 
             { props.shouldDisplayDeleteButton &&
                 <IconButton color="secondary" onClick={ () => { props.removeDebt( props.index ) } }>

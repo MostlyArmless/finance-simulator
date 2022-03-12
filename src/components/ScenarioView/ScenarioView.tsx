@@ -1,4 +1,4 @@
-import { IScenarioIoPair } from '../../interfacesAndEnums';
+import { IScenarioDescription } from '../../interfacesAndEnums';
 import { ScenarioTable } from '../ScenarioTable/ScenarioTable';
 import styles from './ScenarioView.module.css';
 import { PlotData } from 'plotly.js';
@@ -10,7 +10,7 @@ const Plot = createPlotlyComponent( Plotly );
 
 interface ScenarioViewProps
 {
-    scenarios: IScenarioIoPair[];
+    scenarios: IScenarioDescription[];
 }
 
 interface ScenarioViewState
@@ -22,7 +22,7 @@ const initialState: ScenarioViewState = {
     selectedScenarioIndex: 0
 }
 
-function getTraces( scenario: IScenarioIoPair ): Partial<PlotData>[]
+function getTraces( scenario: IScenarioDescription ): Partial<PlotData>[]
 {
     let traces: Partial<PlotData>[] = [];
     scenario.forecastResult.debts.forEach( debt =>

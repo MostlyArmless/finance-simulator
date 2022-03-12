@@ -13,7 +13,7 @@ export function TemplateName()
     useEffect( () =>
     {
         console.log( `This side effect will happen every time the count variable changes` );
-    }, [count] )
+    }, [count] );
 
     const increment = () =>
     {

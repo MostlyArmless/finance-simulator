@@ -1,5 +1,5 @@
 import React from 'react';
-import { IScenarioIoPair } from '../../interfacesAndEnums';
+import { IScenarioDescription } from '../../interfacesAndEnums';
 import styles from './SimulationAllResultsComparison.module.css';
 import createPlotlyComponent from "react-plotly.js/factory";
 const Plotly = window.Plotly;
@@ -7,7 +7,7 @@ const Plot = createPlotlyComponent( Plotly );
 
 interface SimulationAllResultsComparisonProps
 {
-    scenarios: IScenarioIoPair[];
+    scenarios: IScenarioDescription[];
 }
 
 interface SimulationAllResultsComparisonState
