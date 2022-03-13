@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-unused-expressions */
 import { expect } from "chai";
 import { DebtModel } from "../DebtModel";
-import { IDebt } from "../interfacesAndEnums";
+import { IDebtForCalculator } from "../interfacesAndEnums";
 
 
 describe( 'Debt', () =>
 {
-    let testSubject: IDebt;
+    let testSubject: IDebtForCalculator;
 
     beforeEach( () =>
     {

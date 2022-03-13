@@ -1,21 +1,63 @@
-import { IForecastResult, IncomeEndCondition, IncomeStartCondition, IForecastInput, IIncome, IDebt, DebtContributionStrategy } from "./interfacesAndEnums";
+import {
+    IForecastResult,
+    IncomeEndCondition,
+    IncomeStartCondition,
+    IForecastInput,
+    IDebtForCalculator,
+    DebtContributionStrategy,
+    IIncome,
+} from "./interfacesAndEnums";
 import { addNMonthsToDate } from "./helpers";
+import { DebtModel } from "./DebtModel";
+import { IncomeModel } from "./IncomeModel";
 
 function justSatisfiedRetirementConditions( isRetired: boolean, allDebtsArePaid: boolean, savingsOverTime: number[], iMonth: number, requiredSavingsToRetire: number )
 {
     return !isRetired && allDebtsArePaid && savingsOverTime[iMonth] >= requiredSavingsToRetire;
 }
 
+const nullForecastResult: IForecastResult = {
+    numMonthsToReachRetirementGoal: Number.POSITIVE_INFINITY,
+    savingsOverTime: [],
+    incomesOverTime: [],
+    debts: [],
+    totalDebtVsTime: [],
+    requiredSavingsToRetire: Number.POSITIVE_INFINITY,
+};
+
 export function forecast( input: IForecastInput ): IForecastResult
 {
+    if (input.incomes.length === 0 && input.debts.length === 0) {
+        return nullForecastResult;
+    }
+
     let isRetired: boolean = false; // This flag should be set to true as soon as savings hits the 
     let remainingTotalDebt: number[] = Array( input.numMonthsToProject );
-    let savingsOverTime = [];
+    let savingsOverTime: number[] = [];
+    let debts: DebtModel[] = input.debts.map(debt => {
+        return new DebtModel({
+            name: debt.name,
+            initialBalance: debt.initialBalance,
+            interestRate: debt.interestRate,
+            minPayment: debt.minPayment,
+            isMortgage: debt.isMortgage,
+        });
+    });
+    let incomes: IncomeModel[] = input.incomes.map(income => {
+        return new IncomeModel({
+            name: income.name,
+            simulationStartDate: income.startDate || input.startDate,
+            incomeEndDate: income.endDate,
+            endCondition: income.endCondition,
+            monthlyValue: income.monthlyValue,
+            startCondition: income.startCondition
+        })
+    });
     savingsOverTime.push( input.initialSavings === undefined ? 0 : input.initialSavings );
     let iMonth = 0;
     let iRetirementMonth = -1; // Initialize to nonsense value
 
-    const requiredSavingsToRetire = getRequiredSavingsToRetire( input.incomes, input.desiredMonthlyBudgetPostRetirement );
+    const requiredSavingsToRetire = getRequiredSavingsToRetire( incomes, input.desiredMonthlyBudgetPostRetirement );
 
     for ( iMonth = 0; iMonth < input.numMonthsToProject; iMonth++ )
     {
@@ -24,45 +66,45 @@ export function forecast( input: IForecastInput ): IForecastResult
         if ( currentDate >= input.deathDate )
             break; // Stop forecasting, you're dead.
 
-        const allDebtsArePaid: boolean = AllDebtsArePaid( input.debts );
+        const allDebtsArePaid: boolean = AllDebtsArePaid( debts );
 
         if ( justSatisfiedRetirementConditions( isRetired, allDebtsArePaid, savingsOverTime, iMonth, requiredSavingsToRetire ) )
         {
             isRetired = true;
             iRetirementMonth = iMonth;
-            input.incomes.forEach( ( income ) =>
+            incomes.forEach( ( income ) =>
             {
-                if ( income.GetStartCondition() === IncomeStartCondition.Retirement )
-                    income.SetIncomeStartDate( currentDate );
+                if ( income.startCondition === IncomeStartCondition.Retirement )
+                    income.SetIncomeStartDate(currentDate);
 
-                if ( income.GetEndCondition() === IncomeEndCondition.Retirement )
-                    income.SetEndDate( currentDate );
+                if ( income.endCondition === IncomeEndCondition.Retirement )
+                    income.endDate = currentDate;
             } );
         }
 
-        const totalMonthlyIncome = calculateTotalMonthlyIncome( input.incomes, iMonth );
+        const totalMonthlyIncome = calculateTotalMonthlyIncome( incomes, iMonth );
 
         let monthlySpendingPool = totalMonthlyIncome - input.essentialNonDebtSpendingPreRetirement;
 
         if ( !allDebtsArePaid )
         {
-            let { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, input.debts, iMonth, input.debtContributionStrategy );
+            let { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, debts, iMonth, input.debtContributionStrategy );
             updatedDebts = ApplyInterestToDebts( updatedDebts, iMonth ); // Determines the next month's balance of each debt
             monthlySpendingPool = updatedMonthlySpendingPool;
-            input.debts = updatedDebts;
+            debts = updatedDebts;
         }
 
         // Any leftover money once debts are paid goes into savings
         savingsOverTime = contributeToSavings( savingsOverTime, iMonth, monthlySpendingPool );
 
-        remainingTotalDebt[iMonth + 1] = input.debts.map( debt => debt.GetCurrentBalance() ).reduce( ( a, b ) => a + b );
+        remainingTotalDebt[iMonth + 1] = debts.map( debt => debt.GetCurrentBalance() ).reduce( ( a, b ) => a + b );
     }
 
     const result: IForecastResult = {
         numMonthsToReachRetirementGoal: iRetirementMonth === -1 ? Number.POSITIVE_INFINITY : iRetirementMonth,
         savingsOverTime: savingsOverTime,
-        incomesOverTime: input.incomes,
-        debts: input.debts,
+        incomesOverTime: incomes,
+        debts: debts,
         totalDebtVsTime: remainingTotalDebt,
         requiredSavingsToRetire: requiredSavingsToRetire
     };
@@ -91,9 +133,9 @@ export function getContributionOfPensionsToPostRetirementSpending( incomes: IInc
     let contributionFromPensions = 0;
     incomes.forEach( income =>
     {
-        if ( income.GetStartCondition() === IncomeStartCondition.Retirement )
+        if ( income.startCondition === IncomeStartCondition.Retirement )
         {
-            contributionFromPensions += income.GetFixedAmount();
+            contributionFromPensions += income.monthlyValue;
         }
     } );
 
@@ -106,17 +148,28 @@ export function calculateTotalMonthlyIncome( incomes: IIncome[], iMonth: number 
 
     incomes.forEach( income =>
     {
-        totalMonthlyIncome += income.GetValueAtMonth( iMonth );
+        totalMonthlyIncome += GetValueAtMonth( income, iMonth );
     } );
 
     return totalMonthlyIncome;
 }
 
-export function contributeToDebts( monthlySpendingPool: number, debts: IDebt[], iMonth: number, strategy: DebtContributionStrategy ): { updatedMonthlySpendingPool: number, updatedDebts: IDebt[] }
+function GetValueAtMonth( income: IIncome, iMonth: number ): number
+{
+    const date = addNMonthsToDate( income.startDate as Date, iMonth );
+    if ( (income.startDate as Date) <= date
+        && ( income.endDate === null || income.endDate === undefined || date <= income.endDate ) )
+    {
+        return income.monthlyValue;
+    }
+    return 0;
+}
+
+export function contributeToDebts( monthlySpendingPool: number, debts: DebtModel[], iMonth: number, strategy: DebtContributionStrategy ): { updatedMonthlySpendingPool: number, updatedDebts: DebtModel[] }
 {
     monthlySpendingPool = makeMinimumPaymentOnAllDebts( debts, iMonth, monthlySpendingPool );
 
-    let priorityDebt: IDebt | null;
+    let priorityDebt: IDebtForCalculator | null;
     let allDebtsArePaid: boolean = false;
     while ( monthlySpendingPool > 0 )
     {
@@ -153,7 +206,7 @@ export function contributeToDebts( monthlySpendingPool: number, debts: IDebt[], 
     return { updatedMonthlySpendingPool: monthlySpendingPool, updatedDebts: debts };
 }
 
-export function ApplyInterestToDebts( debts: IDebt[], iMonth: number ): IDebt[]
+export function ApplyInterestToDebts( debts: DebtModel[], iMonth: number ): DebtModel[]
 {
     debts.forEach( debt =>
     {
@@ -171,7 +224,7 @@ export function contributeToSavings( savings: number[], iMonth: number, amountTo
     return savings;
 }
 
-export function makeMinimumPaymentOnAllDebts( debts: IDebt[], iMonth: number, monthlySpendingPool: number )
+export function makeMinimumPaymentOnAllDebts( debts: DebtModel[], iMonth: number, monthlySpendingPool: number )
 {
     debts.forEach( debt =>
     {
@@ -185,9 +238,9 @@ export function makeMinimumPaymentOnAllDebts( debts: IDebt[], iMonth: number, mo
     return monthlySpendingPool;
 }
 
-export function GetUnpaidDebtWithLowestBalance( debts: IDebt[] ): IDebt | null
+export function GetUnpaidDebtWithLowestBalance( debts: IDebtForCalculator[] ): IDebtForCalculator | null
 {
-    let lowestBalanceDebt: IDebt = debts[0];
+    let lowestBalanceDebt: IDebtForCalculator = debts[0];
     let minBalanceSoFar = Number.MAX_VALUE;
 
     debts.forEach( debt =>
@@ -205,9 +258,9 @@ export function GetUnpaidDebtWithLowestBalance( debts: IDebt[] ): IDebt | null
     return ( lowestBalanceDebt.GetCurrentBalance() === 0 ) ? null : lowestBalanceDebt;
 }
 
-export function GetUnpaidDebtWithHighestInterest( debts: IDebt[] ): IDebt | null
+export function GetUnpaidDebtWithHighestInterest( debts: IDebtForCalculator[] ): IDebtForCalculator | null
 {
-    let highestInterestUnpaidDebt: IDebt = debts[0];
+    let highestInterestUnpaidDebt: IDebtForCalculator = debts[0];
 
     debts.forEach( debt =>
     {
@@ -225,7 +278,7 @@ export function GetUnpaidDebtWithHighestInterest( debts: IDebt[] ): IDebt | null
     }
 }
 
-export function AllDebtsArePaid( debts: IDebt[] ): boolean
+export function AllDebtsArePaid( debts: DebtModel[] ): boolean
 {
     for ( let i = 0; i < debts.length; i++ )
     {

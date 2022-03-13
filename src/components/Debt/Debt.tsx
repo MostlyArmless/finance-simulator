@@ -1,9 +1,8 @@
 import styles from './Debt.module.css';
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Grid, createStyles, makeStyles, Theme } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import Grid from '@material-ui/core/Grid';
 import { nameCharacterLimit } from '../../constants';
 import { validateName } from '../../tools';
 import { Checkbox, FormControlLabel } from '@material-ui/core';
@@ -21,21 +20,19 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 
 export interface IDebtProps
 {
-    index: number;
-
     name: string;
     initialBalance: number;
     interestRate: number;
     minPayment: number;
     isMortgage: boolean;
 
-    removeDebt( index: number ): void;
+    removeDebt(): void;
 
-    setName( index: number, val: string ): void;
-    setInitialBalance( index: number, val: number ): void;
-    setInterestRate( index: number, val: number ): void;
-    setMinPayment( index: number, val: number ): void;
-    setIsMortgage( index: number, val: boolean ): void;
+    setName( val: string ): void;
+    setInitialBalance( val: number ): void;
+    setInterestRate( val: number ): void;
+    setMinPayment( val: number ): void;
+    setIsMortgage( val: boolean ): void;
 
     shouldDisplayDeleteButton: boolean;
 }
@@ -47,11 +44,11 @@ export function Debt( props: IDebtProps )
     const nameValidationResult = validateName( props.name );
 
     return (
-        <Grid id={ `debt-${props.index}` } className={ styles.Debt } container direction="row">
+        <Grid id={ `debt-${props.name}` } className={ styles.Debt } container direction="row">
             <h2>Debt</h2>
 
             { props.shouldDisplayDeleteButton &&
-                <IconButton color="secondary" onClick={ () => { props.removeDebt( props.index ) } }>
+                <IconButton color="secondary" onClick={ () => { props.removeDebt() } }>
                     <DeleteIcon />
                 </IconButton>
             }
@@ -64,7 +61,7 @@ export function Debt( props: IDebtProps )
                     variant="outlined"
                     helperText={ nameValidationResult.errorMessage }
                     value={ props.name }
-                    onChange={ event => props.setName( props.index, event.target.value ) }
+                    onChange={ event => props.setName( event.target.value ) }
                     error={ !nameValidationResult.isValid }
                 />
                 <br />
@@ -78,7 +75,7 @@ export function Debt( props: IDebtProps )
                     } }
                     variant="outlined"
                     value={ props.initialBalance }
-                    onChange={ ( event ) => props.setInitialBalance( props.index, parseFloat( event.target.value ) ) }
+                    onChange={ ( event ) => props.setInitialBalance( parseFloat( event.target.value ) ) }
                 />
                 <br />
 
@@ -91,7 +88,7 @@ export function Debt( props: IDebtProps )
                     } }
                     variant="outlined"
                     value={ props.interestRate }
-                    onChange={ ( event ) => props.setInterestRate( props.index, parseFloat( event.target.value ) ) }
+                    onChange={ ( event ) => props.setInterestRate( parseFloat( event.target.value ) ) }
                 />
                 <br />
 
@@ -104,7 +101,7 @@ export function Debt( props: IDebtProps )
                     } }
                     variant="outlined"
                     value={ props.minPayment }
-                    onChange={ ( event ) => props.setMinPayment( props.index, parseFloat( event.target.value ) ) }
+                    onChange={ ( event ) => props.setMinPayment( parseFloat( event.target.value ) ) }
                 />
                 <br />
             </form>
@@ -113,7 +110,7 @@ export function Debt( props: IDebtProps )
                 control={
                     <Checkbox
                         checked={ props.isMortgage }
-                        onChange={ () => { props.setIsMortgage( props.index, !props.isMortgage ) } }
+                        onChange={ () => { props.setIsMortgage( !props.isMortgage ) } }
                         name="checkedB"
                         color="primary"
                     />

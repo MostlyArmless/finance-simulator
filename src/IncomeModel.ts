@@ -41,13 +41,13 @@ export class NullIncomeModelInput implements IncomeModelInput
 
 export class IncomeModel implements IIncome
 {
-    name: string;
-    monthlyValue: number;
-    startCondition: IncomeStartCondition;
-    endCondition: IncomeEndCondition;
-    private incomeStartDate: Date;
-    endDate: Date;
-    simulationStartDate: Date; // This is when TIME starts (iMonth === 0), not when the income starts
+    public name: string;
+    public monthlyValue: number;
+    public startCondition: IncomeStartCondition;
+    public endCondition: IncomeEndCondition;
+    public endDate: Date;
+    public simulationStartDate: Date; // This is when TIME starts (iMonth === 0), not when the income starts
+    public startDate: Date;
 
     constructor( input: IncomeModelInput )
     {
@@ -60,7 +60,7 @@ export class IncomeModel implements IIncome
         this.endCondition = input.endCondition;
 
         this.simulationStartDate = input.simulationStartDate;
-        this.incomeStartDate = input.startCondition === IncomeStartCondition.Immediate ? input.simulationStartDate : new Date();
+        this.startDate = input.startCondition === IncomeStartCondition.Immediate ? input.simulationStartDate : new Date();
         this.endDate = ( input.endCondition === IncomeEndCondition.Date && input.incomeEndDate !== undefined ) ? input.incomeEndDate : new Date( input.simulationStartDate.getFullYear() + 150, 0 );
     }
 
@@ -69,9 +69,17 @@ export class IncomeModel implements IIncome
         return this.name;
     }
 
+    setName(name: string): void {
+        this.name = name;
+    }
+
     GetStartCondition(): IncomeStartCondition
     {
         return this.startCondition;
+    }
+
+    setStartCondition(condition: IncomeStartCondition): void {
+        this.startCondition = condition;
     }
 
     GetEndCondition(): IncomeEndCondition
@@ -79,9 +87,13 @@ export class IncomeModel implements IIncome
         return this.endCondition;
     }
 
+    setEndCondition(condition: IncomeEndCondition): void {
+        this.endCondition = condition;
+    }
+
     GetIncomeStartDate(): Date
     {
-        return this.incomeStartDate;
+        return this.startDate;
     }
 
     SetIncomeStartDate( incomeStartDate: Date ): void
@@ -92,7 +104,7 @@ export class IncomeModel implements IIncome
         if ( this.endDate && incomeStartDate > this.endDate )
             throw new Error( "Income can't start after it ends" )
 
-        this.incomeStartDate = incomeStartDate;
+        this.startDate = incomeStartDate;
     }
 
     GetEndDate(): Date
@@ -111,15 +123,19 @@ export class IncomeModel implements IIncome
     GetValueAtMonth( iMonth: number ): number
     {
         const date = addNMonthsToDate( this.simulationStartDate, iMonth );
-        if ( this.incomeStartDate <= date && ( this.endDate === null || this.endDate === undefined || date <= this.endDate ) )
+        if ( this.startDate <= date && ( this.endDate === null || this.endDate === undefined || date <= this.endDate ) )
         {
             return this.monthlyValue;
         }
         return 0;
     }
 
-    GetFixedAmount(): number
+    getMonthlyValue(): number
     {
         return this.monthlyValue;
+    }
+
+    setMonthlyValue(val: number): void {
+        this.monthlyValue = val;
     }
 }

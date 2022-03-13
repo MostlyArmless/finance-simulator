@@ -1,11 +1,11 @@
 import { expect } from "chai";
 import { addNMonthsToDate } from "../helpers";
 import { IncomeModel } from "../IncomeModel";
-import { IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
+import { IIncomeForCalculator, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
 
 describe( 'Income', () =>
 {
-    let testSubject: IIncome;
+    let testSubject: IIncomeForCalculator;
     let simulationStartDate: Date = new Date();
     let endDate: Date = new Date();
 

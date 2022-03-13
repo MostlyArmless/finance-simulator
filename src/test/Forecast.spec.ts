@@ -3,12 +3,12 @@ import { expect } from "chai";
 import { DebtModel } from "../DebtModel";
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from "../forecast";
 import { IncomeModel } from "../IncomeModel";
-import { IDebt, IIncome, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
+import { IDebtForCalculator, IIncomeForCalculator, IncomeStartCondition, IncomeEndCondition } from "../interfacesAndEnums";
 
 describe( 'Forecast', () =>
 {
-    let debts: IDebt[];
-    let incomes: IIncome[];
+    let debts: IDebtForCalculator[];
+    let incomes: IIncomeForCalculator[];
 
     beforeEach( () =>
     {

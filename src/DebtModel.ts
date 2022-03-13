@@ -1,4 +1,4 @@
-import { IDebt } from "./interfacesAndEnums";
+import { IDebtForCalculator } from "./interfacesAndEnums";
 
 export interface IDebtModelInput
 {
@@ -27,7 +27,7 @@ export class NullDebtModelInput implements IDebtModelInput
     }
 }
 
-export class DebtModel implements IDebt
+export class DebtModel implements IDebtForCalculator
 {
     name: string;
     interestRate: number;

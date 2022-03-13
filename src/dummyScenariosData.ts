@@ -1,6 +1,10 @@
-import { IForecastInput, IncomeStartCondition, IncomeEndCondition, DebtContributionStrategy } from "./interfacesAndEnums";
-import { IncomeModel } from "./IncomeModel";
-import { DebtModel } from "./DebtModel";
+import {
+    IForecastInput,
+    IncomeStartCondition,
+    IncomeEndCondition,
+    DebtContributionStrategy,
+    IDebt,
+} from "./interfacesAndEnums";
 import { addNYearsToDate } from "./helpers";
 
 const initialSavings = 500;
@@ -8,11 +12,9 @@ const numMonthsToProject = 12 * 10;
 const mcDonaldsBaseMonthlySalary = 10200;
 const overTimeHourlyPay = 130;
 const bobsBirthday = new Date( 1959, 8, 7 );
-const bobs62ndBirthday = addNYearsToDate( bobsBirthday, 62 );
 
 const startDate = new Date( 2020, 0 ); // January 1st 2020
 const deathDate = addNYearsToDate( bobsBirthday, 95 );
-let dummyRetirementDate = new Date( startDate.getFullYear() + 200 ); // Initialize this to be later than the death date, it will get modified during the simulation.
 
 function CalcOvertimePayFromHours( numOvertimeHoursPerMonth: number ): number
 {
@@ -20,65 +22,72 @@ function CalcOvertimePayFromHours( numOvertimeHoursPerMonth: number ): number
 }
 
 // Since the debts are the same in every scenario
-function GetAllDebts(): DebtModel[]
+function GetAllDebts(): IDebt[]
 {
     return [
-        new DebtModel( {
+        {
             name: "Primary Residence Mortgage",
             initialBalance: 295542.46,
             interestRate: 0.0345,
             minPayment: 1441.16,
-            isMortgage: true
-        } ),
-        new DebtModel( {
+            isMortgage: true,
+        },
+        {
             name: "Vacation Home Mortgage",
             initialBalance: 428061.64,
             interestRate: 0.0371,
             minPayment: 2481.77,
-            isMortgage: true
-        } ),
-        new DebtModel( {
+            isMortgage: true,
+        },
+        {
             name: "Credit Card A",
             initialBalance: 7593.70,
             interestRate: 0.1999,
-            minPayment: 300
-        } ),
-        new DebtModel( {
+            minPayment: 300,
+            isMortgage: false,
+        },
+        {
             name: "Credit Card B",
             initialBalance: 7720.48,
             interestRate: 0.1299,
-            minPayment: 300
-        } ),
-        new DebtModel( {
+            minPayment: 300,
+            isMortgage: false,
+        },
+        {
             name: "Credit Card C",
             initialBalance: 45813.79,
             interestRate: 0.04,
-            minPayment: 300
-        } ),
-        new DebtModel( {
+            minPayment: 300,
+            isMortgage: false,
+        },
+        {
             name: "Credit Card D",
             initialBalance: 10593.56,
             interestRate: 0.0745,
-            minPayment: 325
-        } ),
-        new DebtModel( {
+            minPayment: 325,
+            isMortgage: false,
+        },
+        {
             name: "Personal Loan",
             initialBalance: 20342.06,
             interestRate: 0.0549,
-            minPayment: 325
-        } ),
-        new DebtModel( {
+            minPayment: 325,
+            isMortgage: false,
+        },
+        {
             name: "Renovation Loan",
             initialBalance: 31746.1,
             interestRate: 0.0495,
-            minPayment: 200
-        } ),
-        new DebtModel( {
+            minPayment: 200,
+            isMortgage: false,
+        },
+        {
             name: "Car Loan",
             initialBalance: 21599.79,
             interestRate: 0.0699,
-            minPayment: 207.85
-        } )
+            minPayment: 207.85,
+            isMortgage: false,
+        },
     ];
 }
 
@@ -93,19 +102,18 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary',
                         monthlyValue: mcDonaldsBaseMonthlySalary,
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } )
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 6000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: 'No overtime or pensions and spend 1k before and after retirement',
@@ -115,19 +123,18 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary',
                         monthlyValue: mcDonaldsBaseMonthlySalary,
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } )
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 1000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: 'No overtime - reduce to 1k spending before retirement and 5k after',
@@ -137,19 +144,18 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 0,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary',
                         monthlyValue: mcDonaldsBaseMonthlySalary,
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } )
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: '40 hours overtime - Reduce to 5k spending - No pensions',
@@ -159,19 +165,18 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 40 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } )
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: '40 hours overtime - Reduce to 2k spending - No pensions',
@@ -181,19 +186,18 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 40 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } )
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 2000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: '40 hours overtime- Reduce to 5k spending - get all pensions',
@@ -203,43 +207,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 40 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    }, 
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: '40 hours overtime - Reduce to 2k spending - get all pensions',
@@ -249,43 +249,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 72 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    },
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 2000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: 'Aggressive Conservative - Lowest Debt First',
@@ -295,43 +291,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 72 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 72 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    },
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
+            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst,
         },
         {
             forecastName: 'Aggressive Conservative - Highest Interest First',
@@ -341,43 +333,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 72,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 72 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 72 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    },
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 1000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst
+            debtContributionStrategy: DebtContributionStrategy.HighestInterestFirst,
         },
         {
             forecastName: '40 hours overtime- Reduce to 5k spending - get all pensions - lowestDebtFirst',
@@ -387,43 +375,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 40 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    }, 
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 5000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 5000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
+            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst,
         },
         {
             forecastName: '40 hours overtime - Reduce to 2k spending - get all pensions - lowestDebtFirst',
@@ -433,43 +417,39 @@ export function GetDummyScenarioData(): IForecastInput[]
             overtimeHoursPerMonth: 40,
             incomes:
                 [
-                    new IncomeModel( {
+                    {
                         name: 'McDonalds Salary with 40 hours overtime',
                         monthlyValue: CalcOvertimePayFromHours( 40 ),
                         startCondition: IncomeStartCondition.Immediate,
                         endCondition: IncomeEndCondition.Retirement,
-                        simulationStartDate: startDate
-                    } ),
-                    new IncomeModel( {
+                    },
+                    {
                         name: 'McDonalds Pension',
                         monthlyValue: 1600,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: dummyRetirementDate,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'US Pension',
                         monthlyValue: 1648.4,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } ),
-                    new IncomeModel( {
+                        endDate: deathDate
+                    },
+                    {
                         name: 'Canada old age pension (guesstimated value)',
                         monthlyValue: 700,
                         startCondition: IncomeStartCondition.Retirement,
                         endCondition: IncomeEndCondition.Date,
-                        simulationStartDate: bobs62ndBirthday,
-                        incomeEndDate: deathDate
-                    } )
+                        endDate: deathDate
+                    }
                 ],
             essentialNonDebtSpendingPreRetirement: 2000,
             debts: GetAllDebts(),
             desiredMonthlyBudgetPostRetirement: 2000,
             deathDate: new Date( deathDate ),
-            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst
+            debtContributionStrategy: DebtContributionStrategy.LowestBalanceFirst,
         }
     ];
 

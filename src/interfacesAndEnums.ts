@@ -1,4 +1,22 @@
-export interface IDebt
+export interface IDebt {
+    name: string;
+    interestRate: number;
+    minPayment: number;
+    initialBalance: number;
+    isMortgage: boolean;
+}
+
+export interface IIncome {
+    name: string;
+    monthlyValue: number;
+    startCondition: IncomeStartCondition;
+    startDate?: Date; // Only required if the startCondition is Retirement
+    endCondition: IncomeEndCondition;
+    endDate?: Date; // Only required if the endCondition is Date
+}
+
+// TODO refactor this to not exist. make the forecast calculator responsible for all the logic. don't use OOP
+export interface IDebtForCalculator
 {
     name: string;
     interestRate: number;
@@ -13,17 +31,22 @@ export interface IDebt
     GetBalances(): number[];
 }
 
-export interface IIncome
+// TODO refactor to not exist. make the forecast calculator responsible for all the logic. don't use OOP
+export interface IIncomeForCalculator
 {
     GetName(): string;
+    setName(name: string): void;
     GetStartCondition(): IncomeStartCondition;
+    setStartCondition(condition: IncomeStartCondition): void;
     GetEndCondition(): IncomeEndCondition;
+    setEndCondition(condition: IncomeEndCondition): void;
     GetIncomeStartDate(): Date;
     SetIncomeStartDate( startDate: Date ): void;
     GetEndDate(): Date;
     SetEndDate( endDate: Date ): void;
     GetValueAtMonth( iMonth: number ): number;
-    GetFixedAmount(): number;
+    getMonthlyValue(): number;
+    setMonthlyValue(val: number): void;
 }
 
 export enum IncomeStartCondition
@@ -63,8 +86,8 @@ export interface IForecastResult
 {
     numMonthsToReachRetirementGoal: number;
     savingsOverTime: number[];
-    incomesOverTime: IIncome[];
-    debts: IDebt[];
+    incomesOverTime: IIncomeForCalculator[];
+    debts: IDebtForCalculator[];
     totalDebtVsTime: number[];
     requiredSavingsToRetire: number;
 }
@@ -78,12 +101,13 @@ export interface IScenarioSummary
     requiredSavingsToRetire: number;
     numMonthsToReachRetirementGoal: number;
     retirementDate: string;
+    retirementPhrase: string;
 }
 
 export interface IScenarioIoPair
 {
+    forecastInput: IForecastInput;
     forecastResult: IForecastResult;
-    scenarioSummary: IScenarioSummary;
 }
 
 export interface IMonthsToRetirement

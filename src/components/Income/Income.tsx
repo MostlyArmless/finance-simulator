@@ -1,13 +1,12 @@
 import styles from './Income.module.css';
 import TextField from '@material-ui/core/TextField';
-import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+import { Grid, createStyles, makeStyles, Theme } from '@material-ui/core';
 import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
-import Grid from '@material-ui/core/Grid';
 import { nameCharacterLimit } from '../../constants';
 import { validateName } from '../../tools';
 
@@ -24,21 +23,19 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 
 interface IIncomeProps
 {
-  index: number;
-
   name: string;
   monthlyValue: number;
   startCondition: IncomeStartCondition;
   endCondition: IncomeEndCondition;
-  endDate: Date;
+  endDate: Date | undefined;
 
-  removeIncome( index: number ): void;
+  removeIncome(): void;
 
-  setName( index: number, val: string ): void;
-  setMonthlyValue( index: number, val: number ): void;
-  setStartCondition( index: number, val: IncomeStartCondition ): void;
-  setEndCondition( index: number, val: IncomeEndCondition ): void;
-  setEndDate( index: number, val: Date ): void;
+  setName( val: string ): void;
+  setMonthlyValue( val: number ): void;
+  setStartCondition( val: IncomeStartCondition ): void;
+  setEndCondition( val: IncomeEndCondition ): void;
+  setEndDate( val: Date ): void;
 
   shouldDisplayDeleteButton: boolean;
 }
@@ -73,29 +70,29 @@ export function Income( props: IIncomeProps )
   {
     const selectedCondition = startConditionOptions.filter( elem => String( elem.value ) === event.target.value )[0];
     if ( selectedCondition )
-      props.setStartCondition( props.index, selectedCondition.value );
+      props.setStartCondition( selectedCondition.value );
   }
 
   const updateEndCondition = ( event: React.ChangeEvent<HTMLInputElement> ) =>
   {
     const selectedCondition = endConditionOptions.filter( elem => String( elem.value ) === event.target.value )[0];
     if ( selectedCondition )
-      props.setEndCondition( props.index, selectedCondition.value );
+      props.setEndCondition( selectedCondition.value );
   }
 
   const updateEndDate = ( date: Date | null ) =>
   {
-    props.setEndDate( props.index, date === null ? new Date() : date );
+    props.setEndDate( date === null ? new Date() : date );
   }
 
   const nameValidationResult = validateName( props.name );
 
   return (
-    <Grid id={ `income-${props.index}` } className={ styles.Income } container direction="row">
+    <Grid id={ `income-${props.name}` } className={ styles.Income } container direction="row">
       <h2>Income</h2>
 
       {props.shouldDisplayDeleteButton &&
-        <IconButton color="secondary" onClick={ () => { props.removeIncome( props.index ) } }>
+        <IconButton color="secondary" onClick={ () => { props.removeIncome() } }>
           <DeleteIcon />
         </IconButton>
       }
@@ -108,7 +105,7 @@ export function Income( props: IIncomeProps )
           variant="outlined"
           helperText={ nameValidationResult.errorMessage }
           value={ props.name }
-          onChange={ event => props.setName( props.index, event.target.value ) }
+          onChange={ event => props.setName( event.target.value ) }
           error={ !nameValidationResult.isValid }
         />
         <br />
@@ -122,7 +119,7 @@ export function Income( props: IIncomeProps )
           } }
           variant="outlined"
           value={ props.monthlyValue }
-          onChange={ ( event ) => props.setMonthlyValue( props.index, parseFloat( event.target.value ) ) }
+          onChange={ ( event ) => props.setMonthlyValue( parseFloat( event.target.value ) ) }
         />
         <br />
 
