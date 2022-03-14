@@ -27,7 +27,6 @@ interface DataEntryPageProps
     loadSampleData(): void;
 
     scenarioNames: string[];
-    onClickDone(): void;
 
     // Income
     incomeModels: IIncome[][];
@@ -61,7 +60,6 @@ export function DataEntryPage( props: DataEntryPageProps )
         <div className={ styles.DataEntryPage } >
             <h1>Data Entry</h1>
             <Button onClick={ props.loadSampleData }>Load Sample Data</Button>
-            <Button variant="contained" color="primary" onClick={ props.onClickDone }>View Results</Button>
 
             <select
                 name='scenarioSelect'
