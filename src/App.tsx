@@ -1,6 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect } from 'react';
 import './App.css';
 import {
+  IForecastInput,
+  IForecastResult,
   IncomeEndCondition,
   IncomeStartCondition,
   IScenarioIoPair,
@@ -14,12 +16,7 @@ import { useImmer } from 'use-immer';
 import Container from '@material-ui/core/Container';
 import { forecast } from './forecast';
 import { nullForecastResult } from './constants';
-
-enum eAppPage
-{
-  DataEntry,
-  ResultsView
-}
+import { debounce } from 'lodash';
 
 const initialState: IScenarioIoPair[] = GetDummyScenarioData().map(input => {
   return {
@@ -31,16 +28,19 @@ const initialState: IScenarioIoPair[] = GetDummyScenarioData().map(input => {
 function App()
 {
   const [scenarios, setScenarios] = useImmer<IScenarioIoPair[]>( initialState );
-  const [currentPage, setCurrentPage] = useState<eAppPage>( eAppPage.DataEntry );
   const inputs = scenarios.map(scenario => scenario.forecastInput);
+
+  const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
+    return inputs.map(input => forecast(input));
+  }, 500), [])
 
   useEffect(() => {
     //! TODO - sort scenarios best to worst here
-    const results = inputs.map(input => forecast(input));
+    const results = debouncedForecast(inputs);
     setScenarios((draftState) => {
       draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
     });
-  }, [inputs, setScenarios])
+  }, [inputs, setScenarios]);
 
   const loadSampleData = () => {
     const dummyData = GetDummyScenarioData();
@@ -154,14 +154,11 @@ function App()
     });
   }
 
-  let page = null;
-  switch ( currentPage )
-  {
-    case eAppPage.DataEntry:
-      page = <DataEntryPage
+  return (
+    <Container className="App">
+      <DataEntryPage
         loadSampleData={ loadSampleData }
         scenarioNames={scenarios.map(scenario => scenario.forecastInput.forecastName)}
-        onClickDone={ () => setCurrentPage( eAppPage.ResultsView ) }
         incomeModels={ scenarios.map(scenario => scenario.forecastInput.incomes) }
         addNewIncome={ addNewIncome }
         removeIncome={ removeIncome }
@@ -178,18 +175,10 @@ function App()
         setDebtInterestRate={ setDebtInterestRate }
         setDebtMinPayment={ setDebtMinPayment }
         setDebtIsMortgage={ setDebtIsMortgage }
-      />;
-      break;
-    case eAppPage.ResultsView:
-      page = <ResultsPage
-        onClickReturnToDataEntry={ () => setCurrentPage( eAppPage.DataEntry ) }
-        scenarios={ scenarios } />;
-      break;
-  }
-
-  return (
-    <Container className="App">
-      { page }
+      />
+      <ResultsPage
+        scenarios={ scenarios }
+      />
     </Container>
   )
 }
