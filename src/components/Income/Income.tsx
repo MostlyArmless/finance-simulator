@@ -1,6 +1,6 @@
 import styles from './Income.module.css';
 import TextField from '@material-ui/core/TextField';
-import { Grid, createStyles, makeStyles, Theme } from '@material-ui/core';
+import { Grid, createStyles, makeStyles, Theme, Tooltip } from '@material-ui/core';
 import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
@@ -12,13 +12,13 @@ import { validateName } from '../../tools';
 
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
-    root: {
+    form: {
       '& .MuiTextField-root': {
         margin: theme.spacing( 1 ),
         width: `${nameCharacterLimit}ch`,
       },
     },
-  } ),
+  }),
 );
 
 interface IIncomeProps
@@ -97,76 +97,84 @@ export function Income( props: IIncomeProps )
         </IconButton>
       }
 
-      <form className={ classes.root } noValidate autoComplete="off">
-        <TextField
-          required
-          id="income-name"
-          label="Income Name"
-          variant="outlined"
-          helperText={ nameValidationResult.errorMessage }
-          value={ props.name }
-          onChange={ event => props.setName( event.target.value ) }
-          error={ !nameValidationResult.isValid }
-        />
+      <form className={ classes.form } noValidate autoComplete="off">
+        <Tooltip title="The name of the income source.">
+          <TextField
+            required
+            id="income-name"
+            label="Income Name"
+            variant="outlined"
+            helperText={ nameValidationResult.errorMessage }
+            value={ props.name }
+            onChange={ event => props.setName( event.target.value ) }
+            error={ !nameValidationResult.isValid }
+          />
+        </Tooltip>
         <br />
 
-        <TextField
-          id="monthly-value"
-          label="Monthly Value"
-          type="number"
-          InputLabelProps={ {
-            shrink: true,
-          } }
-          variant="outlined"
-          value={ props.monthlyValue }
-          onChange={ ( event ) => props.setMonthlyValue( parseFloat( event.target.value ) ) }
-        />
+        <Tooltip title="The monthly value of the income source.">
+          <TextField
+            id="monthly-value"
+            label="Monthly Value"
+            type="number"
+            InputLabelProps={ {
+              shrink: true,
+            } }
+            variant="outlined"
+            value={ props.monthlyValue }
+            onChange={ ( event ) => props.setMonthlyValue( parseFloat( event.target.value ) ) }
+          />
+        </Tooltip>
         <br />
 
-        <TextField
-          id="start-condition"
-          label="Start Condition"
-          type="text"
-          InputLabelProps={ {
-            shrink: true,
-          } }
-          variant="outlined"
-          select
-          SelectProps={ {
-            native: true,
-          } }
-          value={ props.startCondition }
-          onChange={ updateStartCondition }
-        >
-          { startConditionOptions.map( ( option ) => (
-            <option key={ option.value } value={ option.value }>
-              { option.label }
-            </option>
-          ) ) }
-        </TextField>
+        <Tooltip title="When will you start receiving this income?">
+          <TextField
+            id="start-condition"
+            label="Start Condition"
+            type="text"
+            InputLabelProps={ {
+              shrink: true,
+            } }
+            variant="outlined"
+            select
+            SelectProps={ {
+              native: true,
+            } }
+            value={ props.startCondition }
+            onChange={ updateStartCondition }
+          >
+            { startConditionOptions.map( ( option ) => (
+              <option key={ option.value } value={ option.value }>
+                { option.label }
+              </option>
+            ) ) }
+          </TextField>
+        </Tooltip>
         <br />
 
-        <TextField
-          id="end-condition"
-          label="End Condition"
-          type="text"
-          InputLabelProps={ {
-            shrink: true,
-          } }
-          variant="outlined"
-          select
-          SelectProps={ {
-            native: true,
-          } }
-          value={ props.endCondition }
-          onChange={ updateEndCondition }
-        >
-          { endConditionOptions.map( ( option ) => (
-            <option key={ option.value } value={ option.value }>
-              { option.label }
-            </option>
-          ) ) }
-        </TextField>
+        <Tooltip title="When will you stop receiving this income?">
+          <TextField
+            id="end-condition"
+            label="End Condition"
+            type="text"
+            InputLabelProps={ {
+              shrink: true,
+            } }
+            variant="outlined"
+            select
+            SelectProps={ {
+              native: true,
+            } }
+            value={ props.endCondition }
+            onChange={ updateEndCondition }
+          >
+            { endConditionOptions.map( ( option ) => (
+              <option key={ option.value } value={ option.value }>
+                { option.label }
+              </option>
+            ) ) }
+          </TextField>
+        </Tooltip>
         <br />
 
         { props.endCondition === IncomeEndCondition.Date &&

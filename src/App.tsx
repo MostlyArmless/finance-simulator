@@ -1,46 +1,44 @@
-import { useCallback, useEffect } from 'react';
 import './App.css';
 import {
-  IForecastInput,
-  IForecastResult,
   IncomeEndCondition,
   IncomeStartCondition,
   IScenarioIoPair,
 } from './interfacesAndEnums';
 import { GetDummyScenarioData } from './dummyScenariosData';
-import { DataEntryPage } from './components/DataEntryPage/DataEntryPage';
+import { DataEntryPage } from './components/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
 import { IncomeModel, NullIncomeModelInput } from './IncomeModel';
 import { DebtModel, NullDebtModelInput } from './DebtModel';
 import { useImmer } from 'use-immer';
 import Container from '@material-ui/core/Container';
 import { forecast } from './forecast';
-import { nullForecastResult } from './constants';
-import { debounce } from 'lodash';
+import { nullForecastInput, nullForecastResult } from './constants';
+import { cloneDeep } from 'lodash';
 
 const initialState: IScenarioIoPair[] = GetDummyScenarioData().map(input => {
   return {
     forecastInput: input,
-    forecastResult: nullForecastResult
+    forecastResult: cloneDeep(nullForecastResult)
   }
 });
 
 function App()
 {
   const [scenarios, setScenarios] = useImmer<IScenarioIoPair[]>( initialState );
-  const inputs = scenarios.map(scenario => scenario.forecastInput);
+  
+  // ! TODO figure out how to useCallback, debounce, and useEffect together.
+  // const inputs = scenarios.map(scenario => scenario.forecastInput);
+  // const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
+  //   return inputs.map(input => forecast(input));
+  // }, 500), [])
 
-  const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
-    return inputs.map(input => forecast(input));
-  }, 500), [])
-
-  useEffect(() => {
-    //! TODO - sort scenarios best to worst here
-    const results = debouncedForecast(inputs);
-    setScenarios((draftState) => {
-      draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
-    });
-  }, [inputs, setScenarios]);
+  // useEffect(() => {
+  //   //! TODO - sort scenarios best to worst here
+  //   const results = debouncedForecast(inputs);
+  //   setScenarios((draftState) => {
+  //     draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
+  //   });
+  // }, [inputs, setScenarios]);
 
   const loadSampleData = () => {
     const dummyData = GetDummyScenarioData();
@@ -51,6 +49,15 @@ function App()
           forecastResult: initialState[0].forecastResult
         };
       });
+    });
+  }
+
+  const addNewScenario = () => {
+    setScenarios(draftState => {
+      draftState.push({
+        forecastInput: cloneDeep(nullForecastInput),
+        forecastResult: cloneDeep(nullForecastResult)
+      })
     });
   }
 
@@ -154,10 +161,23 @@ function App()
     });
   }
 
+  const runSimulation = () => {
+    const results = scenarios.map(scenario => {
+      return forecast(scenario.forecastInput);
+    });
+
+    setScenarios((draftState): void => {
+      draftState.forEach((scenario, index) => {
+        scenario.forecastResult = results[index];
+      })
+    })
+  }
+
   return (
     <Container className="App">
       <DataEntryPage
         loadSampleData={ loadSampleData }
+        addNewScenario={ addNewScenario }
         scenarioNames={scenarios.map(scenario => scenario.forecastInput.forecastName)}
         incomeModels={ scenarios.map(scenario => scenario.forecastInput.incomes) }
         addNewIncome={ addNewIncome }
@@ -177,6 +197,7 @@ function App()
         setDebtIsMortgage={ setDebtIsMortgage }
       />
       <ResultsPage
+        runSimulation={ runSimulation }
         scenarios={ scenarios }
       />
     </Container>
