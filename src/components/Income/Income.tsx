@@ -24,6 +24,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 interface IIncomeProps
 {
   name: string;
+  index: number;
   monthlyValue: number;
   startCondition: IncomeStartCondition;
   endCondition: IncomeEndCondition;
@@ -89,7 +90,7 @@ export function Income( props: IIncomeProps )
 
   return (
     <Grid id={ `income-${props.name}` } className={ styles.Income } container direction="row">
-      <h2>Income</h2>
+      <h2>Income #{props.index + 1}</h2>
 
       {props.shouldDisplayDeleteButton &&
         <IconButton color="secondary" onClick={ () => { props.removeIncome() } }>

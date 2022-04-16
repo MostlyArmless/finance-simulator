@@ -27,7 +27,7 @@ function GetAllDebts(): IDebt[]
 {
   return [
     {
-      name: "Primary Residence Mortgage",
+      name: "Main Home Mortgage",
       initialBalance: 295542.46,
       interestRate: 0.0345,
       minPayment: 1441.16,

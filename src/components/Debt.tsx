@@ -20,6 +20,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 export interface IDebtProps
 {
   name: string;
+  index: number;
   initialBalance: number;
   interestRate: number;
   minPayment: number;
@@ -44,7 +45,7 @@ export function Debt( props: IDebtProps )
 
   return (
     <Grid id={ `debt-${props.name}` } container direction="row">
-      <h2>Debt</h2>
+      <h2>Debt #{props.index + 1}</h2>
 
       { props.shouldDisplayDeleteButton &&
         <IconButton color="secondary" onClick={ () => { props.removeDebt() } }>

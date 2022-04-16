@@ -1,4 +1,4 @@
-import { Button, createStyles, Grid, makeStyles, Paper, Theme } from '@material-ui/core';
+import { Button, createStyles, Grid, GridList, makeStyles, Paper, Theme } from '@material-ui/core';
 import { IDebt, IIncome, IncomeEndCondition, IncomeStartCondition } from '../interfacesAndEnums';
 import { Debt } from './Debt';
 import { useState } from 'react';
@@ -9,18 +9,30 @@ const cardWidth = 240;
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     root: {
-      flexGrow: 1,
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-around",
+      overflow: "hidden",
+      margin: 10,
     },
     incomePaper: {
       zoom: scaleFactor,
       height: 360,
       width: cardWidth,
+      padding: 6,
+      margin: 12
     },
     debtPaper: {
       zoom: scaleFactor,
-      height: 400,
       width: cardWidth,
+      padding: 6,
+      margin: 12
     },
+    gridList: {
+      flexWrap: "nowrap",
+      margin: 0,
+      height: 400,
+    }
   } ),
 );
 
@@ -78,75 +90,80 @@ export function DataEntryPage( props: DataEntryPageProps )
         color="secondary"
         onClick={ () => props.addNewScenario() }
       >Add Scenario</Button>
+      <div className={ classes.gridList }>
+        <GridList
+          className={ classes.gridList }
+          >
+          { props.incomeModels[currentScenarioIndex]
+            .map( ( incomeModel, incomeIndex ) =>
+            {
+              return (
+                <Grid key={ `grid-${incomeIndex}` } item xs={12}>
+                  <Paper key={ `paper-${incomeIndex}` } className={ classes.incomePaper }>
+                    <Income
+                      key={ `{income-${incomeIndex}` }
+                      name={ incomeModel.name }
+                      index={ incomeIndex}
+                      monthlyValue={ incomeModel.monthlyValue }
+                      startCondition={ incomeModel.startCondition }
+                      endCondition={ incomeModel.endCondition }
+                      endDate={ incomeModel.endDate }
+                      setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
+                      setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
+                      setStartCondition={ ( val: IncomeStartCondition ) => props.setIncomeStartCondition( currentScenarioIndex, incomeIndex, val ) }
+                      setEndCondition={ ( val: IncomeEndCondition ) => props.setIncomeEndCondition( currentScenarioIndex, incomeIndex, val ) }
+                      setEndDate={ ( val: Date ) => props.setIncomeEndDate( currentScenarioIndex, incomeIndex, val ) }
+                      removeIncome={ () => props.removeIncome( currentScenarioIndex, incomeIndex ) }
+                      shouldDisplayDeleteButton={ props.incomeModels.length > 1 }
+                    />
+                  </Paper>
+                </Grid>
+              )
+            } ) }
 
-      {/* Grid component with border and rounded edges and drop shadow */}
-      <Grid key="incomes" container className={ classes.incomePaper } justify="center" spacing={ 2 } direction="row">
-        { props.incomeModels[currentScenarioIndex]
-          .map( ( incomeModel, incomeIndex ) =>
+          { props.incomeModels.length < 4 &&
+            <Button
+              variant="outlined"
+              color="secondary"
+              onClick={ () => props.addNewIncome( currentScenarioIndex ) }
+            >Add Income</Button>
+          }
+        </GridList>
+
+        <GridList
+          className={ classes.gridList }
+          >
+          { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
           {
             return (
-              <Grid key={ `grid-${incomeIndex}` } item>
-                <Paper key={ `paper-${incomeIndex}` } className={ classes.incomePaper }>
-                  <Income
-                    key={ `{income-${incomeIndex}` }
-                    name={ incomeModel.name }
-                    monthlyValue={ incomeModel.monthlyValue }
-                    startCondition={ incomeModel.startCondition }
-                    endCondition={ incomeModel.endCondition }
-                    endDate={ incomeModel.endDate }
-                    setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
-                    setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
-                    setStartCondition={ ( val: IncomeStartCondition ) => props.setIncomeStartCondition( currentScenarioIndex, incomeIndex, val ) }
-                    setEndCondition={ ( val: IncomeEndCondition ) => props.setIncomeEndCondition( currentScenarioIndex, incomeIndex, val ) }
-                    setEndDate={ ( val: Date ) => props.setIncomeEndDate( currentScenarioIndex, incomeIndex, val ) }
-                    removeIncome={ () => props.removeIncome( currentScenarioIndex, incomeIndex ) }
-                    shouldDisplayDeleteButton={ props.incomeModels.length > 1 }
+              <Grid key={ `grid-${debtIndex}` } item>
+                <Paper key={ `paper-${debtIndex}` } className={ classes.debtPaper }>
+                  <Debt
+                    key={ `{debt-${debtIndex}` }
+                    name={ debtModel.name }
+                    index={ debtIndex}
+                    initialBalance={ debtModel.initialBalance }
+                    interestRate={ debtModel.interestRate }
+                    minPayment={ debtModel.minPayment }
+                    isMortgage={ debtModel.isMortgage }
+                    setName={ ( val: string ) => props.setDebtName( currentScenarioIndex, debtIndex, val ) }
+                    setInitialBalance={ ( val: number ) => props.setDebtInitialBalance( currentScenarioIndex, debtIndex, val ) }
+                    setInterestRate={ ( val: number ) => props.setDebtInterestRate( currentScenarioIndex, debtIndex, val ) }
+                    setMinPayment={ ( val: number ) => props.setDebtMinPayment( currentScenarioIndex, debtIndex, val ) }
+                    setIsMortgage={ ( val: boolean ) => props.setDebtIsMortgage( currentScenarioIndex, debtIndex, val ) }
+                    removeDebt={ () => props.removeDebt( currentScenarioIndex, debtIndex ) }
+                    shouldDisplayDeleteButton={ props.debtModels.length > 1 }
                   />
                 </Paper>
               </Grid>
             )
           } ) }
 
-        { props.incomeModels.length < 4 &&
-          <Button
-            variant="outlined"
-            color="secondary"
-            onClick={ () => props.addNewIncome( currentScenarioIndex ) }
-          >Add Income</Button>
-        }
-      </Grid>
-
-      <Grid key="debts" container className={ classes.debtPaper } justify="center" spacing={ 2 } direction="row">
-        { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
-        {
-          return (
-            <Grid key={ `grid-${debtIndex}` } item>
-              <Paper key={ `paper-${debtIndex}` } className={ classes.debtPaper }>
-                <Debt
-                  key={ `{debt-${debtIndex}` }
-                  name={ debtModel.name }
-                  initialBalance={ debtModel.initialBalance }
-                  interestRate={ debtModel.interestRate }
-                  minPayment={ debtModel.minPayment }
-                  isMortgage={ debtModel.isMortgage }
-                  setName={ ( val: string ) => props.setDebtName( currentScenarioIndex, debtIndex, val ) }
-                  setInitialBalance={ ( val: number ) => props.setDebtInitialBalance( currentScenarioIndex, debtIndex, val ) }
-                  setInterestRate={ ( val: number ) => props.setDebtInterestRate( currentScenarioIndex, debtIndex, val ) }
-                  setMinPayment={ ( val: number ) => props.setDebtMinPayment( currentScenarioIndex, debtIndex, val ) }
-                  setIsMortgage={ ( val: boolean ) => props.setDebtIsMortgage( currentScenarioIndex, debtIndex, val ) }
-                  removeDebt={ () => props.removeDebt( currentScenarioIndex, debtIndex ) }
-                  shouldDisplayDeleteButton={ props.debtModels.length > 1 }
-                />
-              </Paper>
-            </Grid>
-          )
-        } ) }
-
-        { props.incomeModels.length < 4 &&
-          <Button variant="outlined" color="secondary" onClick={ () => props.addNewDebt( currentScenarioIndex ) }>Add Debt</Button>
-        }
-      </Grid>
-
+          { props.incomeModels.length < 4 &&
+            <Button variant="outlined" color="secondary" onClick={ () => props.addNewDebt( currentScenarioIndex ) }>Add Debt</Button>
+          }
+        </GridList>
+      </div>
     </div>
   );
 }
