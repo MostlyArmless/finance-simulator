@@ -3,7 +3,7 @@ import { Debt } from './Debt';
 import { useState } from 'react';
 import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
-import { makeStyles, createStyles, Button, GridList, Grid, Paper } from '@material-ui/core';
+import { makeStyles, createStyles, Button, ImageList, Grid, Paper } from '@material-ui/core';
 
 const scaleFactor = 0.9;
 const cardWidth = 240;
@@ -29,7 +29,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
       padding: 6,
       margin: 12
     },
-    gridList: {
+    imageList: {
       flexWrap: "nowrap",
       margin: 0,
       height: 400,
@@ -91,9 +91,9 @@ export function DataEntryPage( props: DataEntryPageProps )
         color="secondary"
         onClick={ () => props.addNewScenario() }
       >Add Scenario</Button>
-      <div className={ classes.gridList }>
-        <GridList
-          className={ classes.gridList }
+      <div className={ classes.imageList }>
+        <ImageList
+          className={ classes.imageList }
           >
           { props.incomeModels[currentScenarioIndex]
             .map( ( incomeModel, incomeIndex ) =>
@@ -129,10 +129,10 @@ export function DataEntryPage( props: DataEntryPageProps )
               onClick={ () => props.addNewIncome( currentScenarioIndex ) }
             >Add Income</Button>
           }
-        </GridList>
+        </ImageList>
 
-        <GridList
-          className={ classes.gridList }
+        <ImageList
+          className={ classes.imageList }
           >
           { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
           {
@@ -163,7 +163,7 @@ export function DataEntryPage( props: DataEntryPageProps )
           { props.incomeModels.length < 4 &&
             <Button variant="outlined" color="secondary" onClick={ () => props.addNewDebt( currentScenarioIndex ) }>Add Debt</Button>
           }
-        </GridList>
+        </ImageList>
       </div>
     </div>
   );

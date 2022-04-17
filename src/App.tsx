@@ -169,8 +169,8 @@ function App()
     setScenarios((draftState): void => {
       draftState.forEach((scenario, index) => {
         scenario.forecastResult = results[index];
-      })
-    })
+      });
+    });
   }
 
   return (
@@ -196,7 +196,6 @@ function App()
         setDebtMinPayment={ setDebtMinPayment }
         setDebtIsMortgage={ setDebtIsMortgage }
       />
-      <br />
       <ResultsPage
         runSimulation={ runSimulation }
         scenarios={ scenarios }
