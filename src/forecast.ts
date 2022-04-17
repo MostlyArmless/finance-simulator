@@ -7,6 +7,7 @@ import
     IDebtForCalculator,
     DebtContributionStrategy,
     IIncome,
+    IIncomeForCalculator,
   } from "./interfacesAndEnums";
 import { addNMonthsToDate } from "./helpers";
 import { DebtModel } from "./DebtModel";
@@ -116,7 +117,7 @@ export function forecast( input: IForecastInput ): IForecastResult
   return result;
 }
 
-export function getRequiredSavingsToRetire( incomes: IIncome[], desiredMonthlyBudgetPostRetirement: number ): number
+export function getRequiredSavingsToRetire( incomes: IIncomeForCalculator[], desiredMonthlyBudgetPostRetirement: number ): number
 {
   let contributionFromPensions = getContributionOfPensionsToPostRetirementSpending( incomes );
 
@@ -132,14 +133,14 @@ export function getRequiredSavingsToRetire( incomes: IIncome[], desiredMonthlyBu
   return requiredSavingsToRetire;
 }
 
-export function getContributionOfPensionsToPostRetirementSpending( incomes: IIncome[] ): number
+export function getContributionOfPensionsToPostRetirementSpending( incomes: IIncomeForCalculator[] ): number
 {
   let contributionFromPensions = 0;
   incomes.forEach( income =>
   {
-    if ( income.startCondition === IncomeStartCondition.Retirement )
+    if ( income.GetStartCondition() === IncomeStartCondition.Retirement )
     {
-      contributionFromPensions += income.monthlyValue;
+      contributionFromPensions += income.getMonthlyValue();
     }
   } );
 
