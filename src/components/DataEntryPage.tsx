@@ -1,8 +1,9 @@
-import { Button, createStyles, Grid, GridList, makeStyles, Paper, Theme } from '@material-ui/core';
 import { IDebt, IIncome, IncomeEndCondition, IncomeStartCondition } from '../interfacesAndEnums';
 import { Debt } from './Debt';
 import { useState } from 'react';
 import { Income } from './Income/Income';
+import { Theme } from '@emotion/react';
+import { makeStyles, createStyles, Button, GridList, Grid, Paper } from '@material-ui/core';
 
 const scaleFactor = 0.9;
 const cardWidth = 240;

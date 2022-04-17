@@ -1,20 +1,20 @@
 import styles from './Income.module.css';
-import TextField from '@material-ui/core/TextField';
-import { Grid, createStyles, makeStyles, Theme, Tooltip } from '@material-ui/core';
 import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
-import DayPickerInput from "react-day-picker/DayPickerInput";
-import "react-day-picker/lib/style.css";
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
 import { nameCharacterLimit } from '../../constants';
 import { validateName } from '../../tools';
+import { Theme } from '@emotion/react';
+import { makeStyles, createStyles, Grid, Tooltip, TextField } from '@material-ui/core';
+import { DayPicker } from 'react-day-picker';
+import 'react-day-picker/dist/style.css';
 
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     form: {
       '& .MuiTextField-root': {
-        margin: theme.spacing( 1 ),
+        margin: 8,
         width: `${nameCharacterLimit}ch`,
       },
     },
@@ -81,9 +81,9 @@ export function Income( props: IIncomeProps )
       props.setEndCondition( selectedCondition.value );
   }
 
-  const updateEndDate = ( date: Date | null ) =>
+  const updateEndDate = ( date: Date | undefined ) =>
   {
-    props.setEndDate( date === null ? new Date() : date );
+    props.setEndDate( date ? date : new Date());
   }
 
   const nameValidationResult = validateName( props.name );
@@ -181,7 +181,11 @@ export function Income( props: IIncomeProps )
         { props.endCondition === IncomeEndCondition.Date &&
           <>
             <h3>End Date:</h3>
-            <DayPickerInput onDayChange={ updateEndDate } />
+            <DayPicker
+              mode="single"
+              selected={props.endDate}
+              onSelect={updateEndDate}
+              />
           </>
         }
       </form>

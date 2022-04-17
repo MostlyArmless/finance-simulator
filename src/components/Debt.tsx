@@ -1,16 +1,15 @@
-import TextField from '@material-ui/core/TextField';
-import { Grid, createStyles, makeStyles, Theme, Tooltip } from '@material-ui/core';
+import { Theme } from '@emotion/react';
+import { makeStyles, createStyles, Grid, Tooltip, TextField, FormControlLabel, Checkbox } from '@material-ui/core';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { nameCharacterLimit } from '../constants';
 import { validateName } from '../tools';
-import { Checkbox, FormControlLabel } from '@material-ui/core';
 
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     root: {
       '& .MuiTextField-root': {
-        margin: theme.spacing( 1 ),
+        margin: 8,
         width: `${nameCharacterLimit}ch`,
       },
     },
