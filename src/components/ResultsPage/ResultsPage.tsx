@@ -18,10 +18,12 @@ export function ResultsPage( props: ResultsPageProps )
           <Button onClick={ props.runSimulation } color="primary">Run Simulation</Button>
           <SimulationAllResultsComparison scenarios={ props.scenarios } />
           <table>
-            <tr>
-              <td><ScenarioView scenarios={ props.scenarios } /></td>
-              <td><ScenarioView scenarios={ props.scenarios } /></td>
-            </tr>
+            <tbody>
+              <tr>
+                <td><ScenarioView scenarios={ props.scenarios } /></td>
+                <td><ScenarioView scenarios={ props.scenarios } /></td>
+              </tr>
+            </tbody>
           </table>
         </> }
     </div>
