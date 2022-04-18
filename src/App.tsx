@@ -196,6 +196,7 @@ function App()
         setDebtMinPayment={ setDebtMinPayment }
         setDebtIsMortgage={ setDebtIsMortgage }
       />
+      <hr />
       <ResultsPage
         runSimulation={ runSimulation }
         scenarios={ scenarios }

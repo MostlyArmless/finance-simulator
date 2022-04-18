@@ -31,7 +31,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
     },
     imageList: {
       flexWrap: "nowrap",
-      margin: 0,
+      margin: 8,
       height: 400,
     }
   } ),
@@ -73,7 +73,7 @@ export function DataEntryPage( props: DataEntryPageProps )
   const classes = useStyles();
 
   return (
-    <div>
+    <>
       <h1>Data Entry</h1>
       <Button onClick={ props.loadSampleData }>Load Sample Data</Button>
 
@@ -91,7 +91,7 @@ export function DataEntryPage( props: DataEntryPageProps )
         color="secondary"
         onClick={ () => props.addNewScenario() }
       >Add Scenario</Button>
-      <div className={ classes.imageList }>
+      <div>
         <ImageList
           className={ classes.imageList }
           >
@@ -130,7 +130,9 @@ export function DataEntryPage( props: DataEntryPageProps )
             >Add Income</Button>
           }
         </ImageList>
-
+        
+        <hr />
+        
         <ImageList
           className={ classes.imageList }
           >
@@ -165,6 +167,6 @@ export function DataEntryPage( props: DataEntryPageProps )
           }
         </ImageList>
       </div>
-    </div>
+    </>
   );
 }

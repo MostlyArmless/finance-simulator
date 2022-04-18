@@ -18,6 +18,9 @@ const useStyles = makeStyles( ( theme: Theme ) =>
         width: `${nameCharacterLimit}ch`,
       },
     },
+    textField: {
+      margin: 8,
+    }
   }),
 );
 
@@ -101,6 +104,7 @@ export function Income( props: IIncomeProps )
       <form className={ classes.form } noValidate autoComplete="off">
         <Tooltip title="The name of the income source.">
           <TextField
+            className={classes.textField}
             required
             id="income-name"
             label="Income Name"
@@ -111,10 +115,10 @@ export function Income( props: IIncomeProps )
             error={ !nameValidationResult.isValid }
           />
         </Tooltip>
-        <br />
 
         <Tooltip title="The monthly value of the income source.">
           <TextField
+            className={classes.textField}
             id="monthly-value"
             label="Monthly Value"
             type="number"
@@ -126,10 +130,10 @@ export function Income( props: IIncomeProps )
             onChange={ ( event ) => props.setMonthlyValue( parseFloat( event.target.value ) ) }
           />
         </Tooltip>
-        <br />
 
         <Tooltip title="When will you start receiving this income?">
           <TextField
+            className={classes.textField}
             id="start-condition"
             label="Start Condition"
             type="text"
@@ -151,10 +155,10 @@ export function Income( props: IIncomeProps )
             ) ) }
           </TextField>
         </Tooltip>
-        <br />
 
         <Tooltip title="When will you stop receiving this income?">
           <TextField
+            className={classes.textField}
             id="end-condition"
             label="End Condition"
             type="text"
@@ -176,7 +180,6 @@ export function Income( props: IIncomeProps )
             ) ) }
           </TextField>
         </Tooltip>
-        <br />
 
         { props.endCondition === IncomeEndCondition.Date &&
           <>

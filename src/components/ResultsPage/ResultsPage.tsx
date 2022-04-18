@@ -12,7 +12,7 @@ interface ResultsPageProps
 export function ResultsPage( props: ResultsPageProps )
 {
   return (
-    <div>
+    <>
       { props.scenarios.length > 0 &&
         <>
           <Button onClick={ props.runSimulation } color="primary">Run Simulation</Button>
@@ -26,6 +26,6 @@ export function ResultsPage( props: ResultsPageProps )
             </tbody>
           </table>
         </> }
-    </div>
+    </>
   );
 }
