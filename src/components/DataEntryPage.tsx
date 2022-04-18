@@ -5,18 +5,12 @@ import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
 import { makeStyles, createStyles, Button, ImageList, Grid, Paper } from '@material-ui/core';
 import AddBoxIcon from '@mui/icons-material/AddBox';
+import { ScenarioChooser } from './ScenarioChooser';
 
 const scaleFactor = 0.9;
 const cardWidth = 240;
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
-    root: {
-      display: "flex",
-      flexWrap: "wrap",
-      justifyContent: "space-around",
-      overflow: "hidden",
-      margin: 10,
-    },
     incomePaper: {
       zoom: scaleFactor,
       height: 360,
@@ -82,22 +76,14 @@ export function DataEntryPage( props: DataEntryPageProps )
   return (
     <>
       <h1>Data Entry</h1>
-      <Button onClick={ props.loadSampleData }>Load Sample Data</Button>
+      <ScenarioChooser
+        selectedScenarioIndex={ currentScenarioIndex }
+        loadSampleData={ props.loadSampleData }
+        setCurrentScenarioIndex={ setCurrentScenarioIndex }
+        scenarioNames={ props.scenarioNames }
+        addNewScenario={ props.addNewScenario }
+      />
 
-      <select
-        name='scenarioSelect'
-        onChange={ ( event ) => setCurrentScenarioIndex( parseInt( event.target.value ) ) }
-      >
-        { props.scenarioNames.map( ( name: string, index: number ) =>
-        {
-          return <option key={ index } value={ index }>{ name }</option>;
-        } ) }
-      </select>
-      <Button
-        variant="outlined"
-        color="secondary"
-        onClick={ () => props.addNewScenario() }
-      >Add Scenario</Button>
       <div>
         <ImageList
           className={ classes.imageList }
@@ -106,7 +92,7 @@ export function DataEntryPage( props: DataEntryPageProps )
             .map( ( incomeModel, incomeIndex ) =>
             {
               return (
-                <Grid key={ `grid-${incomeIndex}` } item xs={12}>
+                <Grid key={ `grid-${incomeIndex}` } item>
                   <Paper key={ `paper-${incomeIndex}` } className={ classes.incomePaper }>
                     <Income
                       key={ `{income-${incomeIndex}` }
@@ -176,4 +162,4 @@ export function DataEntryPage( props: DataEntryPageProps )
       </div>
     </>
   );
-}
+  }
