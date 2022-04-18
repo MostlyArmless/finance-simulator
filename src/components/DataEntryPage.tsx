@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
 import { makeStyles, createStyles, Button, ImageList, Grid, Paper } from '@material-ui/core';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 const scaleFactor = 0.9;
 const cardWidth = 240;
@@ -33,6 +34,12 @@ const useStyles = makeStyles( ( theme: Theme ) =>
       flexWrap: "nowrap",
       margin: 8,
       height: 400,
+    },
+    verticalCenter: {
+      margin: 0,
+      position: "relative",
+      top: "50%",
+      transform: "translateY( -50% )",
     }
   } ),
 );
@@ -122,13 +129,13 @@ export function DataEntryPage( props: DataEntryPageProps )
               )
             } ) }
 
-          { props.incomeModels.length < 4 &&
-            <Button
-              variant="outlined"
-              color="secondary"
+          <Grid item className={classes.verticalCenter}>
+            <AddBoxIcon
+              color="primary"
+              className={classes.verticalCenter}
               onClick={ () => props.addNewIncome( currentScenarioIndex ) }
-            >Add Income</Button>
-          }
+            >Add Income</AddBoxIcon>
+          </Grid>
         </ImageList>
         
         <hr />

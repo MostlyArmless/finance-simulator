@@ -1,7 +1,7 @@
 import { addNYearsToDate } from "./helpers";
 import { DebtContributionStrategy, IForecastInput, IForecastResult } from "./interfacesAndEnums";
 
-export const nameCharacterLimit: number = 25;
+export const incomeAndDebtNameCharacterLimit: number = 25;
 
 export const nullForecastInput: IForecastInput = {
   forecastName: "New Scenario",

@@ -3,7 +3,7 @@ import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnu
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
-import { nameCharacterLimit } from '../../constants';
+import { incomeAndDebtNameCharacterLimit } from '../../constants';
 import { validateName } from '../../tools';
 import { Theme } from '@emotion/react';
 import { makeStyles, createStyles, Grid, Tooltip, TextField } from '@material-ui/core';
@@ -15,7 +15,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
     form: {
       '& .MuiTextField-root': {
         margin: 8,
-        width: `${nameCharacterLimit}ch`,
+        width: `${incomeAndDebtNameCharacterLimit}ch`,
       },
     },
     textField: {
