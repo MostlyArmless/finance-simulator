@@ -1,5 +1,5 @@
 import styles from './Income.module.css';
-import { IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
+import { IIncome, IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import React from 'react';
@@ -26,12 +26,8 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 
 interface IIncomeProps
 {
-  name: string;
   index: number;
-  monthlyValue: number;
-  startCondition: IncomeStartCondition;
-  endCondition: IncomeEndCondition;
-  endDate: Date | undefined;
+  model: IIncome;
 
   removeIncome(): void;
 
@@ -89,10 +85,10 @@ export function Income( props: IIncomeProps )
     props.setEndDate( date ? date : new Date());
   }
 
-  const nameValidationResult = validateName( props.name );
+  const nameValidationResult = validateName( props.model.name );
 
   return (
-    <Grid id={ `income-${props.name}` } className={ styles.Income } container direction="row">
+    <Grid id={ `income-${props.model.name}` } className={ styles.Income } container direction="row">
       <h2>Income #{props.index + 1}</h2>
 
       {props.shouldDisplayDeleteButton &&
@@ -110,7 +106,7 @@ export function Income( props: IIncomeProps )
             label="Income Name"
             variant="outlined"
             helperText={ nameValidationResult.errorMessage }
-            value={ props.name }
+            value={ props.model.name }
             onChange={ event => props.setName( event.target.value ) }
             error={ !nameValidationResult.isValid }
           />
@@ -126,7 +122,7 @@ export function Income( props: IIncomeProps )
               shrink: true,
             } }
             variant="outlined"
-            value={ props.monthlyValue }
+            value={ props.model.monthlyValue }
             onChange={ ( event ) => props.setMonthlyValue( parseFloat( event.target.value ) ) }
           />
         </Tooltip>
@@ -145,7 +141,7 @@ export function Income( props: IIncomeProps )
             SelectProps={ {
               native: true,
             } }
-            value={ props.startCondition }
+            value={ props.model.startCondition }
             onChange={ updateStartCondition }
           >
             { startConditionOptions.map( ( option ) => (
@@ -170,7 +166,7 @@ export function Income( props: IIncomeProps )
             SelectProps={ {
               native: true,
             } }
-            value={ props.endCondition }
+            value={ props.model.endCondition }
             onChange={ updateEndCondition }
           >
             { endConditionOptions.map( ( option ) => (
@@ -181,12 +177,12 @@ export function Income( props: IIncomeProps )
           </TextField>
         </Tooltip>
 
-        { props.endCondition === IncomeEndCondition.Date &&
+        { props.model.endCondition === IncomeEndCondition.Date &&
           <>
             <h3>End Date:</h3>
             <DayPicker
               mode="single"
-              selected={props.endDate}
+              selected={props.model.endDate}
               onSelect={updateEndDate}
               />
           </>

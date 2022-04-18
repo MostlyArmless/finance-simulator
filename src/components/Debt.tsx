@@ -3,6 +3,7 @@ import { makeStyles, createStyles, Grid, Tooltip, TextField, FormControlLabel, C
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { incomeAndDebtNameCharacterLimit } from '../constants';
+import { IDebt } from '../interfacesAndEnums';
 import { validateName } from '../tools';
 
 const useStyles = makeStyles( ( theme: Theme ) =>
@@ -18,12 +19,8 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 
 export interface IDebtProps
 {
-  name: string;
   index: number;
-  initialBalance: number;
-  interestRate: number;
-  minPayment: number;
-  isMortgage: boolean;
+  model: IDebt;
 
   removeDebt(): void;
 
@@ -40,10 +37,10 @@ export function Debt( props: IDebtProps )
 {
   const classes = useStyles();
 
-  const nameValidationResult = validateName( props.name );
+  const nameValidationResult = validateName( props.model.name );
 
   return (
-    <Grid id={ `debt-${props.name}` } container direction="row">
+    <Grid id={ `debt-${props.model.name}` } container direction="row">
       <h2>Debt #{props.index + 1}</h2>
 
       { props.shouldDisplayDeleteButton &&
@@ -60,7 +57,7 @@ export function Debt( props: IDebtProps )
             label="Debt Name"
             variant="outlined"
             helperText={ nameValidationResult.errorMessage }
-            value={ props.name }
+            value={ props.model.name }
             onChange={ event => props.setName( event.target.value ) }
             error={ !nameValidationResult.isValid }
           />
@@ -76,7 +73,7 @@ export function Debt( props: IDebtProps )
               shrink: true,
             } }
             variant="outlined"
-            value={ props.initialBalance }
+            value={ props.model.initialBalance }
             onChange={ ( event ) => props.setInitialBalance( parseFloat( event.target.value ) ) }
           />
         </Tooltip>
@@ -91,7 +88,7 @@ export function Debt( props: IDebtProps )
               shrink: true,
             } }
             variant="outlined"
-            value={ props.interestRate }
+            value={ props.model.interestRate }
             onChange={ ( event ) => props.setInterestRate( parseFloat( event.target.value ) ) }
           />
         </Tooltip>
@@ -106,7 +103,7 @@ export function Debt( props: IDebtProps )
               shrink: true,
             } }
             variant="outlined"
-            value={ props.minPayment }
+            value={ props.model.minPayment }
             onChange={ ( event ) => props.setMinPayment( parseFloat( event.target.value ) ) }
           />
         </Tooltip>
@@ -117,8 +114,8 @@ export function Debt( props: IDebtProps )
         <FormControlLabel
           control={
             <Checkbox
-              checked={ props.isMortgage }
-              onChange={ () => { props.setIsMortgage( !props.isMortgage ) } }
+              checked={ props.model.isMortgage }
+              onChange={ () => { props.setIsMortgage( !props.model.isMortgage ) } }
               name="checkedB"
               color="primary"
             />

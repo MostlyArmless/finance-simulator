@@ -96,12 +96,8 @@ export function DataEntryPage( props: DataEntryPageProps )
                   <Paper key={ `paper-${incomeIndex}` } className={ classes.incomePaper }>
                     <Income
                       key={ `{income-${incomeIndex}` }
-                      name={ incomeModel.name }
                       index={ incomeIndex}
-                      monthlyValue={ incomeModel.monthlyValue }
-                      startCondition={ incomeModel.startCondition }
-                      endCondition={ incomeModel.endCondition }
-                      endDate={ incomeModel.endDate }
+                      model={ incomeModel }
                       setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
                       setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
                       setStartCondition={ ( val: IncomeStartCondition ) => props.setIncomeStartCondition( currentScenarioIndex, incomeIndex, val ) }
@@ -136,12 +132,8 @@ export function DataEntryPage( props: DataEntryPageProps )
                 <Paper key={ `paper-${debtIndex}` } className={ classes.debtPaper }>
                   <Debt
                     key={ `{debt-${debtIndex}` }
-                    name={ debtModel.name }
+                    model={ debtModel }
                     index={ debtIndex}
-                    initialBalance={ debtModel.initialBalance }
-                    interestRate={ debtModel.interestRate }
-                    minPayment={ debtModel.minPayment }
-                    isMortgage={ debtModel.isMortgage }
                     setName={ ( val: string ) => props.setDebtName( currentScenarioIndex, debtIndex, val ) }
                     setInitialBalance={ ( val: number ) => props.setDebtInitialBalance( currentScenarioIndex, debtIndex, val ) }
                     setInterestRate={ ( val: number ) => props.setDebtInterestRate( currentScenarioIndex, debtIndex, val ) }
