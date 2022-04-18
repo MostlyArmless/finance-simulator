@@ -3,17 +3,16 @@ import { Debt } from './Debt';
 import { useState } from 'react';
 import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
-import { makeStyles, createStyles, Button, ImageList, Grid, Paper } from '@material-ui/core';
+import { makeStyles, createStyles, Button, Grid, Paper } from '@material-ui/core';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ScenarioChooser } from './ScenarioChooser';
 
-const scaleFactor = 0.9;
+const scaleFactor = 0.75;
 const cardWidth = 240;
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     incomePaper: {
       zoom: scaleFactor,
-      height: 360,
       width: cardWidth,
       padding: 6,
       margin: 12
@@ -27,13 +26,16 @@ const useStyles = makeStyles( ( theme: Theme ) =>
     imageList: {
       flexWrap: "nowrap",
       margin: 8,
-      height: 400,
+      height: 310,
     },
     verticalCenter: {
       margin: 0,
       position: "relative",
       top: "50%",
       transform: "translateY( -50% )",
+    },
+    leftAlign: {
+      textAlign: "left",
     }
   } ),
 );
@@ -77,6 +79,7 @@ export function DataEntryPage( props: DataEntryPageProps )
     <>
       <h1>Data Entry</h1>
       <ScenarioChooser
+        className={ classes.leftAlign }
         selectedScenarioIndex={ currentScenarioIndex }
         loadSampleData={ props.loadSampleData }
         setCurrentScenarioIndex={ setCurrentScenarioIndex }
@@ -85,8 +88,13 @@ export function DataEntryPage( props: DataEntryPageProps )
       />
 
       <div>
-        <ImageList
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
           className={ classes.imageList }
+          spacing={ 2 }
           >
           { props.incomeModels[currentScenarioIndex]
             .map( ( incomeModel, incomeIndex ) =>
@@ -111,18 +119,22 @@ export function DataEntryPage( props: DataEntryPageProps )
               )
             } ) }
 
-          <Grid item className={classes.verticalCenter}>
+          <Grid item>
             <AddBoxIcon
               color="primary"
-              className={classes.verticalCenter}
               onClick={ () => props.addNewIncome( currentScenarioIndex ) }
             >Add Income</AddBoxIcon>
           </Grid>
-        </ImageList>
+        </Grid>
         
         <hr />
         
-        <ImageList
+        <Grid
+          container
+          direction="row"
+          justifyContent="flex-start"
+          alignItems="center"
+          spacing={ 2 }
           className={ classes.imageList }
           >
           { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
@@ -150,7 +162,7 @@ export function DataEntryPage( props: DataEntryPageProps )
           { props.incomeModels.length < 4 &&
             <Button variant="outlined" color="secondary" onClick={ () => props.addNewDebt( currentScenarioIndex ) }>Add Debt</Button>
           }
-        </ImageList>
+        </Grid>
       </div>
     </>
   );
