@@ -1,4 +1,4 @@
-import { nameCharacterLimit } from "./constants";
+import { incomeAndDebtNameCharacterLimit } from "./constants";
 import { IValidationResult } from "./interfacesAndEnums";
 
 export function LinSpace( startValue: number, increment: number, endValue: number ): number[]
@@ -27,7 +27,7 @@ export function formatNumberAsDollars( val: number ): string
 
 export function validateName( name: string ): IValidationResult
 {
-    const isValid = name.length <= nameCharacterLimit;
+    const isValid = name.length <= incomeAndDebtNameCharacterLimit;
     return {
         isValid: isValid,
         errorMessage: isValid ? "" : "Character limit exceeded"
