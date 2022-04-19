@@ -5,7 +5,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "npx jest --coverage",
     "eject": "react-scripts eject",
     "mochasetup": "node ./scripts/mochatest.js",
     "lint": "npx eslint . --fix --ext .ts --ext .tsx"
@@ -35,20 +35,19 @@
     "use-immer": "^0.6.0"
   },
   "devDependencies": {
-    "@types/chai": "^4.2.15",
+    "@types/jest": "^27.4.1",
     "@types/lodash": "^4.14.179",
-    "@types/mocha": "^8.2.2",
     "@types/react": "^17.0.3",
     "@types/react-plotly.js": "^2.2.4",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
-    "chai": "^4.3.4",
     "eslint": "^8.13.0",
     "eslint-plugin-react": "^7.29.4",
     "fs-extra": "^9.1.0",
-    "mocha": "^9.2.2",
+    "jest": "^27.5.1",
+    "ts-jest": "^27.1.4",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.3"
+    "typescript": "^4.6.3"
   },
   "browserslist": {
     "production": [
