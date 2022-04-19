@@ -39,7 +39,7 @@
     ],
     "array-element-newline": [
       "error",
-      "always"
+      "consistent"
     ],
     "function-call-argument-newline": [
       "error",

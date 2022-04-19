@@ -3,7 +3,7 @@ import { Debt } from './Debt';
 import { useState } from 'react';
 import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
-import { makeStyles, createStyles, Grid, Paper, Tooltip } from '@material-ui/core';
+import { makeStyles, createStyles, Grid, Paper, Tooltip, ImageList } from '@material-ui/core';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ScenarioChooser } from './ScenarioChooser';
 
@@ -44,6 +44,7 @@ const useStyles = makeStyles( ( theme: Theme ) =>
 interface DataEntryPageProps
 {
   loadSampleData(): void;
+  runSimulation(): void;
 
   scenarioNames: string[];
   addNewScenario(): void;
@@ -81,6 +82,7 @@ export function DataEntryPage( props: DataEntryPageProps )
     <>
       <h1>Data Entry</h1>
       <ScenarioChooser
+        runSimulation={ props.runSimulation }
         className={ classes.leftAlign }
         selectedScenarioIndex={ currentScenarioIndex }
         loadSampleData={ props.loadSampleData }
@@ -90,38 +92,29 @@ export function DataEntryPage( props: DataEntryPageProps )
       />
 
       <div>
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="center"
+        <ImageList
           className={ classes.imageList }
-          spacing={ 2 }
         >
           { props.incomeModels[currentScenarioIndex]
             .map( ( incomeModel, incomeIndex ) =>
             {
               return (
-                <Grid key={ `grid-${incomeIndex}` }
-                  item
+                <Paper key={ `paper-${incomeIndex}` }
+                  className={ classes.incomePaper }
                 >
-                  <Paper key={ `paper-${incomeIndex}` }
-                    className={ classes.incomePaper }
-                  >
-                    <Income
-                      key={ `{income-${incomeIndex}` }
-                      index={ incomeIndex }
-                      model={ incomeModel }
-                      setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
-                      setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
-                      setStartCondition={ ( val: IncomeStartCondition ) => props.setIncomeStartCondition( currentScenarioIndex, incomeIndex, val ) }
-                      setEndCondition={ ( val: IncomeEndCondition ) => props.setIncomeEndCondition( currentScenarioIndex, incomeIndex, val ) }
-                      setEndDate={ ( val: Date ) => props.setIncomeEndDate( currentScenarioIndex, incomeIndex, val ) }
-                      removeIncome={ () => props.removeIncome( currentScenarioIndex, incomeIndex ) }
-                      shouldDisplayDeleteButton={ props.incomeModels.length > 1 }
-                    />
-                  </Paper>
-                </Grid>
+                  <Income
+                    key={ `{income-${incomeIndex}` }
+                    index={ incomeIndex }
+                    model={ incomeModel }
+                    setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
+                    setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
+                    setStartCondition={ ( val: IncomeStartCondition ) => props.setIncomeStartCondition( currentScenarioIndex, incomeIndex, val ) }
+                    setEndCondition={ ( val: IncomeEndCondition ) => props.setIncomeEndCondition( currentScenarioIndex, incomeIndex, val ) }
+                    setEndDate={ ( val: Date ) => props.setIncomeEndDate( currentScenarioIndex, incomeIndex, val ) }
+                    removeIncome={ () => props.removeIncome( currentScenarioIndex, incomeIndex ) }
+                    shouldDisplayDeleteButton={ props.incomeModels.length > 1 }
+                  />
+                </Paper>
               );
             } ) }
 
@@ -134,16 +127,11 @@ export function DataEntryPage( props: DataEntryPageProps )
               </AddBoxIcon>
             </Tooltip>
           </Grid>
-        </Grid>
+        </ImageList>
         
         <hr />
         
-        <Grid
-          container
-          direction="row"
-          justifyContent="flex-start"
-          alignItems="center"
-          spacing={ 2 }
+        <ImageList
           className={ classes.imageList }
         >
           { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
@@ -181,7 +169,7 @@ export function DataEntryPage( props: DataEntryPageProps )
               </AddBoxIcon>
             </Tooltip>
           </Grid>
-        </Grid>
+        </ImageList>
       </div>
     </>
   );

@@ -1,5 +1,7 @@
 import './App.css';
 import {
+  IForecastInput,
+  IForecastResult,
   IncomeEndCondition,
   IncomeStartCondition,
   IScenarioIoPair,
@@ -13,7 +15,10 @@ import { useImmer } from 'use-immer';
 import Container from '@material-ui/core/Container';
 import { forecast } from './forecast';
 import { nullForecastInput, nullForecastResult } from './constants';
-import { cloneDeep } from 'lodash';
+import { cloneDeep, debounce } from 'lodash';
+import { useCallback, useEffect } from 'react';
+import { SimulationAllResultsComparison } from './components/SimulationAllResultsComparison/SimulationAllResultsComparison';
+import { Grid } from '@material-ui/core';
 
 const initialState: IScenarioIoPair[] = GetDummyScenarioData().map(input => {
   return {
@@ -24,22 +29,21 @@ const initialState: IScenarioIoPair[] = GetDummyScenarioData().map(input => {
 
 function App()
 {
-  const [scenarios,
-    setScenarios] = useImmer<IScenarioIoPair[]>( initialState );
+  const [scenarios, setScenarios] = useImmer<IScenarioIoPair[]>( initialState );
   
-  // ! TODO figure out how to useCallback, debounce, and useEffect together.
-  // const inputs = scenarios.map(scenario => scenario.forecastInput);
-  // const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
-  //   return inputs.map(input => forecast(input));
-  // }, 500), [])
+  const inputs = scenarios.map(scenario => scenario.forecastInput);
+  const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
+    return inputs.map(input => forecast(input));
+  }, 500), []);
 
-  // useEffect(() => {
-  //   //! TODO - sort scenarios best to worst here
-  //   const results = debouncedForecast(inputs);
-  //   setScenarios((draftState) => {
-  //     draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
-  //   });
-  // }, [inputs, setScenarios]);
+  useEffect(() => {
+    const results = debouncedForecast(inputs);
+    if (results) {
+      setScenarios((draftState) => {
+        draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
+      });
+    }
+  }, [inputs, setScenarios]);
 
   const loadSampleData = () => {
     const dummyData = GetDummyScenarioData();
@@ -177,32 +181,43 @@ function App()
 
   return (
     <Container className="App">
-      <DataEntryPage
-        loadSampleData={ loadSampleData }
-        addNewScenario={ addNewScenario }
-        scenarioNames={ scenarios.map(scenario => scenario.forecastInput.forecastName) }
-        incomeModels={ scenarios.map(scenario => scenario.forecastInput.incomes) }
-        addNewIncome={ addNewIncome }
-        removeIncome={ removeIncome }
-        setIncomeName={ setIncomeName }
-        setIncomeMonthlyValue={ setMonthlyValue }
-        setIncomeStartCondition={ setStartCondition }
-        setIncomeEndCondition={ setEndCondition }
-        setIncomeEndDate={ setIncomeEndDate }
-        debtModels={ scenarios.map(scenario => scenario.forecastInput.debts) }
-        addNewDebt={ addNewDebt }
-        removeDebt={ removeDebt }
-        setDebtName={ setDebtName }
-        setDebtInitialBalance={ setDebtInitialBalance }
-        setDebtInterestRate={ setDebtInterestRate }
-        setDebtMinPayment={ setDebtMinPayment }
-        setDebtIsMortgage={ setDebtIsMortgage }
-      />
-      <hr />
-      <ResultsPage
-        runSimulation={ runSimulation }
-        scenarios={ scenarios }
-      />
+      <Grid container>
+        <Grid item
+          xs={ 6 }
+        >
+          <DataEntryPage
+            loadSampleData={ loadSampleData }
+            runSimulation={ runSimulation }
+            addNewScenario={ addNewScenario }
+            scenarioNames={ scenarios.map(scenario => scenario.forecastInput.forecastName) }
+            incomeModels={ scenarios.map(scenario => scenario.forecastInput.incomes) }
+            addNewIncome={ addNewIncome }
+            removeIncome={ removeIncome }
+            setIncomeName={ setIncomeName }
+            setIncomeMonthlyValue={ setMonthlyValue }
+            setIncomeStartCondition={ setStartCondition }
+            setIncomeEndCondition={ setEndCondition }
+            setIncomeEndDate={ setIncomeEndDate }
+            debtModels={ scenarios.map(scenario => scenario.forecastInput.debts) }
+            addNewDebt={ addNewDebt }
+            removeDebt={ removeDebt }
+            setDebtName={ setDebtName }
+            setDebtInitialBalance={ setDebtInitialBalance }
+            setDebtInterestRate={ setDebtInterestRate }
+            setDebtMinPayment={ setDebtMinPayment }
+            setDebtIsMortgage={ setDebtIsMortgage }
+          />
+        </Grid>
+        <Grid item
+          xs={ 6 }
+        >
+          <SimulationAllResultsComparison scenarios={ scenarios } />
+        </Grid>
+        <ResultsPage
+          runSimulation={ runSimulation }
+          scenarios={ scenarios }
+        />
+      </Grid>
     </Container>
   );
 }

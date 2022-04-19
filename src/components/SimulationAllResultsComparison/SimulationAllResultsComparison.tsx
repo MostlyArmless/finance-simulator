@@ -11,14 +11,17 @@ interface SimulationAllResultsComparisonProps
 
 export function SimulationAllResultsComparison(props: SimulationAllResultsComparisonProps)
 {
-    
-  const xData = props.scenarios.map( elem => {
+  // Sort scenarios by time until retirement
+  const sortedScenarios = [...props.scenarios]
+    .sort( (a, b) => a.forecastResult.numMonthsToReachRetirementGoal - b.forecastResult.numMonthsToReachRetirementGoal );
+
+  const xData = sortedScenarios.map( elem => {
     return elem.forecastResult.numMonthsToReachRetirementGoal === Number.POSITIVE_INFINITY
       ? null
       : elem.forecastResult.numMonthsToReachRetirementGoal;
   } ).reverse();
 
-  const yData = props.scenarios.map( elem => elem.forecastInput.forecastName ).reverse();
+  const yData = sortedScenarios.map( elem => elem.forecastInput.forecastName ).reverse();
   const labelText = xData.map( x => { return x === null ? 'Retirement Unreachable' : String( x ); } );
 
   return (
