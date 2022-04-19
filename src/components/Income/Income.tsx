@@ -2,7 +2,7 @@ import styles from './Income.module.css';
 import { IIncome, IncomeEndCondition, IncomeStartCondition } from '../../interfacesAndEnums';
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import React from 'react';
+import React, { useState } from 'react';
 import { incomeAndDebtNameCharacterLimit } from '../../constants';
 import { validateName } from '../../tools';
 import { Theme } from '@emotion/react';
@@ -66,6 +66,8 @@ const endConditionOptions: { value: IncomeEndCondition, label: string }[] = [
 export function Income( props: IIncomeProps )
 {
   const classes = useStyles();
+  const [shouldShowDatePicker,
+    setShouldShowDatePicker] = useState<boolean>(false);
 
   const updateStartCondition = ( event: React.ChangeEvent<HTMLInputElement> ) =>
   {
@@ -193,12 +195,14 @@ export function Income( props: IIncomeProps )
 
         { props.model.endCondition === IncomeEndCondition.Date &&
           <>
-            <h3>End Date:</h3>
-            <DayPicker
+            <h3 onClick={ () => setShouldShowDatePicker(!shouldShowDatePicker) }>End Date:</h3>
+            { shouldShowDatePicker && <DayPicker
               mode="single"
               selected={ props.model.endDate }
               onSelect={ updateEndDate }
+              onDayClick={ () => setShouldShowDatePicker(false) }
             />
+            }
           </>
         }
       </form>
