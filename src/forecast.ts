@@ -94,7 +94,7 @@ export function forecast( input: IForecastInput ): IForecastResult
     if ( !allDebtsArePaid )
     {
       const { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, debts, iMonth, input.debtContributionStrategy );
-      updatedDebts = ApplyInterestToDebts( updatedDebts, iMonth ); // Determines the next month's balance of each debt
+      ApplyInterestToDebts( updatedDebts, iMonth ); // Determines the next month's balance of each debt
       monthlySpendingPool = updatedMonthlySpendingPool;
       debts = updatedDebts;
     }
@@ -180,18 +180,18 @@ export function contributeToDebts( monthlySpendingPool: number, debts: DebtModel
   {
     switch ( strategy )
     {
-    case DebtContributionStrategy.HighestInterestFirst:
-    {
-      priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
-      break;
-    }
-    case DebtContributionStrategy.LowestBalanceFirst:
-    {
-      priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
-      break;
-    }
-    default:
-      throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
+      case DebtContributionStrategy.HighestInterestFirst:
+        {
+          priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
+          break;
+        }
+      case DebtContributionStrategy.LowestBalanceFirst:
+        {
+          priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
+          break;
+        }
+      default:
+        throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
     }
 
     if ( priorityDebt === null )
@@ -211,14 +211,12 @@ export function contributeToDebts( monthlySpendingPool: number, debts: DebtModel
   return { updatedMonthlySpendingPool: monthlySpendingPool, updatedDebts: debts };
 }
 
-export function ApplyInterestToDebts( debts: DebtModel[], iMonth: number ): DebtModel[]
+export function ApplyInterestToDebts( debts: DebtModel[], iMonth: number ): void
 {
   debts.forEach( debt =>
   {
     debt.ApplyInterest( iMonth );
   } );
-
-  return debts;
 }
 
 export function contributeToSavings( savings: number[], iMonth: number, amountToContribute: number ): number[]

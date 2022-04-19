@@ -16,18 +16,55 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "@typescript-eslint"
+  ],
   "rules": {
-    "indent": ["error", 2],
-    "linebreak-style": ["error", "windows"],
-    "quotes": ["error", "single"],
-    "semi": ["error", "always"],
-    "array-element-newline": ["error", "always"],
+    "indent": [
+      "error",
+      2
+    ],
+    "linebreak-style": [
+      "error",
+      "windows"
+    ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "array-element-newline": [
+      "error",
+      "always"
+    ],
+    "function-call-argument-newline": [
+      "error",
+      "consistent"
+    ],
     "react/react-in-jsx-scope": "off",
-    "react/jsx-max-props-per-line": ["error", { "maximum": 1, "when": "always" }],
-    "react/jsx-closing-bracket-location": ["error", "line-aligned"],
-    "react/jsx-closing-tag-location": ["error", "always"],
-    "react/jsx-curly-spacing": ["error", "always"]
+    "react/jsx-max-props-per-line": [
+      "error",
+      {
+        "maximum": 1,
+        "when": "always"
+      }
+    ],
+    "react/jsx-closing-bracket-location": [
+      "error",
+      "line-aligned"
+    ],
+    "react/jsx-closing-tag-location": [
+      "error",
+      "always"
+    ],
+    "react/jsx-curly-spacing": [
+      "error",
+      "always"
+    ]
   },
   "settings": {
     "react": {
