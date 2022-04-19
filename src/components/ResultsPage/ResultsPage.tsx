@@ -15,7 +15,9 @@ export function ResultsPage( props: ResultsPageProps )
     <>
       { props.scenarios.length > 0 &&
         <>
-          <Button onClick={ props.runSimulation } color="primary">Run Simulation</Button>
+          <Button onClick={ props.runSimulation }
+            color="primary"
+          >Run Simulation</Button>
           <SimulationAllResultsComparison scenarios={ props.scenarios } />
           <table>
             <tbody>

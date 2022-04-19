@@ -25,7 +25,9 @@ export function ScenarioTable( props: { summary: IScenarioSummary } )
       <h2>Scenario Summary</h2>
       <h3>{ props.summary.scenarioName }</h3>
       <TableContainer component={ Paper }>
-        <Table className={ classes.table } aria-label="simple table">
+        <Table className={ classes.table }
+          aria-label="simple table"
+        >
           <TableHead>
             <TableRow>
               <TableCell>Attribute</TableCell>

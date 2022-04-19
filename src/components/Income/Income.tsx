@@ -89,16 +89,25 @@ export function Income( props: IIncomeProps )
   const nameValidationResult = validateName( props.model.name );
 
   return (
-    <Grid id={ `income-${props.model.name}` } className={ styles.Income } container direction="row">
+    <Grid id={ `income-${props.model.name}` }
+      className={ styles.Income }
+      container
+      direction="row"
+    >
       <h2>Income #{props.index + 1}</h2>
 
       {props.shouldDisplayDeleteButton &&
-        <IconButton color="secondary" onClick={ () => { props.removeIncome(); } }>
+        <IconButton color="secondary"
+          onClick={ () => { props.removeIncome(); } }
+        >
           <DeleteIcon />
         </IconButton>
       }
 
-      <form className={ classes.form } noValidate autoComplete="off">
+      <form className={ classes.form }
+        noValidate
+        autoComplete="off"
+      >
         <Tooltip title="The name of the income source.">
           <TextField
             className={classes.textField}
@@ -146,7 +155,9 @@ export function Income( props: IIncomeProps )
             onChange={ updateStartCondition }
           >
             { startConditionOptions.map( ( option ) => (
-              <option key={ option.value } value={ option.value }>
+              <option key={ option.value }
+                value={ option.value }
+              >
                 { option.label }
               </option>
             ) ) }
@@ -171,7 +182,9 @@ export function Income( props: IIncomeProps )
             onChange={ updateEndCondition }
           >
             { endConditionOptions.map( ( option ) => (
-              <option key={ option.value } value={ option.value }>
+              <option key={ option.value }
+                value={ option.value }
+              >
                 { option.label }
               </option>
             ) ) }

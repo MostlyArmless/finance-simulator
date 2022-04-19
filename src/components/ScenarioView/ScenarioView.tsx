@@ -64,18 +64,23 @@ export function ScenarioView( props: ScenarioViewProps )
 
   return (
     <div className={ styles.ScenarioView } >
-      <select name='forecastSelect' onChange={ handleDropdownChange }>
+      <select name='forecastSelect'
+        onChange={ handleDropdownChange }
+      >
         { props.scenarios.map( scenario =>
         {
           const name = scenario.forecastInput.forecastName;
-          return <option key={ name } value={ name }>{ name }</option>;
+          return <option key={ name }
+            value={ name }
+          >{ name }</option>;
         } )
         }
       </select>
       <div className={ styles.GridContainer }>
         <div className={ styles.item1 }>
           <ScenarioTable
-            summary={ summary } />
+            summary={ summary }
+          />
         </div>
 
         <div className={ styles.item2 }>

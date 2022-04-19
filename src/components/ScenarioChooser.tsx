@@ -13,8 +13,13 @@ export function ScenarioChooser(props: ScenarioChooserProps) {
 
   return (
     <div className={props.className}>
-      <Button variant="outlined" onClick={props.loadSampleData}>Load Sample Data</Button>
-      <Button variant="outlined" color="secondary" onClick={() => props.addNewScenario()}>Add Scenario</Button>
+      <Button variant="outlined"
+        onClick={props.loadSampleData}
+      >Load Sample Data</Button>
+      <Button variant="outlined"
+        color="secondary"
+        onClick={() => props.addNewScenario()}
+      >Add Scenario</Button>
 
       <Select
         value={props.selectedScenarioIndex}
@@ -22,7 +27,9 @@ export function ScenarioChooser(props: ScenarioChooserProps) {
       >
         {
           props.scenarioNames.map((name: string, index: number) => {
-            return <MenuItem key={index} value={index}>{name}</MenuItem>;
+            return <MenuItem key={index}
+              value={index}
+            >{name}</MenuItem>;
           })
         }
       </Select>

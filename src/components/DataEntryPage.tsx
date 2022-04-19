@@ -102,8 +102,12 @@ export function DataEntryPage( props: DataEntryPageProps )
             .map( ( incomeModel, incomeIndex ) =>
             {
               return (
-                <Grid key={ `grid-${incomeIndex}` } item>
-                  <Paper key={ `paper-${incomeIndex}` } className={ classes.incomePaper }>
+                <Grid key={ `grid-${incomeIndex}` }
+                  item
+                >
+                  <Paper key={ `paper-${incomeIndex}` }
+                    className={ classes.incomePaper }
+                  >
                     <Income
                       key={ `{income-${incomeIndex}` }
                       index={ incomeIndex}
@@ -142,8 +146,12 @@ export function DataEntryPage( props: DataEntryPageProps )
           { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
           {
             return (
-              <Grid key={ `grid-${debtIndex}` } item>
-                <Paper key={ `paper-${debtIndex}` } className={ classes.debtPaper }>
+              <Grid key={ `grid-${debtIndex}` }
+                item
+              >
+                <Paper key={ `paper-${debtIndex}` }
+                  className={ classes.debtPaper }
+                >
                   <Debt
                     key={ `{debt-${debtIndex}` }
                     model={ debtModel }
@@ -162,7 +170,10 @@ export function DataEntryPage( props: DataEntryPageProps )
           } ) }
 
           { props.incomeModels.length < 4 &&
-            <Button variant="outlined" color="secondary" onClick={ () => props.addNewDebt( currentScenarioIndex ) }>Add Debt</Button>
+            <Button variant="outlined"
+              color="secondary"
+              onClick={ () => props.addNewDebt( currentScenarioIndex ) }
+            >Add Debt</Button>
           }
         </Grid>
       </div>

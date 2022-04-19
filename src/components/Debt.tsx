@@ -41,16 +41,24 @@ export function Debt( props: IDebtProps )
   const nameValidationResult = validateName( props.model.name );
 
   return (
-    <Grid id={ `debt-${props.model.name}` } container direction="row">
+    <Grid id={ `debt-${props.model.name}` }
+      container
+      direction="row"
+    >
       <h2>Debt #{props.index + 1}</h2>
 
       { props.shouldDisplayDeleteButton &&
-        <IconButton color="secondary" onClick={ () => { props.removeDebt(); } }>
+        <IconButton color="secondary"
+          onClick={ () => { props.removeDebt(); } }
+        >
           <DeleteIcon />
         </IconButton>
       }
 
-      <form className={ classes.root } noValidate autoComplete="off">
+      <form className={ classes.root }
+        noValidate
+        autoComplete="off"
+      >
         <Tooltip title="The name of the debt.">
           <TextField
             required
