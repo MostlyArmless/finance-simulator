@@ -3,7 +3,7 @@ import { Debt } from './Debt';
 import { useState } from 'react';
 import { Income } from './Income/Income';
 import { Theme } from '@emotion/react';
-import { makeStyles, createStyles, Button, Grid, Paper } from '@material-ui/core';
+import { makeStyles, createStyles, Grid, Paper, Tooltip } from '@material-ui/core';
 import AddBoxIcon from '@mui/icons-material/AddBox';
 import { ScenarioChooser } from './ScenarioChooser';
 
@@ -126,11 +126,13 @@ export function DataEntryPage( props: DataEntryPageProps )
             } ) }
 
           <Grid item>
-            <AddBoxIcon
-              color="primary"
-              onClick={ () => props.addNewIncome( currentScenarioIndex ) }
-            >Add Income
-            </AddBoxIcon>
+            <Tooltip title="Add another source of income">
+              <AddBoxIcon
+                color="primary"
+                onClick={ () => props.addNewIncome( currentScenarioIndex ) }
+              >
+              </AddBoxIcon>
+            </Tooltip>
           </Grid>
         </Grid>
         
@@ -170,13 +172,15 @@ export function DataEntryPage( props: DataEntryPageProps )
             );
           } ) }
 
-          { props.incomeModels.length < 4 &&
-            <Button variant="outlined"
-              color="secondary"
-              onClick={ () => props.addNewDebt( currentScenarioIndex ) }
-            >Add Debt
-            </Button>
-          }
+          <Grid item>
+            <Tooltip title="Add another source of debt">
+              <AddBoxIcon
+                color="primary"
+                onClick={ () => props.addNewDebt( currentScenarioIndex ) }
+              >
+              </AddBoxIcon>
+            </Tooltip>
+          </Grid>
         </Grid>
       </div>
     </>
