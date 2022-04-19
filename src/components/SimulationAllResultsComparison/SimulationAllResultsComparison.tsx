@@ -13,15 +13,15 @@ export function SimulationAllResultsComparison(props: SimulationAllResultsCompar
 {
   // Sort scenarios by time until retirement
   const sortedScenarios = [...props.scenarios]
-    .sort( (a, b) => a.forecastResult.numMonthsToReachRetirementGoal - b.forecastResult.numMonthsToReachRetirementGoal );
+    .sort( (a, b) => b.forecastResult.numMonthsToReachRetirementGoal - a.forecastResult.numMonthsToReachRetirementGoal );
 
   const xData = sortedScenarios.map( elem => {
     return elem.forecastResult.numMonthsToReachRetirementGoal === Number.POSITIVE_INFINITY
       ? null
       : elem.forecastResult.numMonthsToReachRetirementGoal;
-  } ).reverse();
+  } );
 
-  const yData = sortedScenarios.map( elem => elem.forecastInput.forecastName ).reverse();
+  const yData = sortedScenarios.map( elem => elem.forecastInput.forecastName );
   const labelText = xData.map( x => { return x === null ? 'Retirement Unreachable' : String( x ); } );
 
   return (
@@ -34,9 +34,14 @@ export function SimulationAllResultsComparison(props: SimulationAllResultsCompar
             type: 'bar',
             orientation: 'h',
             text: labelText,
-            textposition: 'auto'
+            textposition: 'inside',
           }] }
-        layout={ { width: 1000, height: 480, title: 'Months until Retirement', margin: { l: 500 } } }
+        layout={ {
+          width: 1000,
+          height: 480,
+          title: 'Months until Retirement',
+          margin: { l: 500 },
+        } }
       />
     </div>
   );

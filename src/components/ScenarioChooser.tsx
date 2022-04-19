@@ -29,7 +29,7 @@ export function ScenarioChooser(props: ScenarioChooserProps) {
         color="primary"
       >Run Simulation
       </Button>
-
+      <h2>Current Scenario</h2>
       <Select
         value={ props.selectedScenarioIndex }
         onChange={ event => props.setCurrentScenarioIndex(parseInt(event.target.value as string)) }

@@ -1,4 +1,4 @@
-import { IScenarioIoPair } from '../../interfacesAndEnums';
+import { IScenarioIoPair, IScenarioSummary } from '../../interfacesAndEnums';
 import { ScenarioTable } from '../ScenarioTable/ScenarioTable';
 import styles from './ScenarioView.module.css';
 import { PlotData } from 'plotly.js';
@@ -13,6 +13,7 @@ const Plot = createPlotlyComponent( Plotly );
 interface ScenarioViewProps
 {
   scenarios: IScenarioIoPair[];
+  index: number;
 }
 
 function getTraces( scenario: IScenarioIoPair ): Partial<PlotData>[]
@@ -37,7 +38,7 @@ function getTraces( scenario: IScenarioIoPair ): Partial<PlotData>[]
 export function ScenarioView( props: ScenarioViewProps )
 {
   const [selectedScenarioIndex,
-    setSelectedScenarioIndex] = useState<number>( 0 );
+    setSelectedScenarioIndex] = useState<number>( props.index );
 
   const handleDropdownChange = ( event: React.ChangeEvent<HTMLSelectElement> ) =>
   {
@@ -52,7 +53,7 @@ export function ScenarioView( props: ScenarioViewProps )
   if ( props.scenarios[0].forecastResult.debts.length === 0 )
     return <ResultsMissing />;
 
-  const summary = summarizeForecastResult( selectedScenario.forecastInput, selectedScenario.forecastResult );
+  const summary: IScenarioSummary = summarizeForecastResult( selectedScenario.forecastInput, selectedScenario.forecastResult );
 
   const maxMonths = props.scenarios
     .map( scenario => scenario.forecastResult.totalDebtVsTime.length )
