@@ -1,8 +1,5 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from 'chai';
 import { DebtModel } from '../DebtModel';
 import { IDebtForCalculator } from '../interfacesAndEnums';
-
 
 describe( 'Debt', () =>
 {
@@ -20,32 +17,32 @@ describe( 'Debt', () =>
 
   it( 'Initializes correctly', () =>
   {
-    expect( testSubject.GetCurrentBalance() ).to.equal( 100 );
-    expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 100 );
-    expect( testSubject.interestRate ).to.equal( 0.05 );
-    expect( testSubject.name ).to.equal( 'Credit Card' );
-    expect( testSubject.minPayment ).to.equal( 20 );
+    expect( testSubject.GetCurrentBalance() ).toEqual( 100 );
+    expect( testSubject.GetBalanceAtMonth( 0 ) ).toEqual( 100 );
+    expect( testSubject.interestRate ).toEqual( 0.05 );
+    expect( testSubject.name ).toEqual( 'Credit Card' );
+    expect( testSubject.minPayment ).toEqual( 20 );
   } );
 
   it( 'Should throw error when asked to get a balance at a negative month index', () =>
   {
-    expect( () => testSubject.GetBalanceAtMonth( -1 ) ).to.throw();
+    expect( () => testSubject.GetBalanceAtMonth( -1 ) ).toThrow();
   } );
 
   it( 'MakeMinPayment', () =>
   {
     testSubject.MakeMinPayment( 0 );
 
-    expect( testSubject.GetCurrentBalance() ).to.equal( 80 );
-    expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 80 );
+    expect( testSubject.GetCurrentBalance() ).toEqual( 80 );
+    expect( testSubject.GetBalanceAtMonth( 0 ) ).toEqual( 80 );
   } );
 
   it( 'MakePayment', () =>
   {
     testSubject.MakePayment( 60, 0 );
 
-    expect( testSubject.GetCurrentBalance() ).to.equal( 40 );
-    expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 40 );
+    expect( testSubject.GetCurrentBalance() ).toEqual( 40 );
+    expect( testSubject.GetBalanceAtMonth( 0 ) ).toEqual( 40 );
   } );
 
   it( 'Making a payment larger than the remaining balance reduces balance to zero and returns the actual payment amount', () =>
@@ -66,37 +63,37 @@ describe( 'Debt', () =>
     } );
 
     let actualPayment = creditCardDebt.MakeMinPayment( 0 );
-    expect( actualPayment ).to.equal( 20 );
-    expect( creditCardDebt.GetCurrentBalance() ).to.equal( 0 );
+    expect( actualPayment ).toEqual( 20 );
+    expect( creditCardDebt.GetCurrentBalance() ).toEqual( 0 );
 
     actualPayment = mortgage.MakeMinPayment( 0 );
-    expect( actualPayment ).to.equal( 20 );
-    expect( mortgage.GetCurrentBalance() ).to.equal( 0 );
+    expect( actualPayment ).toEqual( 20 );
+    expect( mortgage.GetCurrentBalance() ).toEqual( 0 );
   } );
 
   it( 'Not allowed to MakePayment after calling ApplyInterest for a given month', () =>
   {
     testSubject.ApplyInterest( 0 );
-    expect( () => testSubject.MakeMinPayment( 0 ) ).to.throw();
+    expect( () => testSubject.MakeMinPayment( 0 ) ).toThrow();
   } );
 
   it( 'Not allowed to MakeMinPayment after calling ApplyInterest for a given month', () =>
   {
     testSubject.ApplyInterest( 0 );
-    expect( () => { testSubject.MakePayment( 10, 0 ); } ).to.throw();
+    expect( () => { testSubject.MakePayment( 10, 0 ); } ).toThrow();
   } );
 
   it( 'ApplyInterest after making payment correctly calculates next month\'s interest', () =>
   {
     testSubject.MakePayment( 50, 0 );
     testSubject.ApplyInterest( 0 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.equal( 50 * 1.05 );
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toEqual( 50 * 1.05 );
   } );
 
   it( 'Can call ApplyInterest and get the correct next balance without ever making a payment', () =>
   {
     testSubject.ApplyInterest( 0 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.equal( 100 * 1.05 );
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toEqual( 100 * 1.05 );
   } );
 
   it( 'Compounding interest across months works correctly', () =>
@@ -107,25 +104,25 @@ describe( 'Debt', () =>
     testSubject.MakeMinPayment( 0 );
     testSubject.MakePayment( 10, 0 );
     testSubject.ApplyInterest( 0 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.equal( expectedMonth1Balance );
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toEqual( expectedMonth1Balance );
     testSubject.MakeMinPayment( 1 );
     testSubject.ApplyInterest( 1 );
-    expect( testSubject.GetBalanceAtMonth( 2 ) ).to.equal( expectedMonth2Balance );
+    expect( testSubject.GetBalanceAtMonth( 2 ) ).toEqual( expectedMonth2Balance );
   } );
 
   it( 'Getting balance of month beyond where most recent interest has been applied return undefined', () =>
   {
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.be.undefined;
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toBeUndefined();
     testSubject.ApplyInterest( 0 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.equal( 100 * 1.05 );
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toEqual( 100 * 1.05 );
   } );
 
   it( 'Can\'t ApplyInterest to any month other than the one after the last month to which to you applied interest', () =>
   {
-    expect( () => testSubject.ApplyInterest( 1 ) ).to.throw();
+    expect( () => testSubject.ApplyInterest( 1 ) ).toThrow();
     testSubject.ApplyInterest( 0 );
-    expect( () => testSubject.ApplyInterest( 1 ) ).to.not.throw();
-    expect( () => testSubject.ApplyInterest( 3 ) ).to.throw();
+    expect( () => testSubject.ApplyInterest( 1 ) ).not.toThrow();
+    expect( () => testSubject.ApplyInterest( 3 ) ).toThrow();
   } );
 
   it( 'Calling ApplyInterest on a mortgage just copies the current balance to next month', () =>
@@ -137,14 +134,14 @@ describe( 'Debt', () =>
       minPayment: 2000,
       isMortgage: true
     } );
-    expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 250000 );
+    expect( testSubject.GetBalanceAtMonth( 0 ) ).toEqual( 250000 );
 
     testSubject.MakeMinPayment( 0 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.be.undefined; // No balance has carried forward yet
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toBeUndefined; // No balance has carried forward yet
 
     testSubject.ApplyInterest( 0 );
 
-    expect( testSubject.GetBalanceAtMonth( 0 ) ).to.equal( 250000 - 2000 );
-    expect( testSubject.GetBalanceAtMonth( 1 ) ).to.equal( 250000 - 2000 );
+    expect( testSubject.GetBalanceAtMonth( 0 ) ).toEqual( 250000 - 2000 );
+    expect( testSubject.GetBalanceAtMonth( 1 ) ).toEqual( 250000 - 2000 );
   } );
 } );

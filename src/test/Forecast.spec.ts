@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-expressions */
-import { expect } from 'chai';
 import { DebtModel } from '../DebtModel';
 import { GetUnpaidDebtWithHighestInterest, GetUnpaidDebtWithLowestBalance, getRequiredSavingsToRetire } from '../forecast';
 import { IncomeModel } from '../IncomeModel';
@@ -59,15 +57,15 @@ describe( 'Forecast', () =>
   it( 'Get unpaid debt with highest interest rate', () =>
   {
     const actualDebt = GetUnpaidDebtWithHighestInterest( debts );
-    expect( actualDebt ).to.not.be.null;
-    expect( actualDebt?.name ?? false ).to.equal( 'C' );
+    expect( actualDebt ).not.toBeNull();
+    expect( actualDebt?.name ?? false ).toEqual( 'C' );
   } );
 
   it( 'Get unpaid debt with lowest balance', () =>
   {
     const actualDebt = GetUnpaidDebtWithLowestBalance( debts );
-    expect( actualDebt ).to.not.be.null;
-    expect( actualDebt?.name ?? false ).to.equal( 'B' );
+    expect( actualDebt ).not.toBeNull();
+    expect( actualDebt?.name ?? false ).toEqual( 'B' );
   } );
 
   it( 'Get unpaid debt with lowest balance after one is already paid off', () =>
@@ -75,8 +73,8 @@ describe( 'Forecast', () =>
     debts[1].MakePayment( 500, 0 );
 
     const actualDebt = GetUnpaidDebtWithLowestBalance( debts );
-    expect( actualDebt ).to.not.be.null;
-    expect( actualDebt?.name ?? false ).to.equal( 'C' );
+    expect( actualDebt ).not.toBeNull();
+    expect( actualDebt?.name ?? false ).toEqual( 'C' );
   } );
 
   it( 'getRequiredSavingsToRetire without pension', () =>
@@ -86,7 +84,7 @@ describe( 'Forecast', () =>
     const jobIncomeOnly = [incomes[0]];
     const actual = getRequiredSavingsToRetire( jobIncomeOnly, desiredMonthlyBudgetPostRetirement );
 
-    expect( actual ).to.equal( 150000 );
+    expect( actual ).toEqual( 150000 );
   } );
 
   it( 'getRequiredSavingsToRetire with pension', () =>
@@ -95,7 +93,7 @@ describe( 'Forecast', () =>
     const desiredMonthlyBudgetPostRetirement = 500;
     const actual = getRequiredSavingsToRetire( incomes, desiredMonthlyBudgetPostRetirement );
 
-    expect( actual ).to.equal( 120000 );
+    expect( actual ).toEqual( 120000 );
   } );
 
   it( 'getRequiredSavingsToRetire with pensions that exceed the post retirement spending', () =>
@@ -104,8 +102,6 @@ describe( 'Forecast', () =>
     const desiredMonthlyBudgetPostRetirement = 100;
     const actual = getRequiredSavingsToRetire( incomes, desiredMonthlyBudgetPostRetirement );
 
-    expect( actual ).to.equal( 0 );
+    expect( actual ).toEqual( 0 );
   } );
-
-
 } );

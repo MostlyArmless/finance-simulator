@@ -1,4 +1,3 @@
-import { expect } from 'chai';
 import { addNMonthsToDate } from '../helpers';
 import { IncomeModel } from '../IncomeModel';
 import { IIncomeForCalculator, IncomeStartCondition, IncomeEndCondition } from '../interfacesAndEnums';
@@ -26,7 +25,7 @@ describe( 'Income', () =>
       simulationStartDate: simulationStartDate,
       incomeEndDate: endDate
     } );
-    expect( testSubject.GetValueAtMonth( 0 ) ).to.equal( 5000 );
+    expect( testSubject.GetValueAtMonth( 0 ) ).toEqual( 5000 );
   } );
 
   it( 'GetValueAtMonth check endDate boundary conditions', () =>
@@ -41,9 +40,9 @@ describe( 'Income', () =>
       simulationStartDate: simulationStartDate,
       incomeEndDate: endDate
     } );
-    expect( testSubject.GetValueAtMonth( 0 ) ).to.equal( 5000 );
-    expect( testSubject.GetValueAtMonth( 1 ) ).to.equal( 5000 );
-    expect( testSubject.GetValueAtMonth( 2 ) ).to.equal( 0 );
+    expect( testSubject.GetValueAtMonth( 0 ) ).toEqual( 5000 );
+    expect( testSubject.GetValueAtMonth( 1 ) ).toEqual( 5000 );
+    expect( testSubject.GetValueAtMonth( 2 ) ).toEqual( 0 );
   } );
 
   it( 'Setting an incomeStartDate earlier than the startDate throws', () =>
@@ -59,7 +58,7 @@ describe( 'Income', () =>
       incomeEndDate: endDate
     } );
 
-    expect( () => testSubject.SetIncomeStartDate( new Date( 2019, 11 ) ) ).to.throw();
+    expect( () => testSubject.SetIncomeStartDate( new Date( 2019, 11 ) ) ).toThrow();
   } );
 
   it( 'Setting an incomeStartDate later than the endDate throws', () =>
@@ -75,7 +74,7 @@ describe( 'Income', () =>
       incomeEndDate: endDate
     } );
 
-    expect( () => testSubject.SetIncomeStartDate( new Date( 2020, 2 ) ) ).to.throw();
+    expect( () => testSubject.SetIncomeStartDate( new Date( 2020, 2 ) ) ).toThrow();
   } );
 
   it( 'Can get value in a month later than the start date even if end date is not yet defined', () =>
@@ -92,9 +91,9 @@ describe( 'Income', () =>
 
     testSubject.SetIncomeStartDate( addNMonthsToDate( simulationStartDate, 2 ) );
 
-    expect( testSubject.GetValueAtMonth( 0 ) ).to.equal( 0 );
-    expect( testSubject.GetValueAtMonth( 1 ) ).to.equal( 0 );
-    expect( testSubject.GetValueAtMonth( 2 ) ).to.equal( 5000 );
-    expect( testSubject.GetValueAtMonth( 3 ) ).to.equal( 5000 );
+    expect( testSubject.GetValueAtMonth( 0 ) ).toEqual( 0 );
+    expect( testSubject.GetValueAtMonth( 1 ) ).toEqual( 0 );
+    expect( testSubject.GetValueAtMonth( 2 ) ).toEqual( 5000 );
+    expect( testSubject.GetValueAtMonth( 3 ) ).toEqual( 5000 );
   } );
 } );
