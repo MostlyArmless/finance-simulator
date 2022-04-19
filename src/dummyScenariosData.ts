@@ -1,12 +1,12 @@
 import
-  {
-    IForecastInput,
-    IncomeStartCondition,
-    IncomeEndCondition,
-    DebtContributionStrategy,
-    IDebt,
-  } from "./interfacesAndEnums";
-import { addNYearsToDate } from "./helpers";
+{
+  IForecastInput,
+  IncomeStartCondition,
+  IncomeEndCondition,
+  DebtContributionStrategy,
+  IDebt,
+} from './interfacesAndEnums';
+import { addNYearsToDate } from './helpers';
 
 const initialSavings = 500;
 const numMonthsToProject = 12 * 10;
@@ -27,63 +27,63 @@ function GetAllDebts(): IDebt[]
 {
   return [
     {
-      name: "Main Home Mortgage",
+      name: 'Main Home Mortgage',
       initialBalance: 295542.46,
       interestRate: 0.0345,
       minPayment: 1441.16,
       isMortgage: true,
     },
     {
-      name: "Vacation Home Mortgage",
+      name: 'Vacation Home Mortgage',
       initialBalance: 428061.64,
       interestRate: 0.0371,
       minPayment: 2481.77,
       isMortgage: true,
     },
     {
-      name: "Credit Card A",
+      name: 'Credit Card A',
       initialBalance: 7593.70,
       interestRate: 0.1999,
       minPayment: 300,
       isMortgage: false,
     },
     {
-      name: "Credit Card B",
+      name: 'Credit Card B',
       initialBalance: 7720.48,
       interestRate: 0.1299,
       minPayment: 300,
       isMortgage: false,
     },
     {
-      name: "Credit Card C",
+      name: 'Credit Card C',
       initialBalance: 45813.79,
       interestRate: 0.04,
       minPayment: 300,
       isMortgage: false,
     },
     {
-      name: "Credit Card D",
+      name: 'Credit Card D',
       initialBalance: 10593.56,
       interestRate: 0.0745,
       minPayment: 325,
       isMortgage: false,
     },
     {
-      name: "Personal Loan",
+      name: 'Personal Loan',
       initialBalance: 20342.06,
       interestRate: 0.0549,
       minPayment: 325,
       isMortgage: false,
     },
     {
-      name: "Renovation Loan",
+      name: 'Renovation Loan',
       initialBalance: 31746.1,
       interestRate: 0.0495,
       minPayment: 200,
       isMortgage: false,
     },
     {
-      name: "Car Loan",
+      name: 'Car Loan',
       initialBalance: 21599.79,
       interestRate: 0.0699,
       minPayment: 207.85,

@@ -4,7 +4,7 @@ import styles from './ScenarioView.module.css';
 import { PlotData } from 'plotly.js';
 import React, { useState } from 'react';
 import { LinSpace } from '../../tools';
-import createPlotlyComponent from "react-plotly.js/factory";
+import createPlotlyComponent from 'react-plotly.js/factory';
 import { summarizeForecastResult } from '../../summarize';
 import { ResultsMissing } from '../ResultsMissing/ResultsMissing';
 const Plotly = window.Plotly;
@@ -17,7 +17,7 @@ interface ScenarioViewProps
 
 function getTraces( scenario: IScenarioIoPair ): Partial<PlotData>[]
 {
-  let traces: Partial<PlotData>[] = [];
+  const traces: Partial<PlotData>[] = [];
   scenario.forecastResult.debts.forEach( debt =>
   {
     const trace: Partial<PlotData> = {
@@ -36,14 +36,15 @@ function getTraces( scenario: IScenarioIoPair ): Partial<PlotData>[]
 
 export function ScenarioView( props: ScenarioViewProps )
 {
-  const [selectedScenarioIndex, setSelectedScenarioIndex] = useState<number>( 0 );
+  const [selectedScenarioIndex,
+    setSelectedScenarioIndex] = useState<number>( 0 );
 
   const handleDropdownChange = ( event: React.ChangeEvent<HTMLSelectElement> ) =>
   {
     const selectedScenarioName = event.target.value;
-    const index = props.scenarios.findIndex( result => result.forecastInput.forecastName === selectedScenarioName )
+    const index = props.scenarios.findIndex( result => result.forecastInput.forecastName === selectedScenarioName );
     setSelectedScenarioIndex( index );
-  }
+  };
 
   const selectedScenario = props.scenarios[selectedScenarioIndex];
   if ( !selectedScenario )
@@ -83,8 +84,10 @@ export function ScenarioView( props: ScenarioViewProps )
             layout={ {
               width: 800,
               height: 600,
-              xaxis: { range: [0, maxMonths] },
-              yaxis: { range: [0, maxInitialDebt] }
+              xaxis: { range: [0,
+                maxMonths] },
+              yaxis: { range: [0,
+                maxInitialDebt] }
             } }
           />
         </div>

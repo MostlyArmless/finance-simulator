@@ -10,6 +10,7 @@ import { makeStyles, createStyles, Grid, Tooltip, TextField } from '@material-ui
 import { DayPicker } from 'react-day-picker';
 import 'react-day-picker/dist/style.css';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     form: {
@@ -43,22 +44,22 @@ interface IIncomeProps
 const startConditionOptions: { value: IncomeStartCondition, label: string }[] = [
   {
     value: IncomeStartCondition.Immediate,
-    label: "Immediate"
+    label: 'Immediate'
   },
   {
     value: IncomeStartCondition.Retirement,
-    label: "Retirement"
+    label: 'Retirement'
   }
 ];
 
 const endConditionOptions: { value: IncomeEndCondition, label: string }[] = [
   {
     value: IncomeEndCondition.Date,
-    label: "Date"
+    label: 'Date'
   },
   {
     value: IncomeEndCondition.Retirement,
-    label: "Retirement"
+    label: 'Retirement'
   }
 ];
 
@@ -71,19 +72,19 @@ export function Income( props: IIncomeProps )
     const selectedCondition = startConditionOptions.filter( elem => String( elem.value ) === event.target.value )[0];
     if ( selectedCondition )
       props.setStartCondition( selectedCondition.value );
-  }
+  };
 
   const updateEndCondition = ( event: React.ChangeEvent<HTMLInputElement> ) =>
   {
     const selectedCondition = endConditionOptions.filter( elem => String( elem.value ) === event.target.value )[0];
     if ( selectedCondition )
       props.setEndCondition( selectedCondition.value );
-  }
+  };
 
   const updateEndDate = ( date: Date | undefined ) =>
   {
     props.setEndDate( date ? date : new Date());
-  }
+  };
 
   const nameValidationResult = validateName( props.model.name );
 
@@ -92,7 +93,7 @@ export function Income( props: IIncomeProps )
       <h2>Income #{props.index + 1}</h2>
 
       {props.shouldDisplayDeleteButton &&
-        <IconButton color="secondary" onClick={ () => { props.removeIncome() } }>
+        <IconButton color="secondary" onClick={ () => { props.removeIncome(); } }>
           <DeleteIcon />
         </IconButton>
       }
@@ -184,7 +185,7 @@ export function Income( props: IIncomeProps )
               mode="single"
               selected={props.model.endDate}
               onSelect={updateEndDate}
-              />
+            />
           </>
         }
       </form>

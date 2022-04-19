@@ -1,10 +1,10 @@
-import { addNYearsToDate } from "./helpers";
-import { DebtContributionStrategy, IForecastInput, IForecastResult } from "./interfacesAndEnums";
+import { addNYearsToDate } from './helpers';
+import { DebtContributionStrategy, IForecastInput, IForecastResult } from './interfacesAndEnums';
 
-export const incomeAndDebtNameCharacterLimit: number = 25;
+export const incomeAndDebtNameCharacterLimit = 25;
 
 export const nullForecastInput: IForecastInput = {
-  forecastName: "New Scenario",
+  forecastName: 'New Scenario',
   initialSavings: 0,
   startDate: new Date(),
   numMonthsToProject: 60,

@@ -1,35 +1,35 @@
-import { incomeAndDebtNameCharacterLimit } from "./constants";
-import { IValidationResult } from "./interfacesAndEnums";
+import { incomeAndDebtNameCharacterLimit } from './constants';
+import { IValidationResult } from './interfacesAndEnums';
 
 export function LinSpace( startValue: number, increment: number, endValue: number ): number[]
 {
-    let result: number[] = [];
+  const result: number[] = [];
 
-    for ( let i = startValue; i < endValue; i += increment )
-    {
-        result.push( i );
-    }
+  for ( let i = startValue; i < endValue; i += increment )
+  {
+    result.push( i );
+  }
 
-    return result;
+  return result;
 }
 
 const currencyFormatter = new Intl.NumberFormat( undefined, {
-    style: 'currency',
-    currency: 'CAD',
-    currencyDisplay: 'narrowSymbol'
+  style: 'currency',
+  currency: 'CAD',
+  currencyDisplay: 'narrowSymbol'
 
 } );
 
 export function formatNumberAsDollars( val: number ): string
 {
-    return currencyFormatter.format( val );
+  return currencyFormatter.format( val );
 }
 
 export function validateName( name: string ): IValidationResult
 {
-    const isValid = name.length <= incomeAndDebtNameCharacterLimit;
-    return {
-        isValid: isValid,
-        errorMessage: isValid ? "" : "Character limit exceeded"
-    }
+  const isValid = name.length <= incomeAndDebtNameCharacterLimit;
+  return {
+    isValid: isValid,
+    errorMessage: isValid ? '' : 'Character limit exceeded'
+  };
 }

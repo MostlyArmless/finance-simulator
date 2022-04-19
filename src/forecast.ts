@@ -1,17 +1,17 @@
 import
-  {
-    IForecastResult,
-    IncomeEndCondition,
-    IncomeStartCondition,
-    IForecastInput,
-    IDebtForCalculator,
-    DebtContributionStrategy,
-    IIncome,
-    IIncomeForCalculator,
-  } from "./interfacesAndEnums";
-import { addNMonthsToDate } from "./helpers";
-import { DebtModel } from "./DebtModel";
-import { IncomeModel } from "./IncomeModel";
+{
+  IForecastResult,
+  IncomeEndCondition,
+  IncomeStartCondition,
+  IForecastInput,
+  IDebtForCalculator,
+  DebtContributionStrategy,
+  IIncome,
+  IIncomeForCalculator,
+} from './interfacesAndEnums';
+import { addNMonthsToDate } from './helpers';
+import { DebtModel } from './DebtModel';
+import { IncomeModel } from './IncomeModel';
 
 function justSatisfiedRetirementConditions( isRetired: boolean, allDebtsArePaid: boolean, savingsOverTime: number[], iMonth: number, requiredSavingsToRetire: number )
 {
@@ -34,8 +34,8 @@ export function forecast( input: IForecastInput ): IForecastResult
     return nullForecastResult;
   }
 
-  let isRetired: boolean = false; // This flag should be set to true as soon as savings hits the 
-  let remainingTotalDebt: number[] = Array( input.numMonthsToProject );
+  let isRetired = false; // This flag should be set to true as soon as savings hits the 
+  const remainingTotalDebt: number[] = Array( input.numMonthsToProject );
   let savingsOverTime: number[] = [];
   let debts: DebtModel[] = input.debts.map( debt =>
   {
@@ -47,7 +47,7 @@ export function forecast( input: IForecastInput ): IForecastResult
       isMortgage: debt.isMortgage,
     } );
   } );
-  let incomes: IncomeModel[] = input.incomes.map( income =>
+  const incomes: IncomeModel[] = input.incomes.map( income =>
   {
     return new IncomeModel( {
       name: income.name,
@@ -56,7 +56,7 @@ export function forecast( input: IForecastInput ): IForecastResult
       endCondition: income.endCondition,
       monthlyValue: income.monthlyValue,
       startCondition: income.startCondition
-    } )
+    } );
   } );
   savingsOverTime.push( input.initialSavings === undefined ? 0 : input.initialSavings );
   let iMonth = 0;
@@ -93,7 +93,7 @@ export function forecast( input: IForecastInput ): IForecastResult
 
     if ( !allDebtsArePaid )
     {
-      let { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, debts, iMonth, input.debtContributionStrategy );
+      const { updatedMonthlySpendingPool, updatedDebts } = contributeToDebts( monthlySpendingPool, debts, iMonth, input.debtContributionStrategy );
       updatedDebts = ApplyInterestToDebts( updatedDebts, iMonth ); // Determines the next month's balance of each debt
       monthlySpendingPool = updatedMonthlySpendingPool;
       debts = updatedDebts;
@@ -119,7 +119,7 @@ export function forecast( input: IForecastInput ): IForecastResult
 
 export function getRequiredSavingsToRetire( incomes: IIncomeForCalculator[], desiredMonthlyBudgetPostRetirement: number ): number
 {
-  let contributionFromPensions = getContributionOfPensionsToPostRetirementSpending( incomes );
+  const contributionFromPensions = getContributionOfPensionsToPostRetirementSpending( incomes );
 
   if ( contributionFromPensions >= desiredMonthlyBudgetPostRetirement )
     return 0; // Don't return negative numbers.
@@ -175,23 +175,23 @@ export function contributeToDebts( monthlySpendingPool: number, debts: DebtModel
   monthlySpendingPool = makeMinimumPaymentOnAllDebts( debts, iMonth, monthlySpendingPool );
 
   let priorityDebt: IDebtForCalculator | null;
-  let allDebtsArePaid: boolean = false;
+  let allDebtsArePaid = false;
   while ( monthlySpendingPool > 0 )
   {
     switch ( strategy )
     {
-      case DebtContributionStrategy.HighestInterestFirst:
-        {
-          priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
-          break;
-        }
-      case DebtContributionStrategy.LowestBalanceFirst:
-        {
-          priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
-          break;
-        }
-      default:
-        throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
+    case DebtContributionStrategy.HighestInterestFirst:
+    {
+      priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
+      break;
+    }
+    case DebtContributionStrategy.LowestBalanceFirst:
+    {
+      priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
+      break;
+    }
+    default:
+      throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
     }
 
     if ( priorityDebt === null )

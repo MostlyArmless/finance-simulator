@@ -9,6 +9,7 @@ import { ScenarioChooser } from './ScenarioChooser';
 
 const scaleFactor = 0.75;
 const cardWidth = 240;
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     incomePaper: {
@@ -24,18 +25,18 @@ const useStyles = makeStyles( ( theme: Theme ) =>
       margin: 12
     },
     imageList: {
-      flexWrap: "nowrap",
+      flexWrap: 'nowrap',
       margin: 8,
       height: 310,
     },
     verticalCenter: {
       margin: 0,
-      position: "relative",
-      top: "50%",
-      transform: "translateY( -50% )",
+      position: 'relative',
+      top: '50%',
+      transform: 'translateY( -50% )',
     },
     leftAlign: {
-      textAlign: "left",
+      textAlign: 'left',
     }
   } ),
 );
@@ -72,7 +73,8 @@ interface DataEntryPageProps
 
 export function DataEntryPage( props: DataEntryPageProps )
 {
-  const [currentScenarioIndex, setCurrentScenarioIndex] = useState<number>( 0 );
+  const [currentScenarioIndex,
+    setCurrentScenarioIndex] = useState<number>( 0 );
   const classes = useStyles();
 
   return (
@@ -95,7 +97,7 @@ export function DataEntryPage( props: DataEntryPageProps )
           alignItems="center"
           className={ classes.imageList }
           spacing={ 2 }
-          >
+        >
           { props.incomeModels[currentScenarioIndex]
             .map( ( incomeModel, incomeIndex ) =>
             {
@@ -116,7 +118,7 @@ export function DataEntryPage( props: DataEntryPageProps )
                     />
                   </Paper>
                 </Grid>
-              )
+              );
             } ) }
 
           <Grid item>
@@ -136,7 +138,7 @@ export function DataEntryPage( props: DataEntryPageProps )
           alignItems="center"
           spacing={ 2 }
           className={ classes.imageList }
-          >
+        >
           { props.debtModels[currentScenarioIndex].map( ( debtModel, debtIndex ) =>
           {
             return (
@@ -156,7 +158,7 @@ export function DataEntryPage( props: DataEntryPageProps )
                   />
                 </Paper>
               </Grid>
-            )
+            );
           } ) }
 
           { props.incomeModels.length < 4 &&
@@ -166,4 +168,4 @@ export function DataEntryPage( props: DataEntryPageProps )
       </div>
     </>
   );
-  }
+}

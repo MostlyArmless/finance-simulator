@@ -8,5 +8,5 @@ export function ResultsMissing() {
         <ErrorIcon />
       </Tooltip>
     </>
-  )
+  );
 }

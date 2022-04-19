@@ -6,6 +6,7 @@ import { incomeAndDebtNameCharacterLimit } from '../constants';
 import { IDebt } from '../interfacesAndEnums';
 import { validateName } from '../tools';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const useStyles = makeStyles( ( theme: Theme ) =>
   createStyles( {
     root: {
@@ -44,7 +45,7 @@ export function Debt( props: IDebtProps )
       <h2>Debt #{props.index + 1}</h2>
 
       { props.shouldDisplayDeleteButton &&
-        <IconButton color="secondary" onClick={ () => { props.removeDebt() } }>
+        <IconButton color="secondary" onClick={ () => { props.removeDebt(); } }>
           <DeleteIcon />
         </IconButton>
       }
@@ -115,7 +116,7 @@ export function Debt( props: IDebtProps )
           control={
             <Checkbox
               checked={ props.model.isMortgage }
-              onChange={ () => { props.setIsMortgage( !props.model.isMortgage ) } }
+              onChange={ () => { props.setIsMortgage( !props.model.isMortgage ); } }
               name="checkedB"
               color="primary"
             />
