@@ -12,23 +12,25 @@ export interface ScenarioChooserProps {
 export function ScenarioChooser(props: ScenarioChooserProps) {
 
   return (
-    <div className={props.className}>
+    <div className={ props.className }>
       <Button variant="outlined"
-        onClick={props.loadSampleData}
-      >Load Sample Data</Button>
+        onClick={ props.loadSampleData }
+      >Load Sample Data
+      </Button>
       <Button variant="outlined"
         color="secondary"
-        onClick={() => props.addNewScenario()}
-      >Add Scenario</Button>
+        onClick={ () => props.addNewScenario() }
+      >Add Scenario
+      </Button>
 
       <Select
-        value={props.selectedScenarioIndex}
-        onChange={event => props.setCurrentScenarioIndex(parseInt(event.target.value as string))}
+        value={ props.selectedScenarioIndex }
+        onChange={ event => props.setCurrentScenarioIndex(parseInt(event.target.value as string)) }
       >
         {
           props.scenarioNames.map((name: string, index: number) => {
-            return <MenuItem key={index}
-              value={index}
+            return <MenuItem key={ index }
+              value={ index }
             >{name}</MenuItem>;
           })
         }

@@ -110,7 +110,7 @@ export function DataEntryPage( props: DataEntryPageProps )
                   >
                     <Income
                       key={ `{income-${incomeIndex}` }
-                      index={ incomeIndex}
+                      index={ incomeIndex }
                       model={ incomeModel }
                       setName={ ( val: string ) => props.setIncomeName( currentScenarioIndex, incomeIndex, val ) }
                       setMonthlyValue={ ( val: number ) => props.setIncomeMonthlyValue( currentScenarioIndex, incomeIndex, val ) }
@@ -129,7 +129,8 @@ export function DataEntryPage( props: DataEntryPageProps )
             <AddBoxIcon
               color="primary"
               onClick={ () => props.addNewIncome( currentScenarioIndex ) }
-            >Add Income</AddBoxIcon>
+            >Add Income
+            </AddBoxIcon>
           </Grid>
         </Grid>
         
@@ -155,7 +156,7 @@ export function DataEntryPage( props: DataEntryPageProps )
                   <Debt
                     key={ `{debt-${debtIndex}` }
                     model={ debtModel }
-                    index={ debtIndex}
+                    index={ debtIndex }
                     setName={ ( val: string ) => props.setDebtName( currentScenarioIndex, debtIndex, val ) }
                     setInitialBalance={ ( val: number ) => props.setDebtInitialBalance( currentScenarioIndex, debtIndex, val ) }
                     setInterestRate={ ( val: number ) => props.setDebtInterestRate( currentScenarioIndex, debtIndex, val ) }
@@ -173,7 +174,8 @@ export function DataEntryPage( props: DataEntryPageProps )
             <Button variant="outlined"
               color="secondary"
               onClick={ () => props.addNewDebt( currentScenarioIndex ) }
-            >Add Debt</Button>
+            >Add Debt
+            </Button>
           }
         </Grid>
       </div>

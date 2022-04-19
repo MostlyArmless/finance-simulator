@@ -70,9 +70,12 @@ export function ScenarioView( props: ScenarioViewProps )
         { props.scenarios.map( scenario =>
         {
           const name = scenario.forecastInput.forecastName;
-          return <option key={ name }
-            value={ name }
-          >{ name }</option>;
+          return (
+            <option key={ name }
+              value={ name }
+            >{ name }
+            </option>
+          );
         } )
         }
       </select>

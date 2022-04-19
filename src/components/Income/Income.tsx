@@ -110,7 +110,7 @@ export function Income( props: IIncomeProps )
       >
         <Tooltip title="The name of the income source.">
           <TextField
-            className={classes.textField}
+            className={ classes.textField }
             required
             id="income-name"
             label="Income Name"
@@ -124,7 +124,7 @@ export function Income( props: IIncomeProps )
 
         <Tooltip title="The monthly value of the income source.">
           <TextField
-            className={classes.textField}
+            className={ classes.textField }
             id="monthly-value"
             label="Monthly Value"
             type="number"
@@ -139,7 +139,7 @@ export function Income( props: IIncomeProps )
 
         <Tooltip title="When will you start receiving this income?">
           <TextField
-            className={classes.textField}
+            className={ classes.textField }
             id="start-condition"
             label="Start Condition"
             type="text"
@@ -166,7 +166,7 @@ export function Income( props: IIncomeProps )
 
         <Tooltip title="When will you stop receiving this income?">
           <TextField
-            className={classes.textField}
+            className={ classes.textField }
             id="end-condition"
             label="End Condition"
             type="text"
@@ -196,8 +196,8 @@ export function Income( props: IIncomeProps )
             <h3>End Date:</h3>
             <DayPicker
               mode="single"
-              selected={props.model.endDate}
-              onSelect={updateEndDate}
+              selected={ props.model.endDate }
+              onSelect={ updateEndDate }
             />
           </>
         }

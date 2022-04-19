@@ -180,7 +180,7 @@ function App()
       <DataEntryPage
         loadSampleData={ loadSampleData }
         addNewScenario={ addNewScenario }
-        scenarioNames={scenarios.map(scenario => scenario.forecastInput.forecastName)}
+        scenarioNames={ scenarios.map(scenario => scenario.forecastInput.forecastName) }
         incomeModels={ scenarios.map(scenario => scenario.forecastInput.incomes) }
         addNewIncome={ addNewIncome }
         removeIncome={ removeIncome }
