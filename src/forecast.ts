@@ -180,18 +180,18 @@ export function contributeToDebts( monthlySpendingPool: number, debts: DebtModel
   {
     switch ( strategy )
     {
-      case DebtContributionStrategy.HighestInterestFirst:
-        {
-          priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
-          break;
-        }
-      case DebtContributionStrategy.LowestBalanceFirst:
-        {
-          priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
-          break;
-        }
-      default:
-        throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
+    case DebtContributionStrategy.HighestInterestFirst:
+    {
+      priorityDebt = GetUnpaidDebtWithHighestInterest( debts );
+      break;
+    }
+    case DebtContributionStrategy.LowestBalanceFirst:
+    {
+      priorityDebt = GetUnpaidDebtWithLowestBalance( debts );
+      break;
+    }
+    default:
+      throw new Error( `Unexpected DebtContributionStrategy "${strategy}"` );
     }
 
     if ( priorityDebt === null )
