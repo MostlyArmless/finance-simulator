@@ -48,6 +48,7 @@ interface DataEntryPageProps
 
   scenarioNames: string[];
   addNewScenario(): void;
+  resetScenarios(): void;
 
   // Income
   incomeModels: IIncome[][];
@@ -83,6 +84,7 @@ export function DataEntryPage( props: DataEntryPageProps )
       <h1>Data Entry</h1>
       <ScenarioChooser
         runSimulation={ props.runSimulation }
+        resetScenarios={ props.resetScenarios }
         className={ classes.leftAlign }
         selectedScenarioIndex={ currentScenarioIndex }
         loadSampleData={ props.loadSampleData }

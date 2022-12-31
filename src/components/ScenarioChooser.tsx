@@ -2,6 +2,7 @@ import { Button, MenuItem, Select } from '@material-ui/core';
 
 export interface ScenarioChooserProps {
   runSimulation: () => void;
+  resetScenarios: () => void;
   loadSampleData(): void;
   setCurrentScenarioIndex( scenarioIndex: number ): void;
   scenarioNames: string[];
@@ -14,6 +15,11 @@ export function ScenarioChooser(props: ScenarioChooserProps) {
 
   return (
     <div className={ props.className }>
+      <Button
+        variant="outlined"
+        onClick={ props.resetScenarios }
+      >Delete all scenarios
+      </Button>
       <Button variant="outlined"
         onClick={ props.loadSampleData }
       >Load Sample Data

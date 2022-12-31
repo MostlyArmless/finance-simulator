@@ -11,14 +11,14 @@ import { DataEntryPage } from './components/DataEntryPage';
 import { ResultsPage } from './components/ResultsPage/ResultsPage';
 import { IncomeModel, NullIncomeModelInput } from './IncomeModel';
 import { DebtModel, NullDebtModelInput } from './DebtModel';
-import { useImmer } from 'use-immer';
 import Container from '@material-ui/core/Container';
 import { forecast } from './forecast';
-import { nullForecastInput, nullForecastResult } from './constants';
 import { cloneDeep, debounce } from 'lodash';
-import { useCallback, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { SimulationAllResultsComparison } from './components/SimulationAllResultsComparison/SimulationAllResultsComparison';
 import { Grid } from '@material-ui/core';
+import produce from 'immer';
+import { nullForecastResult, nullForecastInput } from './fixtures/forecastFixtures';
 
 const initialState: IScenarioIoPair[] = GetDummyScenarioData().map( input =>
 {
@@ -28,165 +28,176 @@ const initialState: IScenarioIoPair[] = GetDummyScenarioData().map( input =>
   };
 } );
 
+const emptyState: IScenarioIoPair[] = [{
+  forecastInput: cloneDeep( nullForecastInput ),
+  forecastResult: cloneDeep( nullForecastResult )
+}];
+
 function App()
 {
-  const [scenarios, setScenarios] = useImmer<IScenarioIoPair[]>( initialState );
+  const [scenarios, setScenarios] = useState<IScenarioIoPair[]>( initialState );
   
   const inputs = scenarios.map(scenario => scenario.forecastInput);
-  const debouncedForecast = useCallback(debounce((inputs: IForecastInput[]): IForecastResult[] => {
+  const debouncedForecast = debounce((inputs: IForecastInput[]): IForecastResult[] => {
+    console.log('Running forecast');
     return inputs.map(input => forecast(input));
-  }, 500), []);
+  }, 60000);
 
   useEffect(() => {
+    console.log('Inside useEffect');
     const results = debouncedForecast(inputs);
     if (results) {
-      setScenarios((draftState) => {
-        draftState.forEach((ioPair, index) => ioPair.forecastResult = results[index]);
+      const newState: IScenarioIoPair[] = inputs.map((input, index) => {
+        return {
+          forecastInput: input,
+          forecastResult: results[index]
+        };
       });
+      setScenarios(newState);
     }
-  }, [inputs, setScenarios]);
+  }, [inputs]);
 
   const loadSampleData = () =>
   {
-    const dummyData = GetDummyScenarioData();
-    setScenarios( ( draftState ) =>
-    {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      draftState = dummyData.map( input =>
-      {
-        return {
-          forecastInput: input,
-          forecastResult: initialState[0].forecastResult
-        };
-      } );
-    } );
+    const dummyInputs = GetDummyScenarioData();
+    const sampleData = dummyInputs.map( input => {
+      return {
+        forecastInput: input,
+        forecastResult: cloneDeep( nullForecastResult )
+      };
+    });
+    setScenarios(sampleData);
+  };
+
+  const resetScenarios = () => {
+    setScenarios( emptyState );
   };
 
   const addNewScenario = () =>
   {
-    setScenarios( draftState =>
+    setScenarios( produce(draftState =>
     {
       draftState.push( {
         forecastInput: cloneDeep( nullForecastInput ),
         forecastResult: cloneDeep( nullForecastResult )
       } );
-    } );
+    }));
   };
 
   const addNewIncome = ( scenarioIndex: number ) =>
   {
-    setScenarios( ( draftState ) =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes
         .push( new IncomeModel( new NullIncomeModelInput() ) );
-    } );
+    }));
   };
 
   const removeIncome = ( scenarioIndex: number, incomeIndexToRemove: number ): void =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes = draftState[scenarioIndex].forecastInput.incomes
         .filter( ( income, index ) => index !== incomeIndexToRemove );
-    } );
+    }));
   };
 
   const setIncomeName = ( scenarioIndex: number, incomeIndex: number, val: string ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes[incomeIndex].name = val;
-    } );
+    }));
   };
 
   const setMonthlyValue = ( scenarioIndex: number, incomeIndex: number, val: number ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes[incomeIndex].monthlyValue = val;
-    } );
+    }));
   };
 
   const setStartCondition = ( scenarioIndex: number, incomeIndex: number, val: IncomeStartCondition ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes[incomeIndex].startCondition = val;
-    } );
+    }));
   };
 
   const setEndCondition = ( scenarioIndex: number, incomeIndex: number, val: IncomeEndCondition ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.incomes[incomeIndex].endCondition = val;
-    } );
+    }));
   };
 
   const setIncomeEndDate = ( scenarioIndex: number, incomeIndex: number, val: Date ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState  =>
     {
       draftState[scenarioIndex].forecastInput.incomes[incomeIndex].endDate = val;
-    } );
+    }));
   };
 
   const addNewDebt = ( scenarioIndex: number ) =>
   {
-    setScenarios( ( draftState ) =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts
         .push( new DebtModel( new NullDebtModelInput() ) );
-    } );
+    }));
   };
 
   const removeDebt = ( scenarioIndex: number, debtIndexToRemove: number ): void =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts = draftState[scenarioIndex].forecastInput.debts
         .filter( ( income, index ) => index !== debtIndexToRemove );
-    } );
+    }));
   };
 
   const setDebtName = ( scenarioIndex: number, debtIndex: number, val: string ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts[debtIndex].name = val;
-    } );
+    }));
   };
 
   const setDebtInitialBalance = ( scenarioIndex: number, debtIndex: number, val: number ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts[debtIndex].initialBalance = val;
-    } );
+    }));
   };
 
   const setDebtInterestRate = ( scenarioIndex: number, debtIndex: number, val: number ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts[debtIndex].interestRate = val;
-    } );
+    }));
   };
 
   const setDebtMinPayment = ( scenarioIndex: number, debtIndex: number, val: number ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts[debtIndex].minPayment = val;
-    } );
+    }));
   };
 
   const setDebtIsMortgage = ( scenarioIndex: number, debtIndex: number, val: boolean ) =>
   {
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState[scenarioIndex].forecastInput.debts[debtIndex].isMortgage = val;
-    } );
+    }));
   };
 
   const runSimulation = () =>
@@ -196,13 +207,13 @@ function App()
       return forecast( scenario.forecastInput );
     } );
 
-    setScenarios( ( draftState ): void =>
+    setScenarios( produce( draftState =>
     {
       draftState.forEach( ( scenario, index ) =>
       {
         scenario.forecastResult = results[index];
       } );
-    } );
+    }));
   };
 
   return (
@@ -213,6 +224,7 @@ function App()
         >
           <DataEntryPage
             loadSampleData={ loadSampleData }
+            resetScenarios={ resetScenarios }
             runSimulation={ runSimulation }
             addNewScenario={ addNewScenario }
             scenarioNames={ scenarios.map(scenario => scenario.forecastInput.forecastName) }
